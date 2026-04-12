@@ -70,6 +70,7 @@ The memory server includes a visual web endpoint that renders all stored logs, m
 - **Git operations** — commit, push, create PRs, manage repositories (GitHub API + git CLI)
 - **Web research** — search, fetch, summarize, and report back (WebSearch + WebFetch tools)
 - **Self-healing crons** — monitors its own scheduled jobs and recreates any that expire (CronCreate/CronList built-in)
+- **Proactive messaging** — the assistant reaches out first: casual check-ins, reminders for things you mentioned and forgot, follow-ups on pending tasks. Not just reactive — it initiates conversations based on memory and context
 
 ## RAG & Memory
 

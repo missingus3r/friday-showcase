@@ -166,7 +166,7 @@ At the start of each session, perform these steps automatically:
 1. **Check memory API health**: `curl -s http://127.0.0.1:7777/health`
 2. **Create email check cron** (every 1 hour): check for new emails if email MCP is available
 3. **Create daily briefing cron** (every day at ~9:00 AM): generate and send a morning briefing with weather, news, etc.
-4. **Create heartbeat cron** (every 1 hour): verify system state, check all crons are active, recreate missing ones. Only message between 08:00-23:00 local time. Stay silent during night hours.
+4. **Create heartbeat cron** (every 1 hour): verify system state, check all crons are active, recreate missing ones. Only message between 08:00-23:00 local time. Stay silent during night hours. Be proactive: if there are no real alerts that day, once per day (50/50 random chance) send a casual message asking how the user is doing. Also check memories for pending tasks or things the user mentioned and may have forgotten — remind them if relevant.
 
 ## Notes
 - When the user says "note" followed by text or a link:
