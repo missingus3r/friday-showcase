@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friday — A 24/7 AI Assistant Built Entirely on Claude Code</title>
+    <meta name="description" content="Friday: An always-on personal AI system using only Claude Code CLI and Telegram. No custom AI, no cloud VMs, no fine-tuning.">
+    <meta property="og:title" content="Friday — A 24/7 AI Assistant Built Entirely on Claude Code">
+    <meta property="og:description" content="An always-on personal AI system using only Claude Code CLI ($100/month) and Telegram.">
+    <meta property="og:type" content="article">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Friday — A 24/7 AI Assistant Built Entirely on Claude Code">
+    <meta name="twitter:description" content="An always-on personal AI system using only Claude Code CLI ($100/month) and Telegram.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a12'/%3E%3Ccircle cx='32' cy='28' r='12' fill='none' stroke='%2322d3ee' stroke-width='2.5'/%3E%3Ccircle cx='32' cy='28' r='4' fill='%2322d3ee' opacity='0.6'/%3E%3Cpath d='M20 44 Q32 38 44 44' stroke='%2322d3ee' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a12;
+            color: #c9d1d9;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 17px;
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 24px 80px;
+        }
+
+        /* Header */
+        .article-header {
+            margin-bottom: 48px;
+            padding-bottom: 36px;
+            border-bottom: 1px solid #1e1e30;
+        }
+
+        .article-header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #e6edf3;
+            line-height: 1.3;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .article-header .subtitle {
+            font-size: 1.05rem;
+            color: #8b949e;
+            line-height: 1.7;
+            max-width: 700px;
+        }
+
+        .article-meta {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #555e6b;
+        }
+
+        /* Table of Contents */
+        .toc {
+            margin-bottom: 40px;
+            padding: 20px 24px;
+            background: #12121e;
+            border: 1px solid #1e1e30;
+            border-radius: 8px;
+        }
+
+        .toc-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #555e6b;
+            margin-bottom: 10px;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+
+        .toc li {
+            margin-bottom: 4px;
+            font-size: 0.88rem;
+        }
+
+        .toc a {
+            color: #22d3ee;
+            text-decoration: none;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            font-size: 1.45rem;
+            font-weight: 600;
+            color: #e6edf3;
+            margin-bottom: 14px;
+            padding-left: 16px;
+            border-left: 3px solid #22d3ee;
+            line-height: 1.4;
+        }
+
+        p {
+            margin-bottom: 14px;
+            color: #b0b8c1;
+        }
+
+        a {
+            color: #22d3ee;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        strong {
+            color: #d1d9e0;
+            font-weight: 600;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-bottom: 14px;
+            padding-left: 24px;
+        }
+
+        li {
+            margin-bottom: 6px;
+            color: #b0b8c1;
+        }
+
+        li strong {
+            color: #c9d1d9;
+        }
+
+        /* Code blocks */
+        pre {
+            background: #1a1a2e;
+            border: 1px solid #262640;
+            border-radius: 8px;
+            padding: 20px 24px;
+            overflow-x: auto;
+            margin-bottom: 18px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: #c9d1d9;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.88em;
+        }
+
+        p code, li code {
+            background: #1a1a2e;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            color: #d1d9e0;
+        }
+
+        /* Diagram */
+        .diagram-label {
+            color: #22d3ee;
+        }
+
+        .diagram-arrow {
+            color: #555e6b;
+        }
+
+        .diagram-desc {
+            color: #8b949e;
+        }
+
+        /* Table */
+        .stack-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 18px;
+            font-size: 0.95rem;
+        }
+
+        .stack-table th {
+            text-align: left;
+            padding: 10px 14px;
+            background: #1a1a2e;
+            color: #e6edf3;
+            font-weight: 600;
+            border-bottom: 2px solid #262640;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .stack-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #1e1e30;
+            color: #b0b8c1;
+        }
+
+        .stack-table td:first-child {
+            color: #d1d9e0;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .stack-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Screenshots */
+        .screenshot {
+            margin: 24px 0;
+        }
+
+        .screenshot img {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #262640;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .screenshot figcaption {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: #6b7280;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        /* Highlight box */
+        .highlight-box {
+            background: #12121e;
+            border: 1px solid #1e1e30;
+            border-left: 3px solid #22d3ee;
+            border-radius: 6px;
+            padding: 18px 22px;
+            margin: 20px 0;
+        }
+
+        .highlight-box p {
+            margin-bottom: 0;
+            color: #c9d1d9;
+        }
+
+        /* Footer */
+        .article-footer {
+            margin-top: 56px;
+            padding-top: 28px;
+            border-top: 1px solid #1e1e30;
+            font-size: 0.88rem;
+            color: #555e6b;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .article-footer a {
+            color: #8b949e;
+        }
+
+        .article-footer a:hover {
+            color: #22d3ee;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 40px 18px 60px;
+            }
+
+            .article-header h1 {
+                font-size: 1.6rem;
+            }
+
+            .article-header .subtitle {
+                font-size: 0.95rem;
+            }
+
+            h2 {
+                font-size: 1.25rem;
+            }
+
+            pre {
+                padding: 16px;
+                font-size: 0.78rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <article class="container">
+
+        <header class="article-header">
+            <h1>Friday &mdash; A 24/7 AI Assistant Built Entirely on Claude Code</h1>
+            <p class="subtitle">
+                An always-on personal AI system using only Claude Code CLI ($100/month) and Telegram &mdash; no custom AI, no cloud VMs, no fine-tuning.
+            </p>
+            <div class="article-meta">
+                April 2026
+            </div>
+        </header>
+
+        <nav class="toc">
+            <div class="toc-title">Contents</div>
+            <ul>
+                <li><a href="#what-is-this">What Is This?</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#why-not-framework">Why Not Use an Agent Framework?</a></li>
+                <li><a href="#the-stack">The Stack</a></li>
+                <li><a href="#screenshots">Screenshots</a></li>
+                <li><a href="#capabilities">Capabilities</a></li>
+                <li><a href="#rag-memory">RAG and Memory</a></li>
+                <li><a href="#the-100-question">The $100 Question</a></li>
+                <li><a href="#setup">Set It Up Yourself</a></li>
+            </ul>
+        </nav>
+
+        <!-- Section 1: What is this? -->
+        <section id="what-is-this">
+            <h2>What Is This?</h2>
+            <p>
+                This is a personal AI assistant that runs 24/7 on a standard Windows, Linux, or macOS machine. It communicates via Telegram, runs scheduled tasks autonomously, manages files and projects, and maintains persistent memory across sessions. The entire system is powered by <strong>Claude Code</strong> (Anthropic's CLI agent) on the $100/month Max Plan &mdash; no custom AI backend, no fine-tuned models, no orchestration framework. The only custom code is a lightweight Flask server for persistent memory storage.
+            </p>
+        </section>
+
+        <!-- Section 2: How It Works -->
+        <section id="how-it-works">
+            <h2>How It Works</h2>
+            <p>
+                Claude Code sits at the center, connecting to external services through MCP (Model Context Protocol) plugins and shell tools. A <code>CLAUDE.md</code> file acts as the system prompt, defining behavior, available tools, and cron schedules. Scheduled tasks run autonomously without human input.
+            </p>
+<pre><span class="diagram-label">User (Telegram)</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-label">Claude Code (with MCP plugins)</span>
+    <span class="diagram-arrow">|</span>
+    <span class="diagram-arrow">|--&gt;</span> <span class="diagram-desc">Memory API</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-desc">SQLite (conversations, memories, embeddings)</span>
+    <span class="diagram-arrow">|--&gt;</span> <span class="diagram-desc">Knowledge Base (MCP)</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-desc">Notes, wiki, structured data</span>
+    <span class="diagram-arrow">|--&gt;</span> <span class="diagram-desc">GitHub</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-desc">Repos (push, commit, PR)</span>
+    <span class="diagram-arrow">|--&gt;</span> <span class="diagram-desc">Voice API</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-desc">Text-to-speech / Speech-to-text</span>
+    <span class="diagram-arrow">|--&gt;</span> <span class="diagram-desc">Email (MCP)</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-desc">Send, receive, forward</span>
+    <span class="diagram-arrow">|--&gt;</span> <span class="diagram-desc">Web Search / Fetch</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-desc">News, research, data</span>
+    <span class="diagram-arrow">|--&gt;</span> <span class="diagram-desc">Cron system</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-desc">Recurring autonomous jobs</span>
+    <span class="diagram-arrow">|--&gt;</span> <span class="diagram-desc">Local tools</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-desc">Shell, scripts, system utilities</span></pre>
+        </section>
+
+        <!-- Section 3: Why Not Use an Agent Framework? -->
+        <section id="why-not-framework">
+            <h2>Why Not Use an Agent Framework?</h2>
+            <p>
+                Projects like OpenClaw, NemoClaw, and other agent frameworks are impressive, but they add layers of complexity: custom runtimes, orchestration code, deployment pipelines, and often their own API costs. This approach is different.
+            </p>
+            <p>
+                Claude Code already <em>is</em> the runtime. It has native tool use, MCP plugin support, cron scheduling, sub-agent spawning, file I/O, git, and shell access built in. There is no glue code between the LLM and the tools &mdash; Claude Code handles it all natively.
+            </p>
+            <div class="highlight-box">
+                <p>
+                    The philosophy: stay within a single subscription, respect the provider's Terms of Service, and avoid bolting on external LLM APIs or custom agent infrastructure. One plan, one CLI, one model &mdash; and let the model do what it was designed to do. The result is a system that is simple to maintain, easy to reproduce, and costs exactly $100/month.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 4: The Stack -->
+        <section id="the-stack">
+            <h2>The Stack</h2>
+            <table class="stack-table">
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Technology</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Brain</td>
+                        <td>Claude Code CLI (Opus 4.6, 1M context)</td>
+                    </tr>
+                    <tr>
+                        <td>Interface</td>
+                        <td>Telegram (via MCP plugin)</td>
+                    </tr>
+                    <tr>
+                        <td>Memory</td>
+                        <td>Flask + SQLite + embedding-based RAG</td>
+                    </tr>
+                    <tr>
+                        <td>Voice</td>
+                        <td>TTS/STT API (ElevenLabs or equivalent)</td>
+                    </tr>
+                    <tr>
+                        <td>Scheduling</td>
+                        <td>Claude Code built-in cron system</td>
+                    </tr>
+                    <tr>
+                        <td>Cost</td>
+                        <td>$100/month (Anthropic Max Plan)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section 5: Screenshots -->
+        <section id="screenshots">
+            <h2>Screenshots</h2>
+            <p>
+                The memory server includes a visual web endpoint that renders all stored logs, memories, and entities as interactive graph nodes. This implementation is called <strong>Friday</strong>, but the system can be renamed to anything the user wants &mdash; the name is just a variable in the CLAUDE.md configuration.
+            </p>
+            <figure class="screenshot">
+                <img src="img/graph.png" alt="Memory Graph visualization">
+                <figcaption>Memory graph &mdash; D3.js force-directed visualization showing conversations, memories, and entities as interactive nodes. Each node type has a distinct color. Drag, zoom, and click to explore.</figcaption>
+            </figure>
+            <figure class="screenshot">
+                <img src="img/arch.png" alt="Architecture Diagram">
+                <figcaption>Architecture diagram &mdash; Visual map of all system components and their connections: services, data stores, cron jobs, APIs, and projects. Nodes are draggable and positions persist server-side.</figcaption>
+            </figure>
+        </section>
+
+        <!-- Section 6: Capabilities -->
+        <section id="capabilities">
+            <h2>Capabilities</h2>
+            <ul>
+                <li><strong>Scheduled briefings</strong> &mdash; weather (Open-Meteo API), forex/crypto (DolarAPI, ExchangeRate), AI news (WebSearch), movies (YTS API)</li>
+                <li><strong>Autonomous monitoring</strong> &mdash; scan 60+ orgs on HuggingFace API, blogs, and aggregators for new AI model releases</li>
+                <li><strong>Note-taking and knowledge management</strong> &mdash; save links, text, and structured data to Notion (MCP) and local markdown</li>
+                <li><strong>Voice messages</strong> &mdash; receive and transcribe audio (ElevenLabs Scribe STT), respond with synthesized speech (ElevenLabs TTS)</li>
+                <li><strong>Video analysis</strong> &mdash; download, transcribe (YouTube subs / ElevenLabs), and generate structured reports via LLM (Groq / OpenRouter API)</li>
+                <li><strong>Email handling</strong> &mdash; check, draft, send, and forward emails (AgentMail MCP)</li>
+                <li><strong>Git operations</strong> &mdash; commit, push, create PRs, manage repositories (GitHub API + git CLI)</li>
+                <li><strong>Web research</strong> &mdash; search, fetch, summarize, and report back (WebSearch + WebFetch tools)</li>
+                <li><strong>Self-healing crons</strong> &mdash; monitors its own scheduled jobs and recreates any that expire (CronCreate/CronList built-in)</li>
+            </ul>
+        </section>
+
+        <!-- Section 7: RAG & Memory -->
+        <section id="rag-memory">
+            <h2>RAG and Memory</h2>
+            <p>
+                Every conversation is logged and embedded (using vector embeddings), stored in SQLite alongside full-text search indexes. When the assistant needs context, it runs a hybrid search combining cosine similarity with keyword matching. This gives it persistent memory across sessions, days, and weeks &mdash; without any external vector database.
+            </p>
+            <div class="highlight-box">
+                <p>
+                    The memory system is a single Flask server backed by SQLite. It handles conversation logging, long-term memory, entity tracking, and semantic search through simple HTTP endpoints. No vector database required.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 8: The $100 Question -->
+        <section id="the-100-question">
+            <h2>The $100 Question</h2>
+            <p>
+                This entire system runs on a single <strong>$100/month Anthropic Max Plan</strong>. No cloud VMs running inference. No LangChain, no AutoGPT, no agent framework. Just Claude Code on a Linux machine with MCP plugins.
+            </p>
+            <div class="highlight-box">
+                <p>
+                    The key insight: Claude Code is not just a coding assistant &mdash; it is a general-purpose autonomous agent runtime. Give it tools, instructions, and a schedule, and it becomes a full 24/7 assistant. The $100 plan provides (almost) unlimited access to one of the most capable AI models available, with native tool use and long context. That is enough.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 9: Quick Setup Guide -->
+        <section id="setup">
+            <h2>Set It Up Yourself</h2>
+            <p>
+                Download the setup guide below and pass it to a fresh Claude Code session. It will walk through every step autonomously &mdash; creating the Telegram bot config, memory server, API keys, and CLAUDE.md. You just approve and follow along.
+            </p>
+            <div style="text-align:center;margin:24px 0">
+                <a href="SETUP.md" download style="display:inline-block;padding:14px 32px;background:#22d3ee;color:#0a0a12;font-weight:700;border-radius:8px;text-decoration:none;font-size:1rem;transition:opacity 0.2s" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Download SETUP.md</a>
+            </div>
+            <p style="font-size:0.88rem;color:#64748b;text-align:center">
+                Then run: <code>claude</code> and paste the contents of SETUP.md. Claude Code will do the rest.
+            </p>
+            <div style="text-align:center;margin:12px 0 24px">
+                <a href="#" onclick="event.preventDefault();var el=document.getElementById('setupPreview');el.style.display=el.style.display==='none'?'block':'none'" style="color:#22d3ee;font-size:0.88rem;text-decoration:none">View SETUP.md</a>
+            </div>
+            <div id="setupPreview" style="display:none;position:relative">
+                <button onclick="navigator.clipboard.writeText(document.getElementById('setupCode').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',2000)})" style="position:absolute;top:8px;right:8px;padding:4px 12px;background:#22d3ee;color:#0a0a12;border:none;border-radius:4px;font-size:0.75rem;font-weight:600;cursor:pointer;z-index:1">Copy</button>
+                <div class="code-block" style="max-height:500px;overflow-y:auto"><pre><code id="setupCode"></code></pre></div>
+            </div>
+            <div class="highlight-box">
+                <p>
+                    The setup file is a step-by-step autonomous guide that Claude Code follows to bootstrap the entire system: Telegram bot, memory API server, CLAUDE.md configuration, cron jobs, and first-run verification. The user only needs to provide API keys and approve actions. No manual coding required.
+                </p>
+            </div>
+        </section>
+
+        <footer class="article-footer" style="margin-top:48px;padding-top:24px;border-top:1px solid #1e1e30;text-align:center">
+            <p style="margin-bottom:12px">
+                <a href="https://github.com/missingus3r" style="color:#22d3ee;text-decoration:none;margin:0 12px">GitHub</a>
+                <a href="https://x.com/missingus3r" style="color:#22d3ee;text-decoration:none;margin:0 12px">X / Twitter</a>
+            </p>
+            <p style="font-size:0.78rem;color:#334155;font-style:italic">
+                Named after the last A.I. assistant Tony Stark built before hanging up the suit. This one doesn't have a suit either &mdash; just a terminal.
+            </p>
+        </footer>
+
+    </article>
+<!-- Image Modal -->
+<div id="imgModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.9);cursor:zoom-out;backdrop-filter:blur(8px)" onclick="this.style.display='none'">
+  <img id="imgModalSrc" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);max-width:95%;max-height:95%;border-radius:8px;box-shadow:0 0 40px rgba(0,0,0,0.5)">
+  <span style="position:absolute;top:20px;right:30px;color:#fff;font-size:28px;cursor:pointer;font-weight:300">&times;</span>
+</div>
+<script>
+// Load SETUP.md content
+fetch('SETUP.md').then(r=>r.text()).then(t=>{
+  const el=document.getElementById('setupCode');
+  if(el)el.textContent=t;
+}).catch(()=>{});
+
+document.querySelectorAll('.screenshot img').forEach(img => {
+  img.style.cursor = 'zoom-in';
+  img.addEventListener('click', () => {
+    document.getElementById('imgModalSrc').src = img.src;
+    document.getElementById('imgModal').style.display = 'block';
+  });
+});
+</script>
+</body>
+</html>
