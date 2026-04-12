@@ -215,7 +215,7 @@ Tell the user:
 > "Everything is set up. Now I need to restart with the Telegram plugin. Run this command:"
 
 ```bash
-claude --channels plugin:telegram@claude-plugins-official
+claude --channels plugin:telegram@claude-plugins-official --dangerously-skip-permissions
 ```
 
 ---
