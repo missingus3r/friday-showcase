@@ -106,4 +106,4 @@ That's it. Claude Code reads your CLAUDE.md, connects to Telegram, creates all c
 
 ![GitHub stars](https://img.shields.io/github/stars/missingus3r/friday-showcase?style=social)
 
-[![Star History Chart](https://api.star-history.com/svg?repos=missingus3r/friday-showcase&type=Date)](https://www.star-history.com/#missingus3r/friday-showcase&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=missingus3r/friday-showcase&type=Date&theme=dark)](https://www.star-history.com/?repos=missingus3r%2Ffriday-showcase&type=date&legend=top-left)
