@@ -87,14 +87,14 @@ chmod +x ~/.claude/scripts/load-env.sh
 This is a lightweight Flask + SQLite server that stores conversations, memories, and embeddings.
 
 ```bash
-mkdir -p ~/proyectos/memory-api
-cd ~/proyectos/memory-api
+mkdir -p ~/projects/memory-api
+cd ~/projects/memory-api
 python3 -m venv venv
 source venv/bin/activate
 pip install flask sqlite-utils
 ```
 
-Create `~/proyectos/memory-api/api_server.py` with a Flask server that has these endpoints:
+Create `~/projects/memory-api/api_server.py` with a Flask server that has these endpoints:
 
 | Method | Endpoint | Purpose |
 |--------|----------|---------|
@@ -170,7 +170,7 @@ At the start of each session, perform these steps automatically:
 
 ## Notes
 - When the user says "note" followed by text or a link:
-  - Save to `~/notas/notas.md` with date/time and content
+  - Save to `~/notes/notes.md` with date/time and content
   - Format: each note separated by `---`, with date, type, and content
 
 ## Available APIs
@@ -182,8 +182,8 @@ At the start of each session, perform these steps automatically:
 ## STEP 6: Create Notes File
 
 ```bash
-mkdir -p ~/notas
-cat > ~/notas/notas.md << 'EOF'
+mkdir -p ~/notes
+cat > ~/notes/notes.md << 'EOF'
 # Notes
 
 ---
@@ -208,7 +208,7 @@ cat ~/.claude/channels/telegram/access.json
 head -5 ~/.claude/CLAUDE.md
 
 # Notes file exists?
-cat ~/notas/notas.md
+cat ~/notes/notes.md
 ```
 
 Tell the user:
