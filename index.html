@@ -499,6 +499,9 @@
                     The setup file is a step-by-step autonomous guide that Claude Code follows to bootstrap the entire system: Telegram bot, memory API server, CLAUDE.md configuration, cron jobs, and first-run verification. The user only needs to provide API keys and approve actions. No manual coding required.
                 </p>
             </div>
+            <p style="margin-top:24px">Once everything is set up, start the assistant with:</p>
+            <div class="code-block"><pre><code>claude --channels plugin:telegram@claude-plugins-official</code></pre></div>
+            <p style="font-size:0.88rem;color:#64748b">That's it. Claude Code reads your CLAUDE.md, connects to Telegram, creates all cron jobs, and starts running autonomously.</p>
         </section>
 
         <footer class="article-footer" style="margin-top:48px;padding-top:24px;border-top:1px solid #1e1e30;text-align:center">
