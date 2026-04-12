@@ -88,6 +88,14 @@ This entire system runs on a single **$100/month Anthropic Max Plan**. No cloud 
 
 Download the [SETUP.md](SETUP.md) file and pass it to a fresh Claude Code session. It will walk through every step autonomously — creating the Telegram bot config, memory server, API keys, and CLAUDE.md. You just approve and follow along.
 
+Open Claude Code and type:
+
+```
+Read the file ~/Downloads/SETUP.md and follow every step in it to set up a 24/7 AI assistant on this machine. Ask me for confirmation before each major step.
+```
+
+That's it. Claude Code reads the guide and walks you through the entire setup autonomously.
+
 Once everything is set up, start the assistant with:
 
 ```bash
