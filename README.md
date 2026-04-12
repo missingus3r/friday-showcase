@@ -59,10 +59,6 @@ Claude Code already *is* the runtime. It has native tool use, MCP plugin support
 
 The memory server includes a visual web endpoint that renders all stored logs, memories, and entities as interactive graph nodes. This implementation is called **Friday**, but the system can be renamed to anything — the name is just a variable in the CLAUDE.md configuration.
 
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=missingus3r/friday-showcase&type=Date)](https://www.star-history.com/#missingus3r/friday-showcase&Date)
-
 ## Capabilities
 
 - **Scheduled briefings** — weather (Open-Meteo API), forex/crypto (DolarAPI, ExchangeRate), AI news (WebSearch), movies (YTS API)
@@ -105,3 +101,9 @@ That's it. Claude Code reads your CLAUDE.md, connects to Telegram, creates all c
 *Named after the last A.I. assistant Tony Stark built before hanging up the suit. This one doesn't have a suit either — just a terminal.*
 
 **GitHub:** [missingus3r](https://github.com/missingus3r) | **X:** [missingus3r](https://x.com/missingus3r)
+
+---
+
+![GitHub stars](https://img.shields.io/github/stars/missingus3r/friday-showcase?style=social)
+
+[![Star History Chart](https://api.star-history.com/svg?repos=missingus3r/friday-showcase&type=Date)](https://www.star-history.com/#missingus3r/friday-showcase&Date)
