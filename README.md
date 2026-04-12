@@ -59,6 +59,10 @@ Claude Code already *is* the runtime. It has native tool use, MCP plugin support
 
 The memory server includes a visual web endpoint that renders all stored logs, memories, and entities as interactive graph nodes. This implementation is called **Friday**, but the system can be renamed to anything — the name is just a variable in the CLAUDE.md configuration.
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=missingus3r/friday-showcase&type=Date)](https://www.star-history.com/#missingus3r/friday-showcase&Date)
+
 ## Capabilities
 
 - **Scheduled briefings** — weather (Open-Meteo API), forex/crypto (DolarAPI, ExchangeRate), AI news (WebSearch), movies (YTS API)
