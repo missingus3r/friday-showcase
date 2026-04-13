@@ -81,6 +81,25 @@ The memory server includes a visual web endpoint that renders all stored logs, m
 - **Preference learning** — analyzes feedback history to infer rules from repeated corrections, applying them automatically going forward
 - **World modeling** — builds a behavioral model of the user over time (activity patterns, recurring topics, event correlations) with confidence scores and expiration dates
 - **Self-improvement proposals** — detects potential optimizations and creates formal proposals with diffs, never applying changes without explicit user approval
+- **Memory API health monitoring** — periodic health checks on the memory server with automatic restart if it goes down, and user notification on failures
+
+## Scheduled Jobs (9 Crons)
+
+The system runs 9 autonomous cron jobs that keep it alive and learning:
+
+| # | Job | Schedule | Purpose |
+|---|-----|----------|---------|
+| 1 | Email check | Every 1h | Check inbox for new emails, notify if any |
+| 2 | Cron watchdog | Every 6h | Verify no crons are about to expire (7-day TTL) |
+| 3 | Daily briefing | Daily ~9 AM | Weather, currencies, AI news, movies + cron status |
+| 4 | Heartbeat | Every 1h | System health, verify all 9 crons active, social check-in |
+| 5 | Monthly usage | End of month | API usage report across all services |
+| 6 | Daily reflection | Daily 23:27 | Review logs for patterns, mistakes, insights |
+| 7 | Preference learning | Weekly (Sun) | Infer rules from repeated feedback corrections |
+| 8 | AI Model Monitor | Daily 10:17 | Scan for new AI model releases, update index |
+| 9 | Memory API health | Every 3h | Health check with auto-restart on failure |
+
+The heartbeat and briefing crons act as watchdogs — they verify all 9 jobs are active and recreate any that are missing.
 
 ## Memory Server
 

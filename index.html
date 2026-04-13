@@ -330,6 +330,7 @@
                 <li><a href="#the-stack">The Stack</a></li>
                 <li><a href="#screenshots">Screenshots</a></li>
                 <li><a href="#capabilities">Capabilities</a></li>
+                <li><a href="#scheduled-jobs">Scheduled Jobs</a></li>
                 <li><a href="#rag-memory">Memory Server</a></li>
                 <li><a href="#self-evolving">Self-Evolving System</a></li>
                 <li><a href="#the-100-question">The $100 Question</a></li>
@@ -454,7 +455,38 @@
                 <li><strong>Preference learning</strong> &mdash; analyzes feedback history to infer rules from repeated corrections, applying them automatically going forward</li>
                 <li><strong>World modeling</strong> &mdash; builds a behavioral model of the user over time (activity patterns, recurring topics, event correlations) with confidence scores and expiration dates</li>
                 <li><strong>Self-improvement proposals</strong> &mdash; detects potential optimizations and creates formal proposals with diffs, never applying changes without explicit user approval</li>
+                <li><strong>Memory API health monitoring</strong> &mdash; periodic health checks on the memory server with automatic restart if it goes down, and user notification on failures</li>
             </ul>
+        </section>
+
+        <!-- Section: Scheduled Jobs -->
+        <section id="scheduled-jobs">
+            <h2>Scheduled Jobs (9 Crons)</h2>
+            <p>The system runs 9 autonomous cron jobs that keep it alive and learning:</p>
+            <table class="stack-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Job</th>
+                        <th>Schedule</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Email check</td><td>Every 1h</td><td>Check inbox for new emails, notify if any</td></tr>
+                    <tr><td>2</td><td>Cron watchdog</td><td>Every 6h</td><td>Verify no crons are about to expire (7-day TTL)</td></tr>
+                    <tr><td>3</td><td>Daily briefing</td><td>Daily ~9 AM</td><td>Weather, currencies, AI news, movies + cron status</td></tr>
+                    <tr><td>4</td><td>Heartbeat</td><td>Every 1h</td><td>System health, verify all 9 crons, social check-in</td></tr>
+                    <tr><td>5</td><td>Monthly usage</td><td>End of month</td><td>API usage report across all services</td></tr>
+                    <tr><td>6</td><td>Daily reflection</td><td>Daily 23:27</td><td>Review logs for patterns, mistakes, insights</td></tr>
+                    <tr><td>7</td><td>Preference learning</td><td>Weekly (Sun)</td><td>Infer rules from repeated feedback corrections</td></tr>
+                    <tr><td>8</td><td>AI Model Monitor</td><td>Daily 10:17</td><td>Scan for new AI model releases, update index</td></tr>
+                    <tr><td>9</td><td>Memory API health</td><td>Every 3h</td><td>Health check with auto-restart on failure</td></tr>
+                </tbody>
+            </table>
+            <p style="font-size:0.88rem;color:#94a3b8;margin-top:12px">
+                The heartbeat and briefing crons act as watchdogs &mdash; they verify all 9 jobs are active and recreate any that are missing.
+            </p>
         </section>
 
         <!-- Section 7: RAG & Memory -->

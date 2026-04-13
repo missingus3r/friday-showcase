@@ -127,7 +127,8 @@ Create `~/projects/memory-api/api_server.py` with a Flask server (~800 lines) th
 **Utility:**
 | Method | Endpoint | Purpose |
 |--------|----------|---------|
-| GET | /health | Returns `{"status":"ok"}` |
+| GET | /health | Returns `{"status":"ok","version":"X.Y.Z"}` |
+| GET | /version | Returns `{"version":"X.Y.Z"}` |
 | GET/PUT | /kv/<key> | Key-value store (used for UI state persistence) |
 | GET | /graph | Serve web visualization app |
 
@@ -203,10 +204,22 @@ You have a persistent memory HTTP API running on `http://127.0.0.1:7777`.
 
 At the start of each session, perform these steps automatically:
 
-1. **Check memory API health**: `curl -s http://127.0.0.1:7777/health`
-2. **Create email check cron** (every 1 hour): check for new emails if email MCP is available
-3. **Create daily briefing cron** (every day at ~9:00 AM): generate and send a morning briefing with weather, news, etc.
-4. **Create heartbeat cron** (every 1 hour): verify system state, check all crons are active, recreate missing ones. Only message between 08:00-23:00 local time. Stay silent during night hours. Be proactive: if there are no real alerts that day, once per day (50/50 random chance) send a casual message asking how the user is doing. Also check memories for pending tasks or things the user mentioned and may have forgotten — remind them if relevant.
+1. **Check memory API health**: `curl -s http://127.0.0.1:7777/health` — if the API is down, start it automatically and wait 2 seconds before verifying again.
+2. **Create all 9 cron jobs** (see list below). The heartbeat and briefing crons verify that all 9 are active and recreate any that are missing.
+
+### The 9 Cron Jobs
+
+| # | Name | Schedule | What it does |
+|---|------|----------|-------------|
+| 1 | Email check | Every 1h (:13) | Check inbox for new emails, notify user if any |
+| 2 | Cron watchdog | Every 6h (:23) | Verify no crons are about to expire (7-day TTL), alert if any are |
+| 3 | Daily briefing | Daily ~9:00 AM | Weather, currencies, AI news, movies. Lists active crons at the end |
+| 4 | Heartbeat | Every 1h (:43) | System state check, verify all 9 crons active, recreate missing. Social message 1x/day (50/50) if no alerts. Silent between 00:00-08:00 |
+| 5 | Monthly usage | Days 28-31, 10:03 | Run usage report script, remind user to send stats from other machines |
+| 6 | Daily reflection | Daily 23:27 | Review day's logs for patterns, mistakes, insights. Save to /reflection |
+| 7 | Weekly preference learning | Sundays 4:07 | Analyze feedback patterns, generate preference rules, propose code changes |
+| 8 | AI Model Monitor | Daily 10:17 | Scan for new AI model releases (WebSearch + HuggingFace), update model index |
+| 9 | Memory API health | Every 3h (:33) | Check API health, auto-restart if down, notify user of failures |
 
 ## Notes
 - When the user says "note" followed by text or a link:
@@ -220,12 +233,12 @@ At the start of each session, perform these steps automatically:
 - After completing a new type of task, save the pattern: POST /skill
 - This builds a growing library of reusable capabilities
 
-### Daily Reflection (cron 23:30)
+### Daily Reflection (cron, daily 23:27)
 - Reviews the day's logs for patterns, mistakes, and insights
 - Saves to /reflection and /insight endpoints
 - Critical insights become feedback memories
 
-### Preference Learning (weekly cron)
+### Preference Learning (cron, weekly Sundays 4:07)
 - Analyzes feedback patterns and generates preference rules
 - Preferences with confidence >= 0.7 are auto-loaded at session start
 
@@ -233,6 +246,12 @@ At the start of each session, perform these steps automatically:
 - If something could work better, create a proposal: POST /proposal
 - NEVER apply changes directly — always propose and wait for user approval
 - Notify user via Telegram when a proposal is created
+
+## Versioning
+- The system uses **Semantic Versioning** (Major.Minor.Patch)
+- Version is defined in the `VERSION` constant at the top of `api_server.py`
+- Displayed in the Memory Graph topbar and exposed via `/health` and `/version` endpoints
+- After any change to the system, bump the version and commit
 
 ## Available APIs
 - Keys stored in `~/.claude/.env`, loaded with `~/.claude/scripts/load-env.sh`
@@ -285,8 +304,8 @@ claude --channels plugin:telegram@claude-plugins-official --dangerously-skip-per
 
 When Claude Code restarts with the Telegram plugin:
 1. Read `~/.claude/CLAUDE.md` — this is your instruction set
-2. Check memory API health
-3. Create all cron jobs (email check, briefing, heartbeat, daily reflection at 23:30, weekly preference learning)
+2. Check memory API health — start the server if it's down
+3. Create all 9 cron jobs (email, watchdog, briefing, heartbeat, monthly usage, daily reflection, weekly preference learning, AI model monitor, memory API health)
 4. Send a welcome message to the user via Telegram:
    > "System online. All crons active. Memory API connected. Send me a message anytime."
 5. Begin listening for Telegram messages
