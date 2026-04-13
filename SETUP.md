@@ -87,14 +87,14 @@ chmod +x ~/.claude/scripts/load-env.sh
 This is a lightweight Flask + SQLite server that stores conversations, memories, and embeddings.
 
 ```bash
-mkdir -p ~/proyectos/memory-graph
-cd ~/proyectos/memory-graph
+mkdir -p ~/projects/memory-graph
+cd ~/projects/memory-graph
 python3 -m venv venv
 source venv/bin/activate
 pip install flask sqlite-utils
 ```
 
-Create `~/proyectos/memory-graph/api_server.py` with a Flask server (~1300 lines) that has these endpoints:
+Create `~/projects/memory-graph/api_server.py` with a Flask server (~1300 lines) that has these endpoints:
 
 **Conversations:**
 | Method | Endpoint | Purpose |
