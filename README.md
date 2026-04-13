@@ -108,7 +108,7 @@ The memory system is a ~800-line Flask + SQLite server that handles everything: 
 
 **Core features:**
 - **Conversation logging** — every message stored with timestamp, role, channel, and auto-classified importance score (0.0-1.0)
-- **Importance scoring** — auto-tagged at insert: notes/saves = 1.0, project actions = 0.8, URLs/searches = 0.6, user = 0.4, assistant = 0.2, system = 0.1
+- **Importance scoring** — messages are auto-classified at insert time using dynamic keyword-score pairs stored in the database (not hardcoded). Keywords can be added, updated, or removed via API (`GET/POST /keywords`), and hit counts are tracked automatically. The preference learning cron can adjust scores over time based on usage patterns
 - **Semantic search** — cosine similarity over embedding vectors (3072 dim)
 - **Hybrid search** — FTS5 + semantic combined via Reciprocal Rank Fusion, weighted by importance
 - **Weekly summarization** — cron compresses old logs into weekly summaries (originals preserved). Search results enriched with associated weekly summary

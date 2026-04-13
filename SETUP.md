@@ -132,13 +132,11 @@ Create `~/projects/memory-api/api_server.py` with a Flask server (~800 lines) th
 | GET/PUT | /kv/<key> | Key-value store (used for UI state persistence) |
 | GET | /graph | Serve web visualization app |
 
-**Importance scoring** is automatic at insert time:
-- 1.0 — notes, saves, reminders (critical)
-- 0.8 — project actions, deploys, commits (high)
-- 0.6 — URLs, searches, investigations (medium)
-- 0.4 — user messages (normal)
-- 0.2 — assistant responses (low)
-- 0.1 — system/heartbeat/cron logs (minimal)
+**Importance scoring** is automatic at insert time, using dynamic keywords stored in the `importance_keywords` table:
+- Keywords and their scores are managed via API: `GET/POST /keywords`, `DELETE /keywords/<id>`
+- Default scores: 1.0 (notes, saves), 0.8 (project, deploy, commit), 0.6 (search, URLs), 0.4 (user), 0.2 (assistant), 0.1 (system)
+- Hit counts are tracked per keyword, enabling the preference learning cron to adjust scores over time
+- Seeded automatically on first run; no code changes needed to add or modify keywords
 
 The server should:
 - Listen on `0.0.0.0:7777`

@@ -499,7 +499,7 @@
             <h3>Core features</h3>
             <ul>
                 <li><strong>Conversation logging</strong> &mdash; every message stored with timestamp, role, channel, and auto-classified importance score (0.0-1.0)</li>
-                <li><strong>Importance scoring</strong> &mdash; messages are auto-tagged at insert time: notes/saves = 1.0, project actions = 0.8, URLs/searches = 0.6, user messages = 0.4, assistant = 0.2, system/heartbeats = 0.1</li>
+                <li><strong>Importance scoring</strong> &mdash; messages are auto-classified using dynamic keyword-score pairs stored in the database (not hardcoded). Keywords can be added, updated, or removed via API, and hit counts are tracked automatically. The preference learning cron adjusts scores over time based on usage patterns</li>
                 <li><strong>Long-term memory</strong> &mdash; typed entries (user, feedback, project, reference) with free-text search</li>
                 <li><strong>Semantic search</strong> &mdash; cosine similarity over embedding vectors (3072 dimensions)</li>
                 <li><strong>Hybrid search</strong> &mdash; FTS5 keyword matching + semantic search combined via Reciprocal Rank Fusion, weighted by importance</li>
