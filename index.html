@@ -341,7 +341,7 @@
         <section id="what-is-this">
             <h2>What Is This?</h2>
             <p>
-                This is a personal AI assistant that runs 24/7 on a standard Windows, Linux, or macOS machine. It communicates via Telegram, runs scheduled tasks autonomously, manages files and projects, and maintains persistent memory across sessions. The entire system is powered by <strong>Claude Code</strong> (Anthropic's CLI agent) on the $100/month Max Plan &mdash; no custom AI backend, no fine-tuned models, no orchestration framework. The only custom code is a lightweight Flask server for persistent memory storage.
+                This is a self-evolving AI assistant that runs 24/7 on a standard Windows, Linux, or macOS machine. It communicates via Telegram, runs scheduled tasks autonomously, manages files and projects, and maintains persistent memory across sessions &mdash; but it also <strong>learns from its own behavior</strong>. It acquires new skills, reflects on daily performance, infers user preferences from repeated corrections, and proposes its own improvements. The entire system is powered by <strong>Claude Code</strong> (Anthropic's CLI agent) on the $100/month Max Plan &mdash; no custom AI backend, no fine-tuned models, no orchestration framework. The only custom code is a lightweight Flask server for persistent memory and the self-evolving subsystems.
             </p>
         </section>
 
@@ -349,11 +349,12 @@
         <section id="how-it-works">
             <h2>How It Works</h2>
             <p>
-                Claude Code sits at the center, connecting to external services through MCP (Model Context Protocol) plugins and shell tools. A <code>CLAUDE.md</code> file acts as the system prompt, defining behavior, available tools, and cron schedules. Scheduled tasks run autonomously without human input.
+                Claude Code sits at the center, connecting to external services through MCP (Model Context Protocol) plugins and shell tools. A <code>CLAUDE.md</code> file acts as the system prompt, defining behavior, available tools, and cron schedules. Scheduled tasks run autonomously without human input. On top of this, a set of self-evolving subsystems &mdash; skill acquisition, daily reflection, preference learning, world modeling, and self-improvement proposals &mdash; run as scheduled jobs on the same memory server, feeding insights back into the assistant's behavior without any model fine-tuning.
             </p>
 <pre><span class="diagram-label">User (Telegram)</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-label">Claude Code (with MCP plugins)</span>
     <span class="diagram-arrow">|</span>
     <span class="diagram-arrow">|--&gt;</span> <span class="diagram-desc">Memory API</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-desc">SQLite (conversations, memories, embeddings)</span>
+    <span class="diagram-arrow">|--&gt;</span> <span class="diagram-desc">Self-Evolving</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-desc">Skills, reflections, preferences, world model, proposals</span>
     <span class="diagram-arrow">|--&gt;</span> <span class="diagram-desc">Knowledge Base (MCP)</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-desc">Notes, wiki, structured data</span>
     <span class="diagram-arrow">|--&gt;</span> <span class="diagram-desc">GitHub</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-desc">Repos (push, commit, PR)</span>
     <span class="diagram-arrow">|--&gt;</span> <span class="diagram-desc">Voice API</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-desc">Text-to-speech / Speech-to-text</span>
@@ -448,6 +449,11 @@
                 <li><strong>Web research</strong> &mdash; search, fetch, summarize, and report back (WebSearch + WebFetch tools)</li>
                 <li><strong>Self-healing crons</strong> &mdash; monitors its own scheduled jobs and recreates any that expire (CronCreate/CronList built-in)</li>
                 <li><strong>Proactive messaging</strong> &mdash; the assistant reaches out first: casual check-ins, reminders for things you mentioned and forgot, follow-ups on pending tasks. Not just reactive &mdash; it initiates conversations based on memory and context</li>
+                <li><strong>Skill acquisition</strong> &mdash; extracts reusable patterns from completed tasks and stores them as skills with trigger patterns, so it handles similar requests faster each time</li>
+                <li><strong>Daily self-reflection</strong> &mdash; nightly cron reviews conversation logs to identify mistakes, successes, and emerging patterns, storing conclusions as actionable insights</li>
+                <li><strong>Preference learning</strong> &mdash; analyzes feedback history to infer rules from repeated corrections, applying them automatically going forward</li>
+                <li><strong>World modeling</strong> &mdash; builds a behavioral model of the user over time (activity patterns, recurring topics, event correlations) with confidence scores and expiration dates</li>
+                <li><strong>Self-improvement proposals</strong> &mdash; detects potential optimizations and creates formal proposals with diffs, never applying changes without explicit user approval</li>
             </ul>
         </section>
 

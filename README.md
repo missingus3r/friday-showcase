@@ -8,16 +8,17 @@ An always-on personal AI system using only Claude Code CLI ($100/month) and Tele
 
 ## What Is This?
 
-This is a personal AI assistant that runs 24/7 on a standard Windows, Linux, or macOS machine. It communicates via Telegram, runs scheduled tasks autonomously, manages files and projects, and maintains persistent memory across sessions. The entire system is powered by **Claude Code** (Anthropic's CLI agent) on the $100/month Max Plan — no custom AI backend, no fine-tuned models, no orchestration framework. The only custom code is a lightweight Flask server for persistent memory storage.
+This is a self-evolving AI assistant that runs 24/7 on a standard Windows, Linux, or macOS machine. It communicates via Telegram, runs scheduled tasks autonomously, manages files and projects, and maintains persistent memory across sessions — but it also **learns from its own behavior**. It acquires new skills, reflects on daily performance, infers user preferences from repeated corrections, and proposes its own improvements. The entire system is powered by **Claude Code** (Anthropic's CLI agent) on the $100/month Max Plan — no custom AI backend, no fine-tuned models, no orchestration framework. The only custom code is a lightweight Flask server for persistent memory and the self-evolving subsystems.
 
 ## How It Works
 
-Claude Code sits at the center, connecting to external services through MCP (Model Context Protocol) plugins and shell tools. A `CLAUDE.md` file acts as the system prompt, defining behavior, available tools, and cron schedules.
+Claude Code sits at the center, connecting to external services through MCP (Model Context Protocol) plugins and shell tools. A `CLAUDE.md` file acts as the system prompt, defining behavior, available tools, and cron schedules. On top of this, a set of self-evolving subsystems — skill acquisition, daily reflection, preference learning, world modeling, and self-improvement proposals — run as scheduled jobs on the same memory server, feeding insights back into the assistant's behavior without any model fine-tuning.
 
 ```
 User (Telegram) ---> Claude Code (with MCP plugins)
     |
     |--> Memory API        ---> SQLite (conversations, memories, embeddings)
+    |--> Self-Evolving     ---> Skills, reflections, preferences, world model, proposals
     |--> Knowledge Base    ---> Notes, wiki, structured data (Notion MCP)
     |--> GitHub            ---> Repos (push, commit, PR)
     |--> Voice API         ---> Text-to-speech / Speech-to-text (ElevenLabs)
@@ -75,6 +76,11 @@ The memory server includes a visual web endpoint that renders all stored logs, m
 - **Web research** — search, fetch, summarize, and report back (WebSearch + WebFetch tools)
 - **Self-healing crons** — monitors its own scheduled jobs and recreates any that expire (CronCreate/CronList built-in)
 - **Proactive messaging** — the assistant reaches out first: casual check-ins, reminders for things you mentioned and forgot, follow-ups on pending tasks. Not just reactive — it initiates conversations based on memory and context
+- **Skill acquisition** — extracts reusable patterns from completed tasks and stores them as skills with trigger patterns, so it handles similar requests faster each time
+- **Daily self-reflection** — nightly cron reviews conversation logs to identify mistakes, successes, and emerging patterns, storing conclusions as actionable insights
+- **Preference learning** — analyzes feedback history to infer rules from repeated corrections, applying them automatically going forward
+- **World modeling** — builds a behavioral model of the user over time (activity patterns, recurring topics, event correlations) with confidence scores and expiration dates
+- **Self-improvement proposals** — detects potential optimizations and creates formal proposals with diffs, never applying changes without explicit user approval
 
 ## Memory Server
 
