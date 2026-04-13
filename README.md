@@ -111,6 +111,10 @@ Five systems work together to make this happen:
 
 All of this runs on the same memory server with no additional infrastructure. The data is visible in the Memory Graph's "Brain" tab — a dashboard showing learned skills, active preferences, daily reflections, world model insights, and pending proposals.
 
+### Brain Dashboard
+![Brain Dashboard](img/brain.jpg)
+*The Brain tab: learned skills, active preferences, daily reflections, world model insights, and pending self-improvement proposals — all running on the same memory server.*
+
 > The result is a system that gets better at its job every day — not because the underlying model changes, but because it builds a growing library of skills, preferences, and behavioral patterns on top of it. The model stays the same. The assistant evolves.
 
 ## The $100 Question
