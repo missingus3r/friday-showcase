@@ -35,6 +35,10 @@ Claude Code already *is* the runtime. It has native tool use, MCP plugin support
 
 > The philosophy: stay within a single subscription, respect the provider's Terms of Service, and avoid bolting on external LLM APIs or custom agent infrastructure. One plan, one CLI, one model — and let the model do what it was designed to do.
 
+![GitHub stars](https://img.shields.io/github/stars/missingus3r/friday-showcase?style=social)
+
+[![Star History Chart](https://api.star-history.com/svg?repos=missingus3r/friday-showcase&type=Date&theme=dark)](https://www.star-history.com/?repos=missingus3r%2Ffriday-showcase&type=date&legend=top-left)
+
 ## The Stack
 
 | Component | Technology |
@@ -110,8 +114,3 @@ That's it. Claude Code reads your CLAUDE.md, connects to Telegram, creates all c
 
 **GitHub:** [missingus3r](https://github.com/missingus3r) | **X:** [missingus3r](https://x.com/missingus3r)
 
----
-
-![GitHub stars](https://img.shields.io/github/stars/missingus3r/friday-showcase?style=social)
-
-[![Star History Chart](https://api.star-history.com/svg?repos=missingus3r/friday-showcase&type=Date&theme=dark)](https://www.star-history.com/?repos=missingus3r%2Ffriday-showcase&type=date&legend=top-left)
