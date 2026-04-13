@@ -104,7 +104,7 @@ The heartbeat and briefing crons act as watchdogs — they verify all 10 jobs ar
 
 ## Memory Server
 
-The memory system is a ~800-line Flask + SQLite server that handles everything: conversation logging, long-term memory, entity tracking, key-value storage, and RAG with vector embeddings. No external vector database — embeddings are stored as BLOBs in the same SQLite file.
+The memory system is a ~1300-line Flask + SQLite server that handles everything: conversation logging, long-term memory, entity tracking, key-value storage, and RAG with vector embeddings. No external vector database — embeddings are stored as BLOBs in the same SQLite file.
 
 **Core features:**
 - **Conversation logging** — every message stored with timestamp, role, channel, and auto-classified importance score (0.0-1.0)
@@ -121,7 +121,7 @@ The memory system is a ~800-line Flask + SQLite server that handles everything: 
 - **Architecture** — system diagram with draggable nodes (positions persist server-side)
 - **RAG** — semantic search dashboard with hybrid search and embedding stats
 
-> The entire memory layer is ~800 lines of Python. No vector database, no Redis, no Elasticsearch. Just Flask + SQLite + embeddings in the same DB file.
+> The entire memory layer is ~1300 lines of Python. No vector database, no Redis, no Elasticsearch. Just Flask + SQLite + embeddings in the same DB file.
 
 ## Self-Evolving System
 

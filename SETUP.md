@@ -87,14 +87,14 @@ chmod +x ~/.claude/scripts/load-env.sh
 This is a lightweight Flask + SQLite server that stores conversations, memories, and embeddings.
 
 ```bash
-mkdir -p ~/projects/memory-api
-cd ~/projects/memory-api
+mkdir -p ~/proyectos/memory-graph
+cd ~/proyectos/memory-graph
 python3 -m venv venv
 source venv/bin/activate
 pip install flask sqlite-utils
 ```
 
-Create `~/projects/memory-api/api_server.py` with a Flask server (~800 lines) that has these endpoints:
+Create `~/proyectos/memory-graph/api_server.py` with a Flask server (~1300 lines) that has these endpoints:
 
 **Conversations:**
 | Method | Endpoint | Purpose |
@@ -131,6 +131,38 @@ Create `~/projects/memory-api/api_server.py` with a Flask server (~800 lines) th
 | GET | /version | Returns `{"version":"X.Y.Z"}` |
 | GET/PUT | /kv/<key> | Key-value store (used for UI state persistence) |
 | GET | /graph | Serve web visualization app |
+
+**Self-Evolving System:**
+| Method | Endpoint | Purpose |
+|--------|----------|---------|
+| POST | /skill | Save a learned skill `{name, trigger_pattern, description, steps}` |
+| GET | /skill/match?task= | Find matching skills for a task |
+| GET | /skill/list | List all skills |
+| PUT | /skill/<id>/use | Increment usage counter |
+| DELETE | /skill/<id> | Delete a skill |
+| POST | /reflection | Save a reflection `{content, patterns, mistakes, insights}` |
+| GET | /reflection/recent | Recent reflections |
+| GET | /reflection/list | All reflections |
+| DELETE | /reflection/<id> | Delete a reflection |
+| POST | /preference | Save a preference rule `{rule, source_count, confidence}` |
+| GET | /preference/list | List all preferences |
+| GET | /preference/active | Preferences with confidence >= 0.7 |
+| DELETE | /preference/<id> | Delete a preference |
+| POST | /insight | Save an insight `{type, pattern, evidence, confidence}` |
+| GET | /insight/active | Active insights |
+| GET | /insight/list | All insights |
+| DELETE | /insight/<id> | Delete an insight |
+| POST | /proposal | Create improvement proposal `{file_path, change_type, description, diff_preview}` |
+| GET | /proposal/pending | Pending proposals |
+| PUT | /proposal/<id>/approve | Approve a proposal |
+| PUT | /proposal/<id>/reject | Reject a proposal |
+| POST | /worldmodel | Create/update behavioral pattern `{category, pattern, evidence, confidence}` |
+| GET | /worldmodel/active | Active patterns (non-expired, confidence >= 0.4) |
+| GET | /worldmodel/list | All patterns |
+| DELETE | /worldmodel/<id> | Delete a pattern |
+| GET | /keywords | List importance keywords with scores and hit counts |
+| POST | /keywords | Add/update keyword `{keyword, score}` |
+| DELETE | /keywords/<id> | Delete a keyword |
 
 **Importance scoring** is automatic at insert time, using dynamic keywords stored in the `importance_keywords` table:
 - Keywords and their scores are managed via API: `GET/POST /keywords`, `DELETE /keywords/<id>`
@@ -232,19 +264,32 @@ At the start of each session, perform these steps automatically:
 - After completing a new type of task, save the pattern: POST /skill
 - This builds a growing library of reusable capabilities
 
-### Daily Reflection (cron, daily 23:27)
-- Reviews the day's logs for patterns, mistakes, and insights
+### Reflection (cron, every 12h at 11:27 and 23:27)
+- Reviews logs for patterns, mistakes, and insights
 - Saves to /reflection and /insight endpoints
+- Feeds observations into the world model
 - Critical insights become feedback memories
 
-### Preference Learning (cron, weekly Sundays 4:07)
+### Preference Learning (cron, daily at 3:07)
 - Analyzes feedback patterns and generates preference rules
+- Can adjust importance keyword scores via /keywords API
 - Preferences with confidence >= 0.7 are auto-loaded at session start
+
+### World Model
+- Tracks behavioral patterns: schedule, topics, behavior, correlations
+- Store: `POST /worldmodel` with `{category, pattern, evidence, confidence}`
+- Auto-updates: same pattern+category increments occurrences and boosts confidence
+- Query: `GET /worldmodel/active` for non-expired entries with confidence >= 0.4
 
 ### Self-Improvement
 - If something could work better, create a proposal: POST /proposal
 - NEVER apply changes directly — always propose and wait for user approval
 - Notify user via Telegram when a proposal is created
+
+## Knowledge Base (Notion MCP)
+- If Notion MCP is available, use it as a structured knowledge base
+- Notes can be saved to both local markdown and Notion simultaneously
+- Notion pages can be searched, created, and updated via MCP tools
 
 ## Versioning
 - The system uses **Semantic Versioning** (Major.Minor.Patch)
