@@ -76,11 +76,26 @@ The memory server includes a visual web endpoint that renders all stored logs, m
 - **Self-healing crons** — monitors its own scheduled jobs and recreates any that expire (CronCreate/CronList built-in)
 - **Proactive messaging** — the assistant reaches out first: casual check-ins, reminders for things you mentioned and forgot, follow-ups on pending tasks. Not just reactive — it initiates conversations based on memory and context
 
-## RAG & Memory
+## Memory Server
 
-Every conversation turn is stored in SQLite and embedded using a vector model. When context is needed, the system runs hybrid search combining cosine similarity over embeddings with FTS5 keyword matching, ranked via Reciprocal Rank Fusion. This means the assistant can recall relevant past conversations without needing them in the active context window.
+The memory system is a ~800-line Flask + SQLite server that handles everything: conversation logging, long-term memory, entity tracking, key-value storage, and RAG with vector embeddings. No external vector database — embeddings are stored as BLOBs in the same SQLite file.
 
-> Embeddings are generated automatically on every new message and memory. The vector index lives in the same SQLite database — no external vector DB needed.
+**Core features:**
+- **Conversation logging** — every message stored with timestamp, role, channel, and auto-classified importance score (0.0-1.0)
+- **Importance scoring** — auto-tagged at insert: notes/saves = 1.0, project actions = 0.8, URLs/searches = 0.6, user = 0.4, assistant = 0.2, system = 0.1
+- **Semantic search** — cosine similarity over embedding vectors (3072 dim)
+- **Hybrid search** — FTS5 + semantic combined via Reciprocal Rank Fusion, weighted by importance
+- **Weekly summarization** — cron compresses old logs into weekly summaries (originals preserved). Search results enriched with associated weekly summary
+- **Entity tracking** — people, companies, tools, concepts
+- **Key-value store** — server-side persistence for UI state
+
+**Web visualization** — the server hosts a single-page app at `/graph` with four tabs:
+- **Graph** — D3.js force-directed visualization of conversations, memories, and entities as interactive nodes
+- **Logs** — chronological view with collapsible date groups and search
+- **Architecture** — system diagram with draggable nodes (positions persist server-side)
+- **RAG** — semantic search dashboard with hybrid search and embedding stats
+
+> The entire memory layer is ~800 lines of Python. No vector database, no Redis, no Elasticsearch. Just Flask + SQLite + embeddings in the same DB file.
 
 ## The $100 Question
 

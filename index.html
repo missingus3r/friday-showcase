@@ -330,7 +330,7 @@
                 <li><a href="#the-stack">The Stack</a></li>
                 <li><a href="#screenshots">Screenshots</a></li>
                 <li><a href="#capabilities">Capabilities</a></li>
-                <li><a href="#rag-memory">RAG and Memory</a></li>
+                <li><a href="#rag-memory">Memory Server</a></li>
                 <li><a href="#the-100-question">The $100 Question</a></li>
                 <li><a href="#setup">Set It Up Yourself</a></li>
             </ul>
@@ -452,15 +452,31 @@
 
         <!-- Section 7: RAG & Memory -->
         <section id="rag-memory">
-            <h2>RAG and Memory</h2>
+            <h2>Memory Server</h2>
             <p>
-                Every conversation is logged and embedded (using vector embeddings), stored in SQLite alongside full-text search indexes. When the assistant needs context, it runs a hybrid search combining cosine similarity with keyword matching. This gives it persistent memory across sessions, days, and weeks &mdash; without any external vector database.
+                The memory system is a ~800-line Flask + SQLite server that handles everything: conversation logging, long-term memory, entity tracking, key-value storage, and RAG with vector embeddings. No external vector database &mdash; embeddings are stored as BLOBs in the same SQLite file.
             </p>
-            <div class="highlight-box">
-                <p>
-                    The memory system is a single Flask server backed by SQLite. It handles conversation logging, long-term memory, entity tracking, and semantic search through simple HTTP endpoints. No vector database required.
-                </p>
-            </div>
+            <h3>Core features</h3>
+            <ul>
+                <li><strong>Conversation logging</strong> &mdash; every message stored with timestamp, role, channel, and auto-classified importance score (0.0-1.0)</li>
+                <li><strong>Importance scoring</strong> &mdash; messages are auto-tagged at insert time: notes/saves = 1.0, project actions = 0.8, URLs/searches = 0.6, user messages = 0.4, assistant = 0.2, system/heartbeats = 0.1</li>
+                <li><strong>Long-term memory</strong> &mdash; typed entries (user, feedback, project, reference) with free-text search</li>
+                <li><strong>Semantic search</strong> &mdash; cosine similarity over embedding vectors (3072 dimensions)</li>
+                <li><strong>Hybrid search</strong> &mdash; FTS5 keyword matching + semantic search combined via Reciprocal Rank Fusion, weighted by importance</li>
+                <li><strong>Weekly summarization</strong> &mdash; cron compresses old logs into weekly summaries without deleting originals. Search results are enriched with the associated weekly summary</li>
+                <li><strong>Entity tracking</strong> &mdash; people, companies, tools, concepts with search</li>
+                <li><strong>Key-value store</strong> &mdash; server-side persistence for UI state (e.g. node positions)</li>
+            </ul>
+            <h3>Web visualization</h3>
+            <p>
+                The server also hosts a single-page web app at <code>/graph</code> with four interactive tabs:
+            </p>
+            <ul>
+                <li><strong>Graph</strong> &mdash; D3.js force-directed visualization of all conversations, memories, and entities as interactive nodes. Color-coded by type, draggable, zoomable</li>
+                <li><strong>Logs</strong> &mdash; chronological view of all conversation logs with collapsible date groups and search</li>
+                <li><strong>Architecture</strong> &mdash; system diagram with draggable nodes showing all components and connections (positions persist server-side via /kv endpoint)</li>
+                <li><strong>RAG</strong> &mdash; semantic search dashboard with hybrid search, embedding stats, and result previews</li>
+            </ul>
         </section>
 
         <!-- Section 8: The $100 Question -->

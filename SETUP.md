@@ -94,14 +94,20 @@ source venv/bin/activate
 pip install flask sqlite-utils
 ```
 
-Create `~/projects/memory-api/api_server.py` with a Flask server that has these endpoints:
+Create `~/projects/memory-api/api_server.py` with a Flask server (~800 lines) that has these endpoints:
 
+**Conversations:**
 | Method | Endpoint | Purpose |
 |--------|----------|---------|
-| GET | /health | Returns `{"status":"ok"}` |
-| POST | /conversation/log | Store a message `{role, content, channel}` |
+| POST | /conversation/log | Store a message `{role, content, channel}`. Auto-classifies importance (0.0-1.0) |
 | GET | /conversation/recent?limit=N | Get recent messages |
-| GET | /conversation/search?q= | Search messages |
+| GET | /conversation/search?q= | Full-text search messages |
+| GET | /conversation/stats | Stats by role, importance, summaries |
+| POST | /conversation/summarize | Generate weekly summaries (preserves originals) |
+
+**Memory & Entities:**
+| Method | Endpoint | Purpose |
+|--------|----------|---------|
 | POST | /memory | Store a memory `{name, type, content, description}` |
 | GET | /memory/list | List all memories |
 | GET | /memory/recall?topic= | Recall memories by topic |
@@ -109,14 +115,47 @@ Create `~/projects/memory-api/api_server.py` with a Flask server that has these 
 | DELETE | /memory/<id> | Delete a memory |
 | POST | /entity | Store an entity `{name, type, details}` |
 | GET | /entity/search?q= | Search entities |
-| GET | /kv/<key> | Get key-value |
-| PUT | /kv/<key> | Set key-value |
+
+**RAG / Search:**
+| Method | Endpoint | Purpose |
+|--------|----------|---------|
+| GET | /search/semantic?q= | Cosine similarity search over embeddings |
+| GET | /search/hybrid?q= | FTS5 + semantic combined via RRF, weighted by importance. Results enriched with weekly summaries |
+| GET | /embeddings/stats | Embedding count by type |
+| POST | /embeddings/reindex | Rebuild all embeddings |
+
+**Utility:**
+| Method | Endpoint | Purpose |
+|--------|----------|---------|
+| GET | /health | Returns `{"status":"ok"}` |
+| GET/PUT | /kv/<key> | Key-value store (used for UI state persistence) |
+| GET | /graph | Serve web visualization app |
+
+**Importance scoring** is automatic at insert time:
+- 1.0 — notes, saves, reminders (critical)
+- 0.8 — project actions, deploys, commits (high)
+- 0.6 — URLs, searches, investigations (medium)
+- 0.4 — user messages (normal)
+- 0.2 — assistant responses (low)
+- 0.1 — system/heartbeat/cron logs (minimal)
 
 The server should:
 - Listen on `0.0.0.0:7777`
 - Use SQLite via `sqlite-utils`
 - Store the database at `~/.claude/memory.db`
 - Enable CORS for all origins
+- Serve a web visualization at `/graph`
+
+### Web Visualization
+
+Also create an `index.html` in the same directory — a single-page web app served at `/graph` with four tabs:
+
+1. **Graph** — D3.js force-directed visualization of all conversations, memories, and entities as interactive nodes. Color-coded by type, draggable, zoomable.
+2. **Logs** — Chronological view of all conversation logs with collapsible date groups and search.
+3. **Architecture** — System diagram with draggable nodes showing all components and connections. Node positions persist server-side via the `/kv` endpoint.
+4. **RAG** — Semantic search dashboard with hybrid search interface, embedding stats, and result previews.
+
+The server serves this file when a browser hits `GET /graph`.
 
 Start it:
 ```bash
@@ -127,6 +166,7 @@ Verify:
 ```bash
 curl -s http://127.0.0.1:7777/health
 # Should return: {"status":"ok"}
+# Open http://localhost:7777/graph in browser to see the visualization
 ```
 
 ---
