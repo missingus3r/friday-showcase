@@ -461,8 +461,8 @@
 
         <!-- Section: Scheduled Jobs -->
         <section id="scheduled-jobs">
-            <h2>Scheduled Jobs (9 Crons)</h2>
-            <p>The system runs 9 autonomous cron jobs that keep it alive and learning:</p>
+            <h2>Scheduled Jobs (10 Crons)</h2>
+            <p>The system runs 10 autonomous cron jobs that keep it alive and learning:</p>
             <table class="stack-table">
                 <thead>
                     <tr>
@@ -476,16 +476,17 @@
                     <tr><td>1</td><td>Email check</td><td>Every 1h</td><td>Check inbox for new emails, notify if any</td></tr>
                     <tr><td>2</td><td>Cron watchdog</td><td>Every 6h</td><td>Verify no crons are about to expire (7-day TTL)</td></tr>
                     <tr><td>3</td><td>Daily briefing</td><td>Daily ~9 AM</td><td>Weather, currencies, AI news, movies + cron status</td></tr>
-                    <tr><td>4</td><td>Heartbeat</td><td>Every 1h</td><td>System health, verify all 9 crons, social check-in</td></tr>
+                    <tr><td>4</td><td>Heartbeat</td><td>Every 1h</td><td>System health, verify all 10 crons, social check-in</td></tr>
                     <tr><td>5</td><td>Monthly usage</td><td>End of month</td><td>API usage report across all services</td></tr>
-                    <tr><td>6</td><td>Daily reflection</td><td>Daily 23:27</td><td>Review logs for patterns, mistakes, insights</td></tr>
-                    <tr><td>7</td><td>Preference learning</td><td>Weekly (Sun)</td><td>Infer rules from repeated feedback corrections</td></tr>
+                    <tr><td>6</td><td>Reflection</td><td>Every 12h</td><td>Review logs for patterns, mistakes, insights</td></tr>
+                    <tr><td>7</td><td>Preference learning</td><td>Daily (night)</td><td>Infer rules from repeated feedback corrections</td></tr>
                     <tr><td>8</td><td>AI Model Monitor</td><td>Daily 10:17</td><td>Scan for new AI model releases, update index</td></tr>
                     <tr><td>9</td><td>Memory API health</td><td>Every 3h</td><td>Health check with auto-restart on failure</td></tr>
+                    <tr><td>10</td><td>Weekly summarization</td><td>Weekly (Sun)</td><td>Compress old conversation logs into weekly summaries</td></tr>
                 </tbody>
             </table>
             <p style="font-size:0.88rem;color:#94a3b8;margin-top:12px">
-                The heartbeat and briefing crons act as watchdogs &mdash; they verify all 9 jobs are active and recreate any that are missing.
+                The heartbeat and briefing crons act as watchdogs &mdash; they verify all 10 jobs are active and recreate any that are missing.
             </p>
         </section>
 

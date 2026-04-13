@@ -205,21 +205,22 @@ You have a persistent memory HTTP API running on `http://127.0.0.1:7777`.
 At the start of each session, perform these steps automatically:
 
 1. **Check memory API health**: `curl -s http://127.0.0.1:7777/health` — if the API is down, start it automatically and wait 2 seconds before verifying again.
-2. **Create all 9 cron jobs** (see list below). The heartbeat and briefing crons verify that all 9 are active and recreate any that are missing.
+2. **Create all 10 cron jobs** (see list below). The heartbeat and briefing crons verify that all 10 are active and recreate any that are missing.
 
-### The 9 Cron Jobs
+### The 10 Cron Jobs
 
 | # | Name | Schedule | What it does |
 |---|------|----------|-------------|
 | 1 | Email check | Every 1h (:13) | Check inbox for new emails, notify user if any |
 | 2 | Cron watchdog | Every 6h (:23) | Verify no crons are about to expire (7-day TTL), alert if any are |
 | 3 | Daily briefing | Daily ~9:00 AM | Weather, currencies, AI news, movies. Lists active crons at the end |
-| 4 | Heartbeat | Every 1h (:43) | System state check, verify all 9 crons active, recreate missing. Social message 1x/day (50/50) if no alerts. Silent between 00:00-08:00 |
+| 4 | Heartbeat | Every 1h (:43) | System state check, verify all 10 crons active, recreate missing. Social message 1x/day (50/50) if no alerts. Silent between 00:00-08:00 |
 | 5 | Monthly usage | Days 28-31, 10:03 | Run usage report script, remind user to send stats from other machines |
-| 6 | Daily reflection | Daily 23:27 | Review day's logs for patterns, mistakes, insights. Save to /reflection |
-| 7 | Weekly preference learning | Sundays 4:07 | Analyze feedback patterns, generate preference rules, propose code changes |
+| 6 | Reflection | Every 12h (11:27, 23:27) | Review logs for patterns, mistakes, insights. Save to /reflection |
+| 7 | Preference learning | Daily 3:07 | Analyze feedback patterns, generate preference rules, propose code changes |
 | 8 | AI Model Monitor | Daily 10:17 | Scan for new AI model releases (WebSearch + HuggingFace), update model index |
 | 9 | Memory API health | Every 3h (:33) | Check API health, auto-restart if down, notify user of failures |
+| 10 | Weekly summarization | Sundays 4:47 | Compress old conversation logs into weekly summaries (originals preserved) |
 
 ## Notes
 - When the user says "note" followed by text or a link:
@@ -305,7 +306,7 @@ claude --channels plugin:telegram@claude-plugins-official --dangerously-skip-per
 When Claude Code restarts with the Telegram plugin:
 1. Read `~/.claude/CLAUDE.md` — this is your instruction set
 2. Check memory API health — start the server if it's down
-3. Create all 9 cron jobs (email, watchdog, briefing, heartbeat, monthly usage, daily reflection, weekly preference learning, AI model monitor, memory API health)
+3. Create all 10 cron jobs (email, watchdog, briefing, heartbeat, monthly usage, reflection, preference learning, AI model monitor, memory API health, weekly summarization)
 4. Send a welcome message to the user via Telegram:
    > "System online. All crons active. Memory API connected. Send me a message anytime."
 5. Begin listening for Telegram messages
