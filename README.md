@@ -97,6 +97,22 @@ The memory system is a ~800-line Flask + SQLite server that handles everything: 
 
 > The entire memory layer is ~800 lines of Python. No vector database, no Redis, no Elasticsearch. Just Flask + SQLite + embeddings in the same DB file.
 
+## Self-Evolving System
+
+The assistant doesn't just follow instructions — it learns from its own behavior and improves over time.
+
+Five systems work together to make this happen:
+
+- **Skill Acquisition** — When the assistant solves a new type of task, it extracts the pattern and saves it as a reusable skill. Next time a similar request comes in, it already knows how to handle it. Skills are stored with trigger patterns and step-by-step procedures, and usage is tracked.
+- **Daily Self-Reflection** — Every night, a cron job reviews the day's conversation logs and asks: what went well? what went wrong? what patterns emerge? The conclusions are stored as reflections and feed back into future behavior.
+- **Preference Learning** — Instead of relying only on explicit corrections, the system periodically analyzes all past feedback looking for repeated patterns. If the user corrects the same type of mistake multiple times, it automatically infers a rule and applies it going forward.
+- **World Model** — The system builds an internal model of the user's behavior over time: when they're most active, what topics recur on certain days, what correlations exist between events. These insights are stored with confidence scores and expiration dates.
+- **Self-Improvement Proposals** — When the system detects something that could work better (a keyword list, a cron schedule, a scoring function), it creates a formal proposal with a description and diff preview. Changes are never applied automatically — the user approves or rejects each one via Telegram.
+
+All of this runs on the same memory server with no additional infrastructure. The data is visible in the Memory Graph's "Brain" tab — a dashboard showing learned skills, active preferences, daily reflections, world model insights, and pending proposals.
+
+> The result is a system that gets better at its job every day — not because the underlying model changes, but because it builds a growing library of skills, preferences, and behavioral patterns on top of it. The model stays the same. The assistant evolves.
+
 ## The $100 Question
 
 This entire system runs on a single **$100/month Anthropic Max Plan**. No cloud VMs running inference. No LangChain, no AutoGPT, no agent framework. Just Claude Code on a machine with MCP plugins.

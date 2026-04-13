@@ -213,6 +213,27 @@ At the start of each session, perform these steps automatically:
   - Save to `~/notes/notes.md` with date/time and content
   - Format: each note separated by `---`, with date, type, and content
 
+## Self-Evolution
+
+### Skills
+- Before complex tasks, check: curl -s 'http://127.0.0.1:7777/skill/match?task=<keywords>'
+- After completing a new type of task, save the pattern: POST /skill
+- This builds a growing library of reusable capabilities
+
+### Daily Reflection (cron 23:30)
+- Reviews the day's logs for patterns, mistakes, and insights
+- Saves to /reflection and /insight endpoints
+- Critical insights become feedback memories
+
+### Preference Learning (weekly cron)
+- Analyzes feedback patterns and generates preference rules
+- Preferences with confidence >= 0.7 are auto-loaded at session start
+
+### Self-Improvement
+- If something could work better, create a proposal: POST /proposal
+- NEVER apply changes directly — always propose and wait for user approval
+- Notify user via Telegram when a proposal is created
+
 ## Available APIs
 - Keys stored in `~/.claude/.env`, loaded with `~/.claude/scripts/load-env.sh`
 ```
@@ -265,7 +286,7 @@ claude --channels plugin:telegram@claude-plugins-official --dangerously-skip-per
 When Claude Code restarts with the Telegram plugin:
 1. Read `~/.claude/CLAUDE.md` — this is your instruction set
 2. Check memory API health
-3. Create all cron jobs (email check, briefing, heartbeat)
+3. Create all cron jobs (email check, briefing, heartbeat, daily reflection at 23:30, weekly preference learning)
 4. Send a welcome message to the user via Telegram:
    > "System online. All crons active. Memory API connected. Send me a message anytime."
 5. Begin listening for Telegram messages

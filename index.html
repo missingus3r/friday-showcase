@@ -331,6 +331,7 @@
                 <li><a href="#screenshots">Screenshots</a></li>
                 <li><a href="#capabilities">Capabilities</a></li>
                 <li><a href="#rag-memory">Memory Server</a></li>
+                <li><a href="#self-evolving">Self-Evolving System</a></li>
                 <li><a href="#the-100-question">The $100 Question</a></li>
                 <li><a href="#setup">Set It Up Yourself</a></li>
             </ul>
@@ -479,7 +480,33 @@
             </ul>
         </section>
 
-        <!-- Section 8: The $100 Question -->
+        <!-- Section 8: Self-Evolving System -->
+        <section id="self-evolving">
+            <h2>Self-Evolving System</h2>
+            <p>
+                The assistant doesn't just follow instructions &mdash; it learns from its own behavior and improves over time.
+            </p>
+            <p>
+                Five systems work together to make this happen:
+            </p>
+            <ul>
+                <li><strong>Skill Acquisition</strong> &mdash; When the assistant solves a new type of task, it extracts the pattern and saves it as a reusable skill. Next time a similar request comes in, it already knows how to handle it. Skills are stored with trigger patterns and step-by-step procedures, and usage is tracked.</li>
+                <li><strong>Daily Self-Reflection</strong> &mdash; Every night, a cron job reviews the day's conversation logs and asks: what went well? what went wrong? what patterns emerge? The conclusions are stored as reflections and feed back into future behavior.</li>
+                <li><strong>Preference Learning</strong> &mdash; Instead of relying only on explicit corrections, the system periodically analyzes all past feedback looking for repeated patterns. If the user corrects the same type of mistake multiple times, it automatically infers a rule and applies it going forward.</li>
+                <li><strong>World Model</strong> &mdash; The system builds an internal model of the user's behavior over time: when they're most active, what topics recur on certain days, what correlations exist between events. These insights are stored with confidence scores and expiration dates.</li>
+                <li><strong>Self-Improvement Proposals</strong> &mdash; When the system detects something that could work better (a keyword list, a cron schedule, a scoring function), it creates a formal proposal with a description and diff preview. Changes are never applied automatically &mdash; the user approves or rejects each one via Telegram.</li>
+            </ul>
+            <p>
+                All of this runs on the same memory server with no additional infrastructure. The data is visible in the Memory Graph's "Brain" tab &mdash; a dashboard showing learned skills, active preferences, daily reflections, world model insights, and pending proposals.
+            </p>
+            <div class="highlight-box">
+                <p>
+                    The result is a system that gets better at its job every day &mdash; not because the underlying model changes, but because it builds a growing library of skills, preferences, and behavioral patterns on top of it. The model stays the same. The assistant evolves.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 9: The $100 Question -->
         <section id="the-100-question">
             <h2>The $100 Question</h2>
             <p>
