@@ -94,7 +94,7 @@ source venv/bin/activate
 pip install flask sqlite-utils
 ```
 
-Create `~/projects/memory-graph/api_server.py` with a Flask server (~1300 lines) that has these endpoints:
+Have Claude Code generate `~/projects/memory-graph/api_server.py` as the core server in Python (Flask + SQLite) with these endpoints:
 
 **Conversations:**
 | Method | Endpoint | Purpose |
