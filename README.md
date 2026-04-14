@@ -83,24 +83,29 @@ The memory server includes a visual web endpoint that renders all stored logs, m
 - **Self-improvement proposals** — detects potential optimizations and creates formal proposals with diffs, never applying changes without explicit user approval
 - **Memory API health monitoring** — periodic health checks on the memory server with automatic restart if it goes down, and user notification on failures
 
-## Scheduled Jobs (10 Crons)
+## Scheduled Jobs (15 Crons)
 
-The system runs 10 autonomous cron jobs that keep it alive and learning:
+The system runs 15 autonomous cron jobs that keep it alive and learning (10 original + 5 added by the v2 harness):
 
 | # | Job | Schedule | Purpose |
 |---|-----|----------|---------|
 | 1 | Email check | Every 1h | Check inbox for new emails, notify if any |
 | 2 | Cron watchdog | Every 6h | Verify no crons are about to expire (7-day TTL) |
 | 3 | Daily briefing | Daily ~9 AM | Weather, currencies, AI news, movies + cron status |
-| 4 | Heartbeat | Every 1h | System health, verify all 10 crons active, social check-in |
+| 4 | Heartbeat | Every 1h | System health, verify all 15 crons active, social check-in |
 | 5 | Monthly usage | End of month | API usage report across all services |
 | 6 | Reflection | Every 12h | Review logs for patterns, mistakes, insights |
 | 7 | Preference learning | Daily (night) | Infer rules from repeated feedback corrections |
 | 8 | AI Model Monitor | Daily 10:17 | Scan for new AI model releases, update index |
 | 9 | Memory API health | Every 3h | Health check with auto-restart on failure |
 | 10 | Weekly summarization | Weekly (Sun) | Compress old conversation logs into weekly summaries |
+| 11 | **Goal priorizer** | Daily 9:37 | Flag goals with deadlines &lt; 3d or no progress &gt; 5d *(v2 harness)* |
+| 12 | **Memory decay** | Weekly (Sun) | Apply confidence half-life to unverified beliefs *(v2 harness)* |
+| 13 | **Daily metrics** | Daily 22:23 | Compute hallucination rate, calibration gap, etc. *(v2 harness)* |
+| 14 | **Predictions resolver** | Daily 21:53 | Close out predictions whose due_at has passed *(v2 harness)* |
+| 15 | **Skill promotion** | Daily 02:37 | Promote draft→beta→stable with guardrails *(v2 harness)* |
 
-The heartbeat and briefing crons act as watchdogs — they verify all 10 jobs are active and recreate any that are missing.
+The heartbeat and briefing crons act as watchdogs — they verify all 15 jobs are active and recreate any that are missing. The dashboard's [**Crons tab**](https://missingus3r.github.io/friday-showcase/harness.html#crons) gives a two-column diff: runtime-active with live countdowns to the next fire, and persisted-on-disk prompts with sync badges.
 
 ## Memory Server
 
@@ -142,6 +147,35 @@ All of this runs on the same memory server with no additional infrastructure. Th
 *The Brain tab: learned skills, active preferences, daily reflections, world model insights, and pending self-improvement proposals — all running on the same memory server.*
 
 > The result is a system that gets better at its job every day — not because the underlying model changes, but because it builds a growing library of skills, preferences, and behavioral patterns on top of it. The model stays the same. The assistant evolves.
+
+## v2 Update — Self-Evolving Harness (April 2026)
+
+The self-evolving core has been extended with a full **cognition harness**: a thin, entirely additive layer that turns Friday from "an LLM with tools" into a system that sets goals, plans, verifies, experiments, and measures whether it is actually improving.
+
+**What was added:** 13 new SQLite tables, ~60 new API endpoints, 5 new scheduled jobs, and 10 mandatory operational rules in `CLAUDE.md`. Nothing existing was removed — every new column is an `ALTER TABLE … IF NOT EXISTS`, so older databases upgrade in place.
+
+**8 subsystems:**
+
+| Subsystem | Purpose |
+|-----------|---------|
+| **Goal engine** | Persistent goals with utility, deadline, constraints, success criteria, subgoals, progress. `/goal/next` ranks by `utility × urgency × (1 − progress)`. |
+| **Hierarchical planner** | Plan trees: goal → sub-goal → action → tool → expected result → exit condition → rollback. Stored as executable structures, not text. |
+| **Three-layer memory** | Episodic (what happened), semantic (stable facts), procedural (skills). Every row carries `provenance`, `confidence`, `last_verified`. Weekly decay cron. |
+| **Causal world model** | `wm_entities` (state), `wm_relations` (subject-predicate-object), `wm_events` (with causes/effects), `wm_predictions` (testable claims with calibration gap). |
+| **Self-knowledge & autonomy** | `capabilities` with Bayesian-calibrated confidence + 6-rung autonomy ladder (L0 suggest → L5 self-modify with rollback). Gate: `/autonomy/check`. |
+| **Verifier & sandbox** | Explicit `factual / consistency / goal_alignment / hallucination / uncertainty / evidence` checks. Dry-run / simulation / live execution modes. |
+| **Experiments & skill compiler** | A/B variants with min-delta & min-samples guardrails. Skills gain maturity (draft → beta → stable → deprecated) with promotion rules. |
+| **Metrics** | 11 KPI catalog: `hallucination_rate`, `calibration_gap`, `goals_completed_per_week`, `skill_success_rate`, etc. Daily cron records them. |
+
+**Consolidated Brain dashboard** — eight responsive sections (Overview, Goals, Memory, World, Self, Safety, Learning, Metrics) behind a sticky sub-nav, all in a single audit surface.
+
+**Crons dashboard** — runtime snapshot with live countdowns + disk-persisted prompts with sync badges.
+
+### → [**Read the full technical deep-dive: The Self-Evolving Harness**](https://missingus3r.github.io/friday-showcase/harness.html)
+
+Sections: [Why](https://missingus3r.github.io/friday-showcase/harness.html#why) · [Blueprint](https://missingus3r.github.io/friday-showcase/harness.html#blueprint) · [Goals](https://missingus3r.github.io/friday-showcase/harness.html#goals) · [Memory](https://missingus3r.github.io/friday-showcase/harness.html#memory) · [World model](https://missingus3r.github.io/friday-showcase/harness.html#world-model) · [Self-knowledge](https://missingus3r.github.io/friday-showcase/harness.html#self) · [Safety](https://missingus3r.github.io/friday-showcase/harness.html#safety) · [Learning](https://missingus3r.github.io/friday-showcase/harness.html#learning) · [Metrics](https://missingus3r.github.io/friday-showcase/harness.html#metrics) · [Wiring](https://missingus3r.github.io/friday-showcase/harness.html#wiring) · [Brain dashboard](https://missingus3r.github.io/friday-showcase/harness.html#brain) · [Crons dashboard](https://missingus3r.github.io/friday-showcase/harness.html#crons)
+
+> **Golden rule embedded in `CLAUDE.md`:** no unrecorded autonomy. Every goal created, plan node executed, action sandboxed, prediction resolved or skill promoted leaves a row. The dashboards are where a human audits whether the system is earning its autonomy, one row at a time.
 
 ## The $100 Question
 
