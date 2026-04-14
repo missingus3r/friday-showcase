@@ -109,7 +109,7 @@ The heartbeat and briefing crons act as watchdogs — they verify all 15 jobs ar
 
 ## Memory Server
 
-> Code: [**github.com/missingus3r/memory-graph**](https://github.com/missingus3r/memory-graph) — standalone repo with the single Python file + the dashboard HTML.
+> Reference snapshot of my instance: [**github.com/missingus3r/memory-graph**](https://github.com/missingus3r/memory-graph). ⚠️ That repo is **not a template to clone** — the code there is **generated autonomously by Claude Code** when it follows the [SETUP.md](SETUP.md) in this repo. Every user ends up with a slightly different version. Use SETUP.md to generate your own; the memory-graph repo is only committed as the source for the screenshots and as a reference of what the output looks like.
 
 Claude Code generates a single Flask + SQLite server file that handles everything: conversation logging, long-term memory, entity tracking, key-value storage, and RAG with vector embeddings. No external vector database — embeddings are stored as BLOBs in the same SQLite file.
 
