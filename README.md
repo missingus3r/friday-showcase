@@ -109,6 +109,8 @@ The heartbeat and briefing crons act as watchdogs — they verify all 15 jobs ar
 
 ## Memory Server
 
+> Code: [**github.com/missingus3r/memory-graph**](https://github.com/missingus3r/memory-graph) — standalone repo with the single Python file + the dashboard HTML.
+
 Claude Code generates a single Flask + SQLite server file that handles everything: conversation logging, long-term memory, entity tracking, key-value storage, and RAG with vector embeddings. No external vector database — embeddings are stored as BLOBs in the same SQLite file.
 
 **Core features:**
