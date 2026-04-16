@@ -150,6 +150,32 @@ All of this runs on the same memory server with no additional infrastructure. Th
 
 > The result is a system that gets better at its job every day — not because the underlying model changes, but because it builds a growing library of skills, preferences, and behavioral patterns on top of it. The model stays the same. The assistant evolves.
 
+## The $100 Question
+
+This entire system runs on a single **$100/month Anthropic Max Plan**. No cloud VMs running inference. No LangChain, no AutoGPT, no agent framework. Just Claude Code on a machine with MCP plugins.
+
+> The key insight: Claude Code is not just a coding assistant — it is a general-purpose autonomous agent runtime. Give it tools, instructions, and a schedule, and it becomes a full 24/7 assistant. The $100 plan provides (almost) unlimited access to one of the most capable AI models available, with native tool use and long context. That is enough.
+
+## Set It Up Yourself
+
+Download the [SETUP.md](SETUP.md) file and pass it to a fresh Claude Code session. It will walk through every step autonomously — creating the Telegram bot config, memory server, API keys, and CLAUDE.md. You just approve and follow along.
+
+Open Claude Code and type:
+
+```
+Read the file ~/Downloads/SETUP.md and follow every step in it to set up a 24/7 AI assistant on this machine. Ask me for confirmation before each major step.
+```
+
+That's it. Claude Code reads the guide and walks you through the entire setup autonomously.
+
+Once everything is set up, start the assistant with:
+
+```bash
+claude --channels plugin:telegram@claude-plugins-official --dangerously-skip-permissions
+```
+
+That's it. Claude Code reads your CLAUDE.md, connects to Telegram, creates all cron jobs, and starts running autonomously.
+
 ## v2 Update — Self-Evolving Harness (April 2026)
 
 The self-evolving core has been extended with a full **cognition harness**: a thin, entirely additive layer that turns Friday from "an LLM with tools" into a system that sets goals, plans, verifies, experiments, and measures whether it is actually improving.
@@ -178,32 +204,6 @@ The self-evolving core has been extended with a full **cognition harness**: a th
 Sections: [Why](https://missingus3r.github.io/friday-showcase/harness.html#why) · [Blueprint](https://missingus3r.github.io/friday-showcase/harness.html#blueprint) · [Goals](https://missingus3r.github.io/friday-showcase/harness.html#goals) · [Memory](https://missingus3r.github.io/friday-showcase/harness.html#memory) · [World model](https://missingus3r.github.io/friday-showcase/harness.html#world-model) · [Self-knowledge](https://missingus3r.github.io/friday-showcase/harness.html#self) · [Safety](https://missingus3r.github.io/friday-showcase/harness.html#safety) · [Learning](https://missingus3r.github.io/friday-showcase/harness.html#learning) · [Metrics](https://missingus3r.github.io/friday-showcase/harness.html#metrics) · [Wiring](https://missingus3r.github.io/friday-showcase/harness.html#wiring) · [Brain dashboard](https://missingus3r.github.io/friday-showcase/harness.html#brain) · [Crons dashboard](https://missingus3r.github.io/friday-showcase/harness.html#crons)
 
 > **Golden rule embedded in `CLAUDE.md`:** no unrecorded autonomy. Every goal created, plan node executed, action sandboxed, prediction resolved or skill promoted leaves a row. The dashboards are where a human audits whether the system is earning its autonomy, one row at a time.
-
-## The $100 Question
-
-This entire system runs on a single **$100/month Anthropic Max Plan**. No cloud VMs running inference. No LangChain, no AutoGPT, no agent framework. Just Claude Code on a machine with MCP plugins.
-
-> The key insight: Claude Code is not just a coding assistant — it is a general-purpose autonomous agent runtime. Give it tools, instructions, and a schedule, and it becomes a full 24/7 assistant. The $100 plan provides (almost) unlimited access to one of the most capable AI models available, with native tool use and long context. That is enough.
-
-## Set It Up Yourself
-
-Download the [SETUP.md](SETUP.md) file and pass it to a fresh Claude Code session. It will walk through every step autonomously — creating the Telegram bot config, memory server, API keys, and CLAUDE.md. You just approve and follow along.
-
-Open Claude Code and type:
-
-```
-Read the file ~/Downloads/SETUP.md and follow every step in it to set up a 24/7 AI assistant on this machine. Ask me for confirmation before each major step.
-```
-
-That's it. Claude Code reads the guide and walks you through the entire setup autonomously.
-
-Once everything is set up, start the assistant with:
-
-```bash
-claude --channels plugin:telegram@claude-plugins-official --dangerously-skip-permissions
-```
-
-That's it. Claude Code reads your CLAUDE.md, connects to Telegram, creates all cron jobs, and starts running autonomously.
 
 ---
 
