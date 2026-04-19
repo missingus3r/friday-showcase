@@ -206,10 +206,6 @@ The self-evolving core has been extended with a full **cognition harness**: a th
 
 **Crons dashboard** — runtime snapshot with live countdowns + disk-persisted prompts with sync badges.
 
-### → [**Read the full technical deep-dive: The Self-Evolving Harness**](https://missingus3r.github.io/friday-showcase/harness.html)
-
-Sections: [Why](https://missingus3r.github.io/friday-showcase/harness.html#why) · [Blueprint](https://missingus3r.github.io/friday-showcase/harness.html#blueprint) · [Goals](https://missingus3r.github.io/friday-showcase/harness.html#goals) · [Memory](https://missingus3r.github.io/friday-showcase/harness.html#memory) · [World model](https://missingus3r.github.io/friday-showcase/harness.html#world-model) · [Self-knowledge](https://missingus3r.github.io/friday-showcase/harness.html#self) · [Safety](https://missingus3r.github.io/friday-showcase/harness.html#safety) · [Learning](https://missingus3r.github.io/friday-showcase/harness.html#learning) · [Metrics](https://missingus3r.github.io/friday-showcase/harness.html#metrics) · [Wiring](https://missingus3r.github.io/friday-showcase/harness.html#wiring) · [Brain dashboard](https://missingus3r.github.io/friday-showcase/harness.html#brain) · [Crons dashboard](https://missingus3r.github.io/friday-showcase/harness.html#crons) · [Disaster recovery](https://missingus3r.github.io/friday-showcase/harness.html#disaster-recovery)
-
 > **Golden rule embedded in `CLAUDE.md`:** no unrecorded autonomy. Every goal created, plan node executed, action sandboxed, prediction resolved or skill promoted leaves a row. The dashboards are where a human audits whether the system is earning its autonomy, one row at a time.
 
 ---
