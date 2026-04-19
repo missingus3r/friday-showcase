@@ -12,6 +12,15 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
   "accent": "#06b6d4",
   "mode": "dark"
 }/*EDITMODE-END*/;
+// Apply persisted theme synchronously before paint to avoid FOUC
+try{
+  const saved = JSON.parse(localStorage.getItem('friday_tweaks') || 'null');
+  if(saved && typeof saved === 'object'){
+    if(saved.mode) TWEAKS.mode = saved.mode;
+    if(saved.accent) TWEAKS.accent = saved.accent;
+    document.documentElement.setAttribute('data-mode', TWEAKS.mode);
+  }
+}catch(e){}
 </script>
 <style>
   :root{
@@ -645,6 +654,9 @@ document.getElementById('copyBtn').addEventListener('click',()=>{
 
 // ---- Tweaks ----
 const root = document.documentElement;
+function persistTweaks(){
+  try{ localStorage.setItem('friday_tweaks', JSON.stringify({mode:TWEAKS.mode, accent:TWEAKS.accent})); }catch(e){}
+}
 function applyTweaks(t){
   root.style.setProperty('--accent', t.accent);
   // derive soft bg from accent (approx)
@@ -663,19 +675,19 @@ function hexToRgba(hex, a){
 applyTweaks(TWEAKS);
 document.querySelectorAll('#sw .sw').forEach(el=>{
   el.addEventListener('click',()=>{
-    TWEAKS.accent = el.dataset.c; applyTweaks(TWEAKS);
+    TWEAKS.accent = el.dataset.c; applyTweaks(TWEAKS); persistTweaks();
     window.parent?.postMessage({type:'__edit_mode_set_keys', edits:{accent:TWEAKS.accent}},'*');
   });
 });
 document.querySelectorAll('.mode-row button').forEach(b=>{
   b.addEventListener('click',()=>{
-    TWEAKS.mode = b.dataset.m; applyTweaks(TWEAKS);
+    TWEAKS.mode = b.dataset.m; applyTweaks(TWEAKS); persistTweaks();
     window.parent?.postMessage({type:'__edit_mode_set_keys', edits:{mode:TWEAKS.mode}},'*');
   });
 });
 document.querySelectorAll('#themeToggle button').forEach(b=>{
   b.addEventListener('click',()=>{
-    TWEAKS.mode = b.dataset.theme; applyTweaks(TWEAKS);
+    TWEAKS.mode = b.dataset.theme; applyTweaks(TWEAKS); persistTweaks();
     window.parent?.postMessage({type:'__edit_mode_set_keys', edits:{mode:TWEAKS.mode}},'*');
   });
 });
