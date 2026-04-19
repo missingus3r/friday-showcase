@@ -108,7 +108,7 @@ The system runs 18 autonomous cron jobs that keep it alive and learning (10 orig
 | 17 | **World model grower** | Daily 06:53 | Detect 2+ mentions of same topic/entity/behavior in last 24h, POST /worldmodel + auto-insert /entity rows *(v2 harness)* |
 | 18 | **Auto-audit** | 3x/day (8:19, 14:19, 20:19) | Integrity scan: empty reflections, stale core tables, capabilities fail rate >50%, predictions overdue. Notify on errors *(v2 harness)* |
 
-The heartbeat and briefing crons act as watchdogs — they verify all 18 jobs are active and recreate any that are missing. The dashboard's [**Crons tab**](https://missingus3r.github.io/friday-showcase/harness.html#crons) gives a two-column diff: runtime-active with live countdowns to the next fire, and persisted-on-disk prompts with sync badges.
+The heartbeat and briefing crons act as watchdogs — they verify all 18 jobs are active and recreate any that are missing. The dashboard's **Crons tab** gives a two-column diff: runtime-active with live countdowns to the next fire, and persisted-on-disk prompts with sync badges.
 
 ### Disaster recovery
 

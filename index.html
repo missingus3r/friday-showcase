@@ -1,657 +1,664 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Friday — A 24/7 AI Assistant Built Entirely on Claude Code</title>
-    <meta name="description" content="Friday: An always-on personal AI system using only Claude Code CLI and Telegram. No custom AI, no cloud VMs, no fine-tuning.">
-    <meta property="og:title" content="Friday — A 24/7 AI Assistant Built Entirely on Claude Code">
-    <meta property="og:description" content="An always-on personal AI system using only Claude Code CLI ($100/month) and Telegram.">
-    <meta property="og:type" content="article">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Friday — A 24/7 AI Assistant Built Entirely on Claude Code">
-    <meta name="twitter:description" content="An always-on personal AI system using only Claude Code CLI ($100/month) and Telegram.">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a12'/%3E%3Ccircle cx='32' cy='28' r='12' fill='none' stroke='%2322d3ee' stroke-width='2.5'/%3E%3Ccircle cx='32' cy='28' r='4' fill='%2322d3ee' opacity='0.6'/%3E%3Cpath d='M20 44 Q32 38 44 44' stroke='%2322d3ee' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Friday — a 24/7 AI assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+const TWEAKS = /*EDITMODE-BEGIN*/{
+  "accent": "#06b6d4",
+  "mode": "dark"
+}/*EDITMODE-END*/;
+</script>
+<style>
+  :root{
+    --bg:#0b0c0d;
+    --surface:#111214;
+    --ink:#f4f5f6;
+    --ink-2:#a8acb1;
+    --ink-3:#6b7076;
+    --line:#1f2124;
+    --line-2:#2a2d31;
+    --accent:#22d3ee;
+    --accent-soft: rgba(34,211,238,.14);
+    --sans:"Inter", ui-sans-serif, system-ui, sans-serif;
+    --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+  }
+  [data-mode="light"]{
+    --bg:#fafafa; --surface:#ffffff;
+    --ink:#0e0f10; --ink-2:#51565c; --ink-3:#8a9099;
+    --line:#e7e8ea; --line-2:#d4d6d9;
+    --accent-soft: rgba(34,211,238,.16);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.55}
+  a{color:inherit}
+  ::selection{background:var(--accent);color:#000}
 
-        body {
-            background: #0a0a12;
-            color: #c9d1d9;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 17px;
-            line-height: 1.8;
-            -webkit-font-smoothing: antialiased;
-        }
+  .wrap{max-width:880px;margin:0 auto;padding:0 28px;text-align:center}
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 60px 24px 80px;
-        }
+  /* Top nav */
+  nav.top{display:flex;align-items:center;justify-content:space-between;padding:22px 28px;border-bottom:1px solid var(--line);max-width:100%;}
+  .mark{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;letter-spacing:.02em}
+  .pulse{width:7px;height:7px;border-radius:50%;background:var(--accent);position:relative}
+  .pulse::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--accent);opacity:.4;animation:ring 2.4s ease-out infinite}
+  @keyframes ring{0%{transform:scale(.6);opacity:.7}100%{transform:scale(2);opacity:0}}
+  nav.top .status{font-family:var(--mono);font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.12em}
 
-        /* Header */
-        .article-header {
-            margin-bottom: 48px;
-            padding-bottom: 36px;
-            border-bottom: 1px solid #1e1e30;
-        }
+  /* Hero */
+  header.hero{padding:140px 0 120px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:28px}
+  h1{font-size:68px;font-weight:300;line-height:1.02;letter-spacing:-.03em;margin:0 auto 28px;max-width:18ch;text-wrap:balance}
+  h1 b{font-weight:500;color:var(--ink)}
+  .lede{font-size:18px;color:var(--ink-2);max-width:52ch;margin:0 auto;font-weight:300}
+  .hero-meta{margin-top:56px;display:flex;justify-content:center;gap:0;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-3)}
+  .hero-meta div{padding:0 24px;border-right:1px solid var(--line)}
+  .hero-meta div:last-child{border-right:none}
+  .hero-meta b{display:block;font-family:var(--sans);font-size:14px;font-weight:500;color:var(--ink);margin-top:6px;letter-spacing:0;text-transform:none}
 
-        .article-header h1 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #e6edf3;
-            line-height: 1.3;
-            margin-bottom: 16px;
-            letter-spacing: -0.02em;
-        }
+  /* Section */
+  section{padding:100px 0;border-top:1px solid var(--line)}
+  .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);margin-bottom:20px}
+  h2{font-size:40px;font-weight:300;line-height:1.08;letter-spacing:-.02em;margin:0 auto 20px;max-width:20ch;text-wrap:balance}
+  h2 b{font-weight:500}
+  p.body{font-size:17px;color:var(--ink-2);max-width:58ch;margin:0 auto;font-weight:300}
+  p.body + p.body{margin-top:14px}
 
-        .article-header .subtitle {
-            font-size: 1.05rem;
-            color: #8b949e;
-            line-height: 1.7;
-            max-width: 700px;
-        }
+  /* Diagram — simple linear flow */
+  .diagram{margin:56px auto 0;max-width:640px;text-align:left;font-family:var(--mono);font-size:13px}
+  .diagram .row{display:grid;grid-template-columns:90px 24px 1fr;align-items:center;gap:18px;padding:12px 0;border-bottom:1px solid var(--line);color:var(--ink-2);transition:color .2s ease}
+  .diagram .row .k{color:var(--ink-3);font-size:10px;letter-spacing:.18em;text-transform:uppercase}
+  .diagram .row .arrow{color:var(--ink-3);text-align:center}
+  .diagram .row.on{color:var(--ink)}
+  .diagram .row.on .k, .diagram .row.on .arrow{color:var(--accent)}
+  .diagram .center{display:grid;grid-template-columns:90px 24px 1fr;align-items:center;gap:18px;padding:20px 0;border-bottom:1px solid var(--line)}
+  .diagram .center .brain{font-size:15px;font-weight:500;color:var(--ink);font-family:var(--sans);display:flex;align-items:center;gap:10px}
+  .diagram .center .brain .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+  .diagram .center .tag{font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:.16em;text-transform:uppercase}
 
-        .article-meta {
-            margin-top: 20px;
-            font-size: 0.85rem;
-            color: #555e6b;
-        }
+  /* Capabilities */
+  .caps{margin-top:48px;display:grid;grid-template-columns:repeat(2,1fr);gap:0;max-width:720px;margin-left:auto;margin-right:auto;text-align:left;border-top:1px solid var(--line)}
+  .cap{display:flex;align-items:baseline;gap:16px;padding:18px 8px;border-bottom:1px solid var(--line);transition:background .2s ease}
+  .cap:hover{background:var(--surface)}
+  .cap .n{font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:.14em;width:28px}
+  .cap .t{font-size:15px;font-weight:500;flex:1}
+  .cap .d{font-size:13px;color:var(--ink-3);font-family:var(--mono)}
+  .cap:hover .n{color:var(--accent)}
 
-        /* Table of Contents */
-        .toc {
-            margin-bottom: 40px;
-            padding: 20px 24px;
-            background: #12121e;
-            border: 1px solid #1e1e30;
-            border-radius: 8px;
-        }
+  /* Stack */
+  .stack{margin:40px auto 0;max-width:520px;text-align:left}
+  .stack .row{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .stack .row b{font-weight:500;color:var(--ink)}
+  .stack .row span{font-family:var(--mono);font-size:12px;color:var(--ink-3)}
 
-        .toc-title {
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: #555e6b;
-            margin-bottom: 10px;
-        }
+  /* Steps */
+  .steps{margin:48px auto 0;max-width:560px;text-align:left}
+  .step{display:grid;grid-template-columns:40px 1fr;gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
+  .step .sn{font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.14em;padding-top:2px}
+  .step b{display:block;font-weight:500;font-size:15px;margin-bottom:4px}
+  .step span{color:var(--ink-3);font-size:13px}
 
-        .toc ul {
-            list-style: none;
-            padding-left: 0;
-            margin-bottom: 0;
-        }
+  /* Terminal */
+  .terminal{margin:36px auto 0;max-width:640px;background:#06070a;border:1px solid var(--line);border-radius:10px;padding:18px 22px;font-family:var(--mono);font-size:13px;line-height:1.7;text-align:left;position:relative}
+  [data-mode="light"] .terminal{background:#0e0f10;color:#f4f5f6}
+  .terminal .bar{display:flex;gap:6px;margin-bottom:14px}
+  .terminal .bar i{width:9px;height:9px;border-radius:50%;background:#2a2d31;display:inline-block}
+  .terminal .cmd{color:#f4f5f6;word-break:break-all}
+  .terminal .prompt{color:var(--accent)}
+  .terminal .flag{color:var(--accent)}
+  .terminal .out{color:#6b7076;margin-top:12px;font-size:12px}
+  .terminal .out div{margin-top:2px}
+  .copy{position:absolute;top:14px;right:14px;background:transparent;border:1px solid #2a2d31;color:#a8acb1;font-family:var(--mono);font-size:10px;padding:5px 10px;border-radius:4px;cursor:pointer;letter-spacing:.1em;text-transform:uppercase}
+  .copy:hover{border-color:var(--accent);color:var(--accent)}
 
-        .toc li {
-            margin-bottom: 4px;
-            font-size: 0.88rem;
-        }
+  /* Pull quote */
+  .pull{margin:0 auto;max-width:34ch;font-size:26px;font-weight:300;line-height:1.3;color:var(--ink);letter-spacing:-.01em}
+  .pull b{color:var(--accent);font-weight:400}
+  .pull-attr{font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:.2em;text-transform:uppercase;margin-top:20px}
 
-        .toc a {
-            color: #22d3ee;
-            text-decoration: none;
-        }
+  /* Footer */
+  footer{padding:80px 0 80px;border-top:1px solid var(--line)}
+  footer .tag{font-size:14px;color:var(--ink-3);max-width:46ch;margin:0 auto 24px;font-weight:300}
+  footer .links{display:flex;justify-content:center;gap:20px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2)}
+  footer .links a{text-decoration:none;padding:6px 0;border-bottom:1px solid transparent}
+  footer .links a:hover{color:var(--accent);border-color:var(--accent)}
 
-        .toc a:hover {
-            text-decoration: underline;
-        }
+  /* Tweaks */
+  .tweaks{position:fixed;right:20px;bottom:20px;width:240px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;font-size:13px;z-index:50;display:none;text-align:left}
+  .tweaks.on{display:block}
+  .tweaks h4{margin:0 0 12px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
+  .tweaks label{display:block;margin-bottom:10px}
+  .tweaks label span{display:block;font-family:var(--mono);font-size:9px;color:var(--ink-3);letter-spacing:.14em;margin-bottom:6px;text-transform:uppercase}
+  .tweaks .sw{width:22px;height:22px;border-radius:50%;border:1px solid var(--line-2);cursor:pointer;display:inline-block;margin-right:4px}
+  .tweaks .sw.on{box-shadow:0 0 0 2px var(--bg), 0 0 0 3px var(--accent)}
+  .tweaks .mode-row button{background:var(--bg);border:1px solid var(--line-2);color:var(--ink-2);font-family:var(--mono);font-size:10px;padding:6px 12px;border-radius:4px;cursor:pointer;letter-spacing:.1em;margin-right:6px;text-transform:uppercase}
+  .tweaks .mode-row button.on{border-color:var(--accent);color:var(--accent)}
 
-        /* Sections */
-        section {
-            margin-bottom: 40px;
-        }
+  @media (max-width: 720px){
+    h1{font-size:44px}
+    h2{font-size:30px}
+    .hero-meta{flex-wrap:wrap;gap:12px 0}
+    .grid-nodes{grid-template-columns:repeat(2,1fr)}
+    .caps{grid-template-columns:1fr}
+    .wires{display:none}
+    .modal{inset:0;border-radius:0;max-width:100%}
+    .modal-body{padding:24px 20px 40px}
+  }
 
-        h2 {
-            font-size: 1.45rem;
-            font-weight: 600;
-            color: #e6edf3;
-            margin-bottom: 14px;
-            padding-left: 16px;
-            border-left: 3px solid #22d3ee;
-            line-height: 1.4;
-        }
+  /* Modal */
+  .open-modal{display:inline-flex;align-items:center;gap:10px;margin-top:36px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);background:transparent;border:1px solid var(--line-2);padding:12px 18px;border-radius:4px;cursor:pointer;transition:all .2s ease}
+  .open-modal:hover{border-color:var(--accent);color:var(--accent)}
+  .open-modal .plus{color:var(--accent);font-size:14px;line-height:1}
 
-        p {
-            margin-bottom: 14px;
-            color: #b0b8c1;
-        }
+  .modal-scrim{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(4px);z-index:90;display:none}
+  .modal-scrim.on{display:block}
+  .modal{position:fixed;inset:5vh 0 5vh 0;margin:0 auto;max-width:780px;background:var(--surface);border:1px solid var(--line);border-radius:10px;z-index:100;display:none;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .modal.on{display:flex}
+  .modal-head{display:flex;justify-content:space-between;align-items:center;padding:18px 28px;border-bottom:1px solid var(--line);flex-shrink:0}
+  .modal-head h3{margin:0;font-size:15px;font-weight:500;display:flex;align-items:center;gap:10px}
+  .modal-head .close{background:transparent;border:1px solid var(--line-2);color:var(--ink-2);font-family:var(--mono);font-size:11px;padding:6px 12px;border-radius:4px;cursor:pointer;letter-spacing:.12em;text-transform:uppercase}
+  .modal-head .close:hover{border-color:var(--accent);color:var(--accent)}
+  .modal-body{overflow-y:auto;padding:32px 40px 48px;text-align:left;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+  .modal-body::-webkit-scrollbar{width:6px}
+  .modal-body::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:3px}
 
-        a {
-            color: #22d3ee;
-            text-decoration: none;
-        }
+  .modal-body h4{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:40px 0 14px;font-weight:500}
+  .modal-body h4:first-child{margin-top:0}
+  .modal-body h5{font-size:20px;font-weight:400;margin:0 0 14px;letter-spacing:-.01em}
+  .modal-body p{font-size:14px;color:var(--ink-2);margin:0 0 14px;line-height:1.65}
+  .modal-body p b, .modal-body li b{color:var(--ink);font-weight:500}
+  .modal-body ul{padding-left:0;list-style:none;margin:0 0 14px}
+  .modal-body ul li{font-size:14px;color:var(--ink-2);padding:10px 0 10px 22px;border-bottom:1px solid var(--line);position:relative;line-height:1.55}
+  .modal-body ul li::before{content:"—";position:absolute;left:0;color:var(--accent)}
+  .modal-body pre{background:#06070a;border:1px solid var(--line);border-radius:6px;padding:14px 16px;font-family:var(--mono);font-size:11px;color:#e7e8ea;overflow-x:auto;margin:0 0 18px;line-height:1.6;white-space:pre}
+  .modal-body table{width:100%;border-collapse:collapse;margin:0 0 18px;font-size:13px}
+  .modal-body table td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  .modal-body table.stack-t td:first-child{color:var(--ink);font-weight:500;width:38%}
+  .modal-body table.stack-t td:last-child{color:var(--ink-2);font-family:var(--mono);font-size:12px}
+  .modal-body table.cron-t td:nth-child(1){font-family:var(--mono);font-size:10px;color:var(--ink-3);width:22px}
+  .modal-body table.cron-t td:nth-child(2){color:var(--ink);font-weight:500;width:28%}
+  .modal-body table.cron-t td:nth-child(3){font-family:var(--mono);font-size:10px;color:var(--ink-3);white-space:nowrap;width:22%}
+  .modal-body table.cron-t td:nth-child(4){color:var(--ink-2);font-size:12px}
+  .modal-body a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)}
+  .modal-body figure{margin:18px 0 24px;padding:0}
+  .modal-body figure img{width:100%;height:auto;border:1px solid var(--line);border-radius:6px;display:block;background:#06070a}
+  .modal-body figure figcaption{font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:.1em;margin-top:10px;text-align:center;line-height:1.5;padding:0 8px}
+  body.modal-open{overflow:hidden}
 
-        a:hover {
-            text-decoration: underline;
-        }
-
-        strong {
-            color: #d1d9e0;
-            font-weight: 600;
-        }
-
-        /* Lists */
-        ul, ol {
-            margin-bottom: 14px;
-            padding-left: 24px;
-        }
-
-        li {
-            margin-bottom: 6px;
-            color: #b0b8c1;
-        }
-
-        li strong {
-            color: #c9d1d9;
-        }
-
-        /* Code blocks */
-        pre {
-            background: #1a1a2e;
-            border: 1px solid #262640;
-            border-radius: 8px;
-            padding: 20px 24px;
-            overflow-x: auto;
-            margin-bottom: 18px;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 0.85rem;
-            line-height: 1.7;
-            color: #c9d1d9;
-        }
-
-        code {
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 0.88em;
-        }
-
-        p code, li code {
-            background: #1a1a2e;
-            padding: 2px 7px;
-            border-radius: 4px;
-            font-size: 0.85em;
-            color: #d1d9e0;
-        }
-
-        /* Diagram */
-        .diagram-label {
-            color: #22d3ee;
-        }
-
-        .diagram-arrow {
-            color: #555e6b;
-        }
-
-        .diagram-desc {
-            color: #8b949e;
-        }
-
-        /* Table */
-        .stack-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 18px;
-            font-size: 0.95rem;
-        }
-
-        .stack-table th {
-            text-align: left;
-            padding: 10px 14px;
-            background: #1a1a2e;
-            color: #e6edf3;
-            font-weight: 600;
-            border-bottom: 2px solid #262640;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-
-        .stack-table td {
-            padding: 10px 14px;
-            border-bottom: 1px solid #1e1e30;
-            color: #b0b8c1;
-        }
-
-        .stack-table td:first-child {
-            color: #d1d9e0;
-            font-weight: 500;
-            white-space: nowrap;
-        }
-
-        .stack-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* Screenshots */
-        .screenshot {
-            margin: 24px 0;
-        }
-
-        .screenshot img {
-            width: 100%;
-            border-radius: 8px;
-            border: 1px solid #262640;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
-        }
-
-        .screenshot figcaption {
-            margin-top: 10px;
-            font-size: 0.85rem;
-            color: #6b7280;
-            text-align: center;
-            line-height: 1.5;
-        }
-
-        /* Highlight box */
-        .highlight-box {
-            background: #12121e;
-            border: 1px solid #1e1e30;
-            border-left: 3px solid #22d3ee;
-            border-radius: 6px;
-            padding: 18px 22px;
-            margin: 20px 0;
-        }
-
-        .highlight-box p {
-            margin-bottom: 0;
-            color: #c9d1d9;
-        }
-
-        /* Footer */
-        .article-footer {
-            margin-top: 56px;
-            padding-top: 28px;
-            border-top: 1px solid #1e1e30;
-            font-size: 0.88rem;
-            color: #555e6b;
-            text-align: center;
-            line-height: 1.8;
-        }
-
-        .article-footer a {
-            color: #8b949e;
-        }
-
-        .article-footer a:hover {
-            color: #22d3ee;
-        }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            .container {
-                padding: 40px 18px 60px;
-            }
-
-            .article-header h1 {
-                font-size: 1.6rem;
-            }
-
-            .article-header .subtitle {
-                font-size: 0.95rem;
-            }
-
-            h2 {
-                font-size: 1.25rem;
-            }
-
-            pre {
-                padding: 16px;
-                font-size: 0.78rem;
-            }
-        }
-    </style>
+  /* Theme toggle */
+  .theme-toggle{display:inline-flex;align-items:center;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+  .theme-toggle button{background:transparent;border:none;color:inherit;font:inherit;letter-spacing:inherit;padding:6px 12px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:color .2s ease}
+  .theme-toggle button svg{width:12px;height:12px}
+  .theme-toggle button.on{background:var(--accent);color:#06070a}
+</style>
 </head>
 <body>
-    <article class="container">
 
-        <header class="article-header">
-            <h1>Friday &mdash; A 24/7 AI Assistant Built Entirely on Claude Code</h1>
-            <p class="subtitle">
-                An always-on personal AI system using only Claude Code CLI ($100/month) and Telegram &mdash; no custom AI, no cloud VMs, no fine-tuning.
-            </p>
-            <div class="article-meta">
-                April 2026 &mdash; <a href="https://github.com/missingus3r/friday-showcase" style="color:#22d3ee;text-decoration:none">GitHub Repo</a>
-            </div>
-        </header>
+<nav class="top">
+  <div class="mark"><span class="pulse"></span> Friday</div>
+  <div style="display:flex;align-items:center;gap:18px">
+    <div class="theme-toggle" id="themeToggle" role="group" aria-label="Theme">
+      <button data-theme="light" aria-label="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>Light</button>
+      <button data-theme="dark" aria-label="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>Dark</button>
+    </div>
+    <div class="status">Online · 24/7</div>
+  </div>
+</nav>
 
-        <nav class="toc">
-            <div class="toc-title">Contents</div>
-            <ul>
-                <li><a href="#what-is-this">What Is This?</a></li>
-                <li><a href="#how-it-works">How It Works</a></li>
-                <li><a href="#why-not-framework">Why Not Use an Agent Framework?</a></li>
-                <li><a href="#the-stack">The Stack</a></li>
-                <li><a href="#screenshots">Screenshots</a></li>
-                <li><a href="#capabilities">Capabilities</a></li>
-                <li><a href="#scheduled-jobs">Scheduled Jobs</a></li>
-                <li><a href="#rag-memory">Memory Server</a></li>
-                <li><a href="#self-evolving">Self-Evolving System</a></li>
-                <li><a href="harness.html"><strong>→ Deep-dive: The Self-Evolving Harness</strong></a></li>
-                <li><a href="#the-100-question">The $100 Question</a></li>
-                <li><a href="#setup">Set It Up Yourself</a></li>
-            </ul>
-        </nav>
+<div class="wrap">
 
-        <!-- Section 1: What is this? -->
-        <section id="what-is-this">
-            <h2>What Is This?</h2>
-            <p>
-                This is a self-evolving AI assistant that runs 24/7 on a standard Windows, Linux, or macOS machine. It communicates via Telegram, runs scheduled tasks autonomously, manages files and projects, and maintains persistent memory across sessions &mdash; but it also <strong>learns from its own behavior</strong>. It acquires new skills, reflects on daily performance, infers user preferences from repeated corrections, and proposes its own improvements. The entire system is powered by <strong>Claude Code</strong> (Anthropic's CLI agent) on the $100/month Max Plan &mdash; no custom AI backend, no fine-tuned models, no orchestration framework. The only custom code is a lightweight Flask server for persistent memory and the self-evolving subsystems.
-            </p>
-        </section>
+  <header class="hero">
+    <div class="eyebrow">A 24/7 AI assistant</div>
+    <h1>A personal assistant that <b>never goes to sleep.</b></h1>
+    <p class="lede">Friday runs on your own computer and talks to you through Telegram. It remembers things, checks in first, and handles the small stuff — so you don't have to.</p>
+    <div class="hero-meta">
+      <div>Runs on<b>One laptop</b></div>
+      <div>Talks via<b>Telegram</b></div>
+      <div>Costs<b>$100 Max Plan</b></div>
+      <div>Sleeps<b>Never</b></div>
+    </div>
+  </header>
 
-        <!-- Section 2: How It Works -->
-        <section id="how-it-works">
-            <h2>How It Works</h2>
-            <p>
-                Claude Code sits at the center, connecting to external services through MCP (Model Context Protocol) plugins and shell tools. A <code>CLAUDE.md</code> file acts as the system prompt, defining behavior, available tools, and cron schedules. Scheduled tasks run autonomously without human input. On top of this, a set of self-evolving subsystems &mdash; skill acquisition, daily reflection, preference learning, world modeling, and self-improvement proposals &mdash; run as scheduled jobs on the same memory server, feeding insights back into the assistant's behavior without any model fine-tuning.
-            </p>
-<pre><span class="diagram-label">User (Telegram)</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-label">Claude Code (with MCP plugins)</span>
-    <span class="diagram-arrow">|</span>
-    <span class="diagram-arrow">|--&gt;</span> <span class="diagram-desc">Memory API</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-desc">SQLite (conversations, memories, embeddings)</span>
-    <span class="diagram-arrow">|--&gt;</span> <span class="diagram-desc">Self-Evolving</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-desc">Skills, reflections, preferences, world model, proposals</span>
-    <span class="diagram-arrow">|--&gt;</span> <span class="diagram-desc">Knowledge Base (MCP)</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-desc">Notes, wiki, structured data</span>
-    <span class="diagram-arrow">|--&gt;</span> <span class="diagram-desc">GitHub</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-desc">Repos (push, commit, PR)</span>
-    <span class="diagram-arrow">|--&gt;</span> <span class="diagram-desc">Voice API</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-desc">Text-to-speech / Speech-to-text</span>
-    <span class="diagram-arrow">|--&gt;</span> <span class="diagram-desc">Email (MCP)</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-desc">Send, receive, forward</span>
-    <span class="diagram-arrow">|--&gt;</span> <span class="diagram-desc">Web Search / Fetch</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-desc">News, research, data</span>
-    <span class="diagram-arrow">|--&gt;</span> <span class="diagram-desc">Cron system</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-desc">Recurring autonomous jobs</span>
-    <span class="diagram-arrow">|--&gt;</span> <span class="diagram-desc">Local tools</span> <span class="diagram-arrow">---&gt;</span> <span class="diagram-desc">Shell, scripts, system utilities</span></pre>
-        </section>
+  <section id="what">
+    <div class="kicker">— 01 —  What it is</div>
+    <h2>A quiet friend <b>in your pocket.</b></h2>
+    <p class="body">You talk to Friday the way you'd text a friend. Voice notes, links, questions, photos. It reads the news you care about, jots things down, runs errands in the background, and writes back when something matters.</p>
+    <p class="body">No website. No app. No account. One terminal window on your own machine — when you close the lid, it keeps working.</p>
+  </section>
 
-        <!-- Section 3: Why Not Use an Agent Framework? -->
-        <section id="why-not-framework">
-            <h2>Why Not Use an Agent Framework?</h2>
-            <p>
-                Projects like OpenClaw, NemoClaw, and other agent frameworks are impressive, but they add layers of complexity: custom runtimes, orchestration code, deployment pipelines, and often their own API costs. This approach is different.
-            </p>
-            <p>
-                Claude Code already <em>is</em> the runtime. It has native tool use, MCP plugin support, cron scheduling, sub-agent spawning, file I/O, git, and shell access built in. There is no glue code between the LLM and the tools &mdash; Claude Code handles it all natively.
-            </p>
-            <div class="highlight-box">
-                <p>
-                    The philosophy: stay within a single subscription, respect the provider's Terms of Service, and avoid bolting on external LLM APIs or custom agent infrastructure. One plan, one CLI, one model &mdash; and let the model do what it was designed to do. The result is a system that is simple to maintain, easy to reproduce, and costs exactly $100/month.
-                </p>
-            </div>
-        </section>
+  <section id="how">
+    <div class="kicker">— 02 —  How it works</div>
+    <h2>One brain. <b>Lots of tools.</b></h2>
+    <p class="body">Friday is a single model (Opus 4.7) that can use tools by itself. You tell it how to behave in a plain text file (CLAUDE.md), then it handles the rest — chatting, remembering, scheduling, acting.</p>
 
-        <!-- Section 4: The Stack -->
-        <section id="the-stack">
-            <h2>The Stack</h2>
-            <table class="stack-table">
-                <thead>
-                    <tr>
-                        <th>Component</th>
-                        <th>Technology</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Brain</td>
-                        <td>Claude Code CLI (Opus 4.7, 1M context)</td>
-                    </tr>
-                    <tr>
-                        <td>Interface</td>
-                        <td>Telegram (via MCP plugin)</td>
-                    </tr>
-                    <tr>
-                        <td>Memory</td>
-                        <td>Flask + SQLite + embedding-based RAG</td>
-                    </tr>
-                    <tr>
-                        <td>Knowledge</td>
-                        <td>Notion (via MCP plugin)</td>
-                    </tr>
-                    <tr>
-                        <td>Voice</td>
-                        <td>TTS/STT API (ElevenLabs or equivalent)</td>
-                    </tr>
-                    <tr>
-                        <td>Scheduling</td>
-                        <td>Claude Code built-in cron system</td>
-                    </tr>
-                    <tr>
-                        <td>Cost</td>
-                        <td>$100/month (Anthropic Max Plan)</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+    <div class="diagram" id="diagram">
+      <div class="row" data-i="0"><span class="k">You</span><span class="arrow">→</span><span>send a message on Telegram</span></div>
+      <div class="center"><span class="brain"><span class="dot"></span>Friday</span><span class="arrow" style="color:var(--ink-3)">↓</span><span class="tag">reads · thinks · acts</span></div>
+      <div class="row" data-i="1"><span class="k">Memory</span><span class="arrow">→</span><span>remembers what you said</span></div>
+      <div class="row" data-i="2"><span class="k">Notes</span><span class="arrow">→</span><span>writes things down in Notion</span></div>
+      <div class="row" data-i="3"><span class="k">Voice</span><span class="arrow">→</span><span>speaks and listens</span></div>
+      <div class="row" data-i="4"><span class="k">Email</span><span class="arrow">→</span><span>reads, drafts, forwards</span></div>
+      <div class="row" data-i="5"><span class="k">GitHub</span><span class="arrow">→</span><span>commits and pushes code</span></div>
+      <div class="row" data-i="6"><span class="k">Web</span><span class="arrow">→</span><span>searches and fetches</span></div>
+      <div class="row" data-i="7"><span class="k">Cron</span><span class="arrow">→</span><span>wakes up on schedule</span></div>
+    </div>
+    <button class="open-modal" id="openModal"><span class="plus">+</span> Technical details</button>
+  </section>
 
-        <!-- Section 5: Screenshots -->
-        <section id="screenshots">
-            <h2>Screenshots</h2>
-            <p>
-                The memory server includes a visual web endpoint that renders all stored logs, memories, and entities as interactive graph nodes. This implementation is called <strong>Friday</strong>, but the system can be renamed to anything the user wants &mdash; the name is just a variable in the CLAUDE.md configuration.
-            </p>
-            <figure class="screenshot">
-                <img src="img/graph.png" alt="Memory Graph visualization">
-                <figcaption>Memory graph &mdash; D3.js force-directed visualization showing conversations, memories, and entities as interactive nodes. Each node type has a distinct color. Drag, zoom, and click to explore.</figcaption>
-            </figure>
-            <figure class="screenshot">
-                <img src="img/arch.png" alt="Architecture Diagram">
-                <figcaption>Architecture diagram &mdash; Visual map of all system components and their connections: services, data stores, cron jobs, APIs, and projects. Nodes are draggable and positions persist server-side.</figcaption>
-            </figure>
-        </section>
+  <section id="unique">
+    <div class="kicker">— 03 —  What makes it different</div>
+    <h2>It <b>learns</b>. And it <b>writes first</b>.</h2>
+    <div class="diagram" style="margin-top:48px">
+      <div class="row on"><span class="k">Learns</span><span class="arrow">→</span><span>picks up new skills from what you ask it to do</span></div>
+      <div class="row on"><span class="k">Reflects</span><span class="arrow">→</span><span>reviews its own day every night, notes what went wrong</span></div>
+      <div class="row on"><span class="k">Adapts</span><span class="arrow">→</span><span>learns your preferences from repeated corrections</span></div>
+      <div class="row on"><span class="k">Proposes</span><span class="arrow">→</span><span>suggests its own improvements — you approve or reject</span></div>
+      <div class="row on"><span class="k">Writes first</span><span class="arrow">→</span><span>reaches out with check-ins, reminders, follow-ups</span></div>
+    </div>
+    <p class="body" style="margin-top:32px">The model stays the same. The assistant evolves.</p>
+    <button class="open-modal" id="openHarness"><span class="plus">+</span> The harness — deep dive</button>
+  </section>
 
-        <!-- Section 6: Capabilities -->
-        <section id="capabilities">
-            <h2>Capabilities</h2>
-            <ul>
-                <li><strong>Scheduled briefings</strong> &mdash; weather (Open-Meteo API), forex/crypto (DolarAPI, ExchangeRate), AI news (WebSearch), movies (YTS API)</li>
-                <li><strong>Autonomous monitoring</strong> &mdash; scan 60+ orgs on HuggingFace API, blogs, and aggregators for new AI model releases</li>
-                <li><strong>Note-taking and knowledge management</strong> &mdash; save links, text, and structured data to Notion (MCP) and local markdown</li>
-                <li><strong>Voice messages</strong> &mdash; receive and transcribe audio (ElevenLabs Scribe STT), respond with synthesized speech (ElevenLabs TTS)</li>
-                <li><strong>Video analysis</strong> &mdash; download, transcribe (YouTube subs / ElevenLabs), and generate structured reports via LLM (Groq / OpenRouter API)</li>
-                <li><strong>Email handling</strong> &mdash; check, draft, send, and forward emails (AgentMail MCP)</li>
-                <li><strong>Git operations</strong> &mdash; commit, push, create PRs, manage repositories (GitHub API + git CLI)</li>
-                <li><strong>Web research</strong> &mdash; search, fetch, summarize, and report back (WebSearch + WebFetch tools)</li>
-                <li><strong>Self-healing crons</strong> &mdash; monitors its own scheduled jobs and recreates any that expire (CronCreate/CronList built-in)</li>
-                <li><strong>Proactive messaging</strong> &mdash; the assistant reaches out first: casual check-ins, reminders for things you mentioned and forgot, follow-ups on pending tasks. Not just reactive &mdash; it initiates conversations based on memory and context</li>
-                <li><strong>Skill acquisition</strong> &mdash; extracts reusable patterns from completed tasks and stores them as skills with trigger patterns, so it handles similar requests faster each time</li>
-                <li><strong>Daily self-reflection</strong> &mdash; nightly cron reviews conversation logs to identify mistakes, successes, and emerging patterns, storing conclusions as actionable insights</li>
-                <li><strong>Preference learning</strong> &mdash; analyzes feedback history to infer rules from repeated corrections, applying them automatically going forward</li>
-                <li><strong>World modeling</strong> &mdash; builds a behavioral model of the user over time (activity patterns, recurring topics, event correlations) with confidence scores and expiration dates</li>
-                <li><strong>Self-improvement proposals</strong> &mdash; detects potential optimizations and creates formal proposals with diffs, never applying changes without explicit user approval</li>
-                <li><strong>Memory API health monitoring</strong> &mdash; periodic health checks on the memory server with automatic restart if it goes down, and user notification on failures</li>
-            </ul>
-        </section>
+  <section id="does">
+    <div class="kicker">— 04 —  What it does</div>
+    <h2>Small things, <b>all day long.</b></h2>
+    <div class="caps">
+      <div class="cap"><span class="n">01</span><span class="t">Scheduled briefings</span><span class="d">weather · forex · news</span></div>
+      <div class="cap"><span class="n">02</span><span class="t">Watches for new AI models</span><span class="d">huggingface · blogs</span></div>
+      <div class="cap"><span class="n">03</span><span class="t">Takes notes</span><span class="d">notion · markdown</span></div>
+      <div class="cap"><span class="n">04</span><span class="t">Voice messages</span><span class="d">tts · stt</span></div>
+      <div class="cap"><span class="n">05</span><span class="t">Analyzes videos</span><span class="d">youtube · reports</span></div>
+      <div class="cap"><span class="n">06</span><span class="t">Handles your email</span><span class="d">read · draft · send</span></div>
+      <div class="cap"><span class="n">07</span><span class="t">Git operations</span><span class="d">commit · push · pr</span></div>
+      <div class="cap"><span class="n">08</span><span class="t">Web research</span><span class="d">search · fetch · summarize</span></div>
+      <div class="cap"><span class="n">09</span><span class="t">Self-healing jobs</span><span class="d">monitors · recreates</span></div>
+      <div class="cap"><span class="n">10</span><span class="t">Reaches out first</span><span class="d">proactive check-ins</span></div>
+      <div class="cap"><span class="n">11</span><span class="t">Recalls past talks</span><span class="d">hybrid rag search</span></div>
+      <div class="cap"><span class="n">12</span><span class="t">Runs on your machine</span><span class="d">no cloud vm</span></div>
+    </div>
+  </section>
 
-        <!-- Section: Scheduled Jobs -->
-        <section id="scheduled-jobs">
-            <h2>Scheduled Jobs (18 Crons)</h2>
-            <p>The system runs 18 autonomous cron jobs that keep it alive and learning (10 original + 8 added by the v2 harness):</p>
-            <table class="stack-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Job</th>
-                        <th>Schedule</th>
-                        <th>Purpose</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>1</td><td>Email check</td><td>Every 1h</td><td>Check inbox for new emails, notify if any</td></tr>
-                    <tr><td>2</td><td>Cron watchdog</td><td>Every 6h</td><td>Verify no crons are about to expire (7-day TTL)</td></tr>
-                    <tr><td>3</td><td>Daily briefing</td><td>Daily ~9 AM</td><td>Weather, currencies, AI news, movies + cron status + pending proposals</td></tr>
-                    <tr><td>4</td><td>Heartbeat</td><td>Every 1h</td><td>System health, verify all 18 crons, social check-in</td></tr>
-                    <tr><td>5</td><td>Monthly usage</td><td>End of month</td><td>API usage report across all services</td></tr>
-                    <tr><td>6</td><td>Reflection</td><td>Every 12h</td><td>Review logs for patterns, mistakes, insights</td></tr>
-                    <tr><td>7</td><td>Preference learning</td><td>Daily (night)</td><td>Infer rules from repeated feedback corrections</td></tr>
-                    <tr><td>8</td><td>AI Model Monitor</td><td>Daily 10:17</td><td>Scan for new AI model releases + AGI forecast aggregate (Metaculus + Manifold + Kalshi via agi.goodheartlabs.com)</td></tr>
-                    <tr><td>9</td><td>Memory API health</td><td>Every 3h</td><td>Health check with auto-restart on failure</td></tr>
-                    <tr><td>10</td><td>Weekly summarization</td><td>Weekly (Sun)</td><td>Compress old conversation logs into weekly summaries</td></tr>
-                    <tr><td>11</td><td><strong>Goal priorizer</strong></td><td>Daily 9:37</td><td>Flag goals with deadlines &lt; 3d or no progress &gt; 5d <em>(v2)</em></td></tr>
-                    <tr><td>12</td><td><strong>Memory decay</strong></td><td>Weekly (Sun)</td><td>Apply confidence half-life to unverified beliefs <em>(v2)</em></td></tr>
-                    <tr><td>13</td><td><strong>Daily metrics</strong></td><td>Daily 22:23</td><td>Compute hallucination rate, calibration gap, etc. <em>(v2)</em></td></tr>
-                    <tr><td>14</td><td><strong>Predictions resolver</strong></td><td>Daily 21:53</td><td>Close out predictions whose due_at has passed <em>(v2)</em></td></tr>
-                    <tr><td>15</td><td><strong>Skill promotion</strong></td><td>Daily 02:37</td><td>Promote draft→beta→stable with guardrails <em>(v2)</em></td></tr>
-                    <tr><td>16</td><td><strong>Experiments runner</strong></td><td>Every 6h (:17)</td><td>Drive A/B experiments via sandbox dry-runs, auto-conclude <em>(v2)</em></td></tr>
-                    <tr><td>17</td><td><strong>World model grower</strong></td><td>Daily 06:53</td><td>Detect recurring topics/entities, POST to /worldmodel and /entity <em>(v2)</em></td></tr>
-                    <tr><td>18</td><td><strong>Auto-audit</strong></td><td>3x/day (8:19, 14:19, 20:19)</td><td>Integrity scan of core tables, fail rates, overdue predictions <em>(v2)</em></td></tr>
-                </tbody>
-            </table>
-            <p style="font-size:0.88rem;color:#94a3b8;margin-top:12px">
-                The heartbeat and briefing crons act as watchdogs &mdash; they verify all 18 jobs are active and recreate any that are missing.
-            </p>
-            <p style="font-size:0.88rem;color:#94a3b8;margin-top:12px">
-                <strong>Disaster recovery</strong> is also built in (memory server v2.9.0+): <code>/backup/export</code> returns a consistent whole-DB snapshot, <code>POST /backup/import</code> validates and swaps it in. A <strong>💾 Backup</strong> button on the dashboard topbar triggers the same flow from the browser. Recommended: nightly off-site rsync of <code>/backup/export</code>.
-            </p>
-        </section>
+  <section>
+    <div class="kicker">— 05 —  The pieces</div>
+    <h2>A short list of <b>honest parts.</b></h2>
+    <div class="stack">
+      <div class="row"><b>Brain</b><span>Claude Code CLI</span></div>
+      <div class="row"><b>Chat</b><span>Telegram</span></div>
+      <div class="row"><b>Memory</b><span>SQLite + embeddings</span></div>
+      <div class="row"><b>Knowledge</b><span>Notion</span></div>
+      <div class="row"><b>Voice</b><span>ElevenLabs</span></div>
+      <div class="row"><b>Schedules</b><span>built-in cron</span></div>
+      <div class="row"><b>Total cost</b><span style="color:var(--accent)">$100 / month</span></div>
+    </div>
+  </section>
 
-        <!-- Section 7: RAG & Memory -->
-        <section id="rag-memory">
-            <h2>Memory Server</h2>
-            <p>
-                Claude Code generates a single Flask + SQLite server file that handles everything: conversation logging, long-term memory, entity tracking, key-value storage, and RAG with vector embeddings. No external vector database &mdash; embeddings are stored as BLOBs in the same SQLite file.
-            </p>
-            <h3>Core features</h3>
-            <ul>
-                <li><strong>Conversation logging</strong> &mdash; every message stored with timestamp, role, channel, and auto-classified importance score (0.0-1.0)</li>
-                <li><strong>Importance scoring</strong> &mdash; messages are auto-classified using dynamic keyword-score pairs stored in the database (not hardcoded). Keywords can be added, updated, or removed via API, and hit counts are tracked automatically. The preference learning cron adjusts scores over time based on usage patterns</li>
-                <li><strong>Long-term memory</strong> &mdash; typed entries (user, feedback, project, reference) with free-text search</li>
-                <li><strong>Semantic search</strong> &mdash; cosine similarity over embedding vectors (3072 dimensions)</li>
-                <li><strong>Hybrid search</strong> &mdash; FTS5 keyword matching + semantic search combined via Reciprocal Rank Fusion, weighted by importance</li>
-                <li><strong>Weekly summarization</strong> &mdash; cron compresses old logs into weekly summaries without deleting originals. Search results are enriched with the associated weekly summary</li>
-                <li><strong>Entity tracking</strong> &mdash; people, companies, tools, concepts with search</li>
-                <li><strong>Key-value store</strong> &mdash; server-side persistence for UI state (e.g. node positions)</li>
-            </ul>
-            <h3>Web visualization</h3>
-            <p>
-                The server also hosts a single-page web app at <code>/graph</code> with four interactive tabs:
-            </p>
-            <ul>
-                <li><strong>Graph</strong> &mdash; D3.js force-directed visualization of all conversations, memories, and entities as interactive nodes. Color-coded by type, draggable, zoomable</li>
-                <li><strong>Logs</strong> &mdash; chronological view of all conversation logs with collapsible date groups and search</li>
-                <li><strong>Architecture</strong> &mdash; system diagram with draggable nodes showing all components and connections (positions persist server-side via /kv endpoint)</li>
-                <li><strong>RAG</strong> &mdash; semantic search dashboard with hybrid search, embedding stats, and result previews</li>
-            </ul>
-        </section>
+  <section>
+    <div class="kicker">— 06 —  A quiet idea</div>
+    <p class="pull">The assistant isn't bolted on top of something. <b>It is the something.</b></p>
+    <div class="pull-attr">— the philosophy</div>
+  </section>
 
-        <!-- Section 8: Self-Evolving System -->
-        <section id="self-evolving">
-            <h2>Self-Evolving System</h2>
-            <p>
-                The assistant doesn't just follow instructions &mdash; it learns from its own behavior and improves over time.
-            </p>
-            <p>
-                Five systems work together to make this happen:
-            </p>
-            <ul>
-                <li><strong>Skill Acquisition</strong> &mdash; When the assistant solves a new type of task, it extracts the pattern and saves it as a reusable skill. Next time a similar request comes in, it already knows how to handle it. Skills are stored with trigger patterns and step-by-step procedures, and usage is tracked.</li>
-                <li><strong>Daily Self-Reflection</strong> &mdash; Every night, a cron job reviews the day's conversation logs and asks: what went well? what went wrong? what patterns emerge? The conclusions are stored as reflections and feed back into future behavior.</li>
-                <li><strong>Preference Learning</strong> &mdash; Instead of relying only on explicit corrections, the system periodically analyzes all past feedback looking for repeated patterns. If the user corrects the same type of mistake multiple times, it automatically infers a rule and applies it going forward.</li>
-                <li><strong>World Model</strong> &mdash; The system builds an internal model of the user's behavior over time: when they're most active, what topics recur on certain days, what correlations exist between events. These insights are stored with confidence scores and expiration dates.</li>
-                <li><strong>Self-Improvement Proposals</strong> &mdash; When the system detects something that could work better (a keyword list, a cron schedule, a scoring function), it creates a formal proposal with a description and diff preview. Changes are never applied automatically &mdash; the user approves or rejects each one via Telegram.</li>
-            </ul>
-            <p>
-                All of this runs on the same memory server with no additional infrastructure. The data is visible in the Memory Graph's "Brain" tab &mdash; a dashboard showing learned skills, active preferences, daily reflections, world model insights, and pending proposals.
-            </p>
-            <h3>Brain Dashboard</h3>
-            <figure class="screenshot">
-                <img src="img/brain.jpg" alt="Brain Dashboard">
-                <figcaption>The Brain tab: learned skills, active preferences, daily reflections, world model insights, and pending self-improvement proposals — all running on the same memory server.</figcaption>
-            </figure>
-            <div class="highlight-box">
-                <p>
-                    The result is a system that gets better at its job every day &mdash; not because the underlying model changes, but because it builds a growing library of skills, preferences, and behavioral patterns on top of it. The model stays the same. The assistant evolves.
-                </p>
-            </div>
+  <section id="setup">
+    <div class="kicker">— 07 —  Set it up</div>
+    <h2>Four steps. <b>No wizards.</b></h2>
 
-            <div class="highlight-box" style="border-left-color:#c084fc">
-                <p>
-                    <strong>v2 update &mdash; April 2026:</strong> the self-evolving core has been extended with a full <em>cognition harness</em>: goal engine, hierarchical plans, three-layer memory, causal world model, verifier/sandbox, experiment engine, skill compiler and a metrics framework that proves whether the system is actually improving. The infrastructure added 13 new tables, ~70 endpoints and 8 new crons, all additive &mdash; nothing old was removed. Version 2.9.0 (April 2026) adds <em>disaster recovery</em>: whole-DB snapshot export/import over HTTP.
-                </p>
-                <p style="margin-top:12px">
-                    &rarr; <a href="harness.html"><strong>Read the technical deep-dive: The Self-Evolving Harness</strong></a>
-                </p>
-            </div>
-        </section>
+    <div class="steps">
+      <div class="step"><span class="sn">01</span><div><b>Install Claude Code</b><span>One CLI. macOS, Linux, or Windows.</span></div></div>
+      <div class="step"><span class="sn">02</span><div><b>Grab the setup guide</b><span>Download <a href="https://missingus3r.github.io/friday-showcase/SETUP.md" target="_blank" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">SETUP.md</a> from the repo.</span></div></div>
+      <div class="step"><span class="sn">03</span><div><b>Hand it to a fresh session</b><span>It walks through keys, Telegram, and the memory server on its own.</span></div></div>
+      <div class="step"><span class="sn">04</span><div><b>Start Friday</b><span>One command. It's live.</span>
+        <div class="terminal" id="term" style="margin-top:16px">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <div><span class="prompt">›</span> <span class="cmd" id="cmd">claude <span class="flag">--channels</span> plugin:telegram@claude-plugins-official <span class="flag">--dangerously-skip-permissions</span></span></div>
+          <button class="copy" id="copyBtn">Copy</button>
+        </div>
+      </div></div>
+    </div>
+  </section>
 
-        <!-- Section 9: The $100 Question -->
-        <section id="the-100-question">
-            <h2>The $100 Question</h2>
-            <p>
-                This entire system runs on a single <strong>$100/month Anthropic Max Plan</strong>. No cloud VMs running inference. No LangChain, no AutoGPT, no agent framework. Just Claude Code on a Linux machine with MCP plugins.
-            </p>
-            <div class="highlight-box">
-                <p>
-                    The key insight: Claude Code is not just a coding assistant &mdash; it is a general-purpose autonomous agent runtime. Give it tools, instructions, and a schedule, and it becomes a full 24/7 assistant. The $100 plan provides (almost) unlimited access to one of the most capable AI models available, with native tool use and long context. That is enough.
-                </p>
-            </div>
-        </section>
-
-        <!-- Section 9: Quick Setup Guide -->
-        <section id="setup">
-            <h2>Set It Up Yourself</h2>
-            <p>
-                Download the setup guide below and pass it to a fresh Claude Code session. It will walk through every step autonomously &mdash; creating the Telegram bot config, memory server, API keys, and CLAUDE.md. You just approve and follow along.
-            </p>
-            <div style="text-align:center;margin:24px 0">
-                <a href="SETUP.md" download style="display:inline-block;padding:14px 32px;background:#22d3ee;color:#0a0a12;font-weight:700;border-radius:8px;text-decoration:none;font-size:1rem;transition:opacity 0.2s;margin:0 8px" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Download SETUP.md</a>
-                <a href="https://github.com/missingus3r/friday-showcase" target="_blank" style="display:inline-block;padding:14px 32px;background:transparent;color:#22d3ee;font-weight:700;border-radius:8px;text-decoration:none;font-size:1rem;border:1px solid #22d3ee;transition:opacity 0.2s;margin:0 8px" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">GitHub Repo</a>
-            </div>
-            <p style="font-size:0.88rem;color:#64748b;text-align:center;margin-bottom:20px">
-                Then open Claude Code and type:
-            </p>
-            <div class="code-block"><pre><code>Read the file ~/Downloads/SETUP.md and follow every step in it to set up a 24/7 AI assistant on this machine. Ask me for confirmation before each major step.</code></pre></div>
-            <p style="font-size:0.88rem;color:#64748b;text-align:center">
-                That's it. Claude Code reads the guide and walks you through the entire setup autonomously.
-            </p>
-            <div style="text-align:center;margin:12px 0 24px">
-                <a href="#" onclick="event.preventDefault();var el=document.getElementById('setupPreview');el.style.display=el.style.display==='none'?'block':'none'" style="color:#22d3ee;font-size:0.88rem;text-decoration:none">View SETUP.md</a>
-            </div>
-            <div id="setupPreview" style="display:none;position:relative">
-                <button onclick="navigator.clipboard.writeText(document.getElementById('setupCode').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',2000)})" style="position:absolute;top:8px;right:8px;padding:4px 12px;background:#22d3ee;color:#0a0a12;border:none;border-radius:4px;font-size:0.75rem;font-weight:600;cursor:pointer;z-index:1">Copy</button>
-                <div class="code-block" style="max-height:500px;overflow-y:auto"><pre><code id="setupCode"></code></pre></div>
-            </div>
-            <div class="highlight-box">
-                <p>
-                    The setup file is a step-by-step autonomous guide that Claude Code follows to bootstrap the entire system: Telegram bot, memory API server, CLAUDE.md configuration, cron jobs, and first-run verification. The user only needs to provide API keys and approve actions. No manual coding required.
-                </p>
-            </div>
-            <p style="margin-top:24px">Once everything is set up, start the assistant with:</p>
-            <div class="code-block"><pre><code>claude --channels plugin:telegram@claude-plugins-official --dangerously-skip-permissions</code></pre></div>
-            <p style="font-size:0.88rem;color:#64748b">That's it. Claude Code reads your CLAUDE.md, connects to Telegram, creates all cron jobs, and starts running autonomously.</p>
-        </section>
-
-        <footer class="article-footer" style="margin-top:48px;padding-top:24px;border-top:1px solid #1e1e30;text-align:center">
-            <p style="margin-bottom:12px">
-                <a href="https://github.com/missingus3r" style="color:#22d3ee;text-decoration:none;margin:0 12px">GitHub</a>
-                <a href="https://x.com/missingus3r" style="color:#22d3ee;text-decoration:none;margin:0 12px">X / Twitter</a>
-            </p>
-            <p style="font-size:0.78rem;color:#334155;font-style:italic">
-                Named after the last A.I. assistant Tony Stark built before hanging up the suit. This one doesn't have a suit either &mdash; just a terminal.
-            </p>
-        </footer>
-
-    </article>
-<!-- Image Modal -->
-<div id="imgModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.9);cursor:zoom-out;backdrop-filter:blur(8px)" onclick="this.style.display='none'">
-  <img id="imgModalSrc" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);max-width:95%;max-height:95%;border-radius:8px;box-shadow:0 0 40px rgba(0,0,0,0.5)">
-  <span style="position:absolute;top:20px;right:30px;color:#fff;font-size:28px;cursor:pointer;font-weight:300">&times;</span>
+  <footer>
+    <div class="tag">Named after the last A.I. assistant Tony Stark built before hanging up the suit. This one doesn't have a suit either — just a terminal.</div>
+    <div class="links">
+      <a href="https://github.com/missingus3r/friday-showcase" target="_blank">GitHub ↗</a>
+      <a href="https://x.com/missingus3r" target="_blank">X ↗</a>
+    </div>
+  </footer>
 </div>
-<script>
-// Load SETUP.md content
-fetch('SETUP.md').then(r=>r.text()).then(t=>{
-  const el=document.getElementById('setupCode');
-  if(el)el.textContent=t;
-}).catch(()=>{});
 
-document.querySelectorAll('.screenshot img').forEach(img => {
-  img.style.cursor = 'zoom-in';
-  img.addEventListener('click', () => {
-    document.getElementById('imgModalSrc').src = img.src;
-    document.getElementById('imgModal').style.display = 'block';
+<!-- Technical details modal -->
+<div class="modal-scrim" id="scrim"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-head">
+    <h3 id="modalTitle"><span class="pulse"></span> Technical details</h3>
+    <button class="close" id="closeModal">Close ✕</button>
+  </div>
+  <div class="modal-body">
+
+    <h4>— What it really is</h4>
+    <p>A <b>self-evolving AI assistant</b> that runs 24/7 on a standard Windows, Linux, or macOS machine. It communicates via Telegram, runs scheduled tasks autonomously, manages files and projects, and maintains persistent memory across sessions.</p>
+    <p>It also <b>learns from its own behavior</b>: acquires new skills, reflects on daily performance, infers user preferences from repeated corrections, and proposes its own improvements. Powered entirely by Claude Code on the $100/month Max Plan — no custom AI backend, no fine-tuned models, no orchestration framework. The only custom code is a lightweight Flask server for persistent memory and the self-evolving subsystems.</p>
+
+    <h4>— How it works</h4>
+    <p>Claude Code sits at the center, connecting to external services through MCP (Model Context Protocol) plugins and shell tools. A <b>CLAUDE.md</b> file acts as the system prompt, defining behavior, available tools, and cron schedules.</p>
+<pre>User (Telegram) ---> Claude Code (with MCP plugins)
+    |
+    |--> Memory API       ---> SQLite (conversations, memories, embeddings)
+    |--> Self-Evolving    ---> Skills, reflections, preferences, world model
+    |--> Knowledge Base   ---> Notes, wiki, structured data (Notion MCP)
+    |--> GitHub           ---> Repos (push, commit, PR)
+    |--> Voice API        ---> TTS / STT (ElevenLabs)
+    |--> Email (MCP)      ---> Send, receive, forward (AgentMail)
+    |--> Web Search/Fetch ---> News, research, data
+    |--> Cron system      ---> Recurring autonomous jobs
+    |--> Local tools      ---> Shell, scripts, system utilities</pre>
+    <figure>
+      <img src="img/arch.png" alt="Architecture diagram">
+      <figcaption>Architecture diagram — visual map of all system components and their connections: services, data stores, cron jobs, APIs, and projects. Nodes are draggable, positions persist server-side.</figcaption>
+    </figure>
+
+    <h4>— Why no agent framework</h4>
+    <p>Agent frameworks add custom runtimes, orchestration code, deployment pipelines, and often their own API costs. Claude Code already <b>is</b> the runtime. It has native tool use, MCP plugin support, cron scheduling, sub-agent spawning, file I/O, git, and shell access built in. There is no glue code between the LLM and the tools.</p>
+    <p><i>One plan, one CLI, one model — and let the model do what it was designed to do.</i></p>
+
+    <h4>— The stack</h4>
+    <table class="stack-t">
+      <tr><td>Brain</td><td>Claude Code CLI (Opus 4.7, 1M context)</td></tr>
+      <tr><td>Interface</td><td>Telegram (via MCP plugin)</td></tr>
+      <tr><td>Memory</td><td>Flask + SQLite + embedding-based RAG</td></tr>
+      <tr><td>Knowledge</td><td>Notion (via MCP plugin)</td></tr>
+      <tr><td>Voice</td><td>ElevenLabs TTS / STT</td></tr>
+      <tr><td>Scheduling</td><td>Claude Code built-in cron system</td></tr>
+      <tr><td>Cost</td><td>$100 / month (Anthropic Max Plan)</td></tr>
+    </table>
+
+    <h4>— Full capability list</h4>
+    <ul>
+      <li><b>Scheduled briefings</b> — weather (Open-Meteo), forex/crypto (DolarAPI, ExchangeRate), AI news, movies (YTS)</li>
+      <li><b>Autonomous monitoring</b> — scan 60+ orgs on HuggingFace, blogs, and aggregators for new AI model releases</li>
+      <li><b>Note-taking</b> — save links, text, and structured data to Notion and local markdown</li>
+      <li><b>Voice messages</b> — transcribe audio (ElevenLabs Scribe STT), respond with synthesized speech (ElevenLabs TTS)</li>
+      <li><b>Video analysis</b> — download, transcribe (YouTube subs / ElevenLabs), generate structured reports via Groq / OpenRouter</li>
+      <li><b>Email handling</b> — check, draft, send, and forward emails via AgentMail MCP</li>
+      <li><b>Git operations</b> — commit, push, create PRs, manage repositories via GitHub API + git CLI</li>
+      <li><b>Web research</b> — search, fetch, summarize, and report back</li>
+      <li><b>Self-healing crons</b> — monitors its own scheduled jobs and recreates any that expire</li>
+      <li><b>Proactive messaging</b> — initiates conversations based on memory and context, not just reactive</li>
+      <li><b>Skill acquisition</b> — extracts reusable patterns from completed tasks and stores them with trigger patterns</li>
+      <li><b>Daily self-reflection</b> — nightly cron reviews logs to identify mistakes, successes, emerging patterns</li>
+      <li><b>Preference learning</b> — analyzes feedback history to infer rules from repeated corrections</li>
+      <li><b>World modeling</b> — builds a behavioral model of the user with confidence scores and expiration dates</li>
+      <li><b>Self-improvement proposals</b> — creates formal proposals with diffs; never applies changes without approval</li>
+      <li><b>Memory API health monitoring</b> — periodic health checks with automatic restart on failure</li>
+    </ul>
+
+    <h4>— Scheduled jobs (18 crons)</h4>
+    <p>The system runs 18 autonomous cron jobs that keep it alive and learning — 10 original plus 8 added by the v2 harness. The heartbeat and briefing crons act as watchdogs, verifying all jobs are active and recreating any that are missing.</p>
+    <table class="cron-t">
+      <tr><td>1</td><td>Email check</td><td>every 1h</td><td>inbox scan + notify</td></tr>
+      <tr><td>2</td><td>Cron watchdog</td><td>every 6h</td><td>verify no crons expiring</td></tr>
+      <tr><td>3</td><td>Daily briefing</td><td>daily ~9am</td><td>weather, markets, news, proposals</td></tr>
+      <tr><td>4</td><td>Heartbeat</td><td>every 1h</td><td>health + social check-in</td></tr>
+      <tr><td>5</td><td>Monthly usage</td><td>end of month</td><td>api usage report</td></tr>
+      <tr><td>6</td><td>Reflection</td><td>every 12h</td><td>review logs for patterns</td></tr>
+      <tr><td>7</td><td>Preference learning</td><td>daily (night)</td><td>infer rules from feedback</td></tr>
+      <tr><td>8</td><td>AI model monitor</td><td>daily 10:17</td><td>new releases + AGI forecast</td></tr>
+      <tr><td>9</td><td>Memory API health</td><td>every 3h</td><td>auto-restart on failure</td></tr>
+      <tr><td>10</td><td>Weekly summarization</td><td>sunday</td><td>compress old logs</td></tr>
+      <tr><td>11</td><td>Goal prioritizer <i>(v2)</i></td><td>daily 9:37</td><td>flag stuck / near-deadline goals</td></tr>
+      <tr><td>12</td><td>Memory decay <i>(v2)</i></td><td>sunday</td><td>confidence half-life on beliefs</td></tr>
+      <tr><td>13</td><td>Daily metrics <i>(v2)</i></td><td>daily 22:23</td><td>hallucination + calibration</td></tr>
+      <tr><td>14</td><td>Predictions resolver <i>(v2)</i></td><td>daily 21:53</td><td>close out past-due predictions</td></tr>
+      <tr><td>15</td><td>Skill promotion <i>(v2)</i></td><td>daily 02:37</td><td>draft → beta → stable</td></tr>
+      <tr><td>16</td><td>Experiments runner <i>(v2)</i></td><td>every 6h</td><td>A/B via sandbox dry-runs</td></tr>
+      <tr><td>17</td><td>World model grower <i>(v2)</i></td><td>daily 06:53</td><td>detect recurring topics</td></tr>
+      <tr><td>18</td><td>Auto-audit <i>(v2)</i></td><td>3x / day</td><td>integrity scan of core tables</td></tr>
+    </table>
+
+    <h4>— Memory server</h4>
+    <p>A single Flask + SQLite server handles conversation logging, long-term memory, entity tracking, key-value storage, and RAG with vector embeddings. Embeddings are stored as BLOBs in the same SQLite file — no external vector database.</p>
+    <ul>
+      <li><b>Conversation logging</b> — every message stored with timestamp, role, channel, auto-classified importance (0.0–1.0)</li>
+      <li><b>Importance scoring</b> — dynamic keyword-score pairs stored in the database; hit counts tracked automatically</li>
+      <li><b>Long-term memory</b> — typed entries (user, feedback, project, reference) with free-text search</li>
+      <li><b>Semantic search</b> — cosine similarity over 3072-dim embedding vectors</li>
+      <li><b>Hybrid search</b> — FTS5 keyword + semantic combined via Reciprocal Rank Fusion, weighted by importance</li>
+      <li><b>Weekly summarization</b> — compresses old logs without deleting originals</li>
+      <li><b>Web visualization</b> — <code>/graph</code> serves Graph, Logs, Architecture, and RAG tabs (D3.js force-directed)</li>
+      <li><b>Disaster recovery</b> — <code>/backup/export</code> and <code>/backup/import</code> swap whole-DB snapshots (v2.9.0+)</li>
+    </ul>
+    <figure>
+      <img src="img/graph.png" alt="Memory Graph visualization">
+      <figcaption>Memory graph — D3.js force-directed visualization showing conversations, memories, and entities as interactive nodes. Drag, zoom, click to explore.</figcaption>
+    </figure>
+
+    <h4>— Self-evolving system</h4>
+    <p>Five subsystems work together to make the assistant improve over time:</p>
+    <ul>
+      <li><b>Skill acquisition</b> — extracts patterns from solved tasks; saves them as reusable skills with trigger patterns and step-by-step procedures</li>
+      <li><b>Daily self-reflection</b> — nightly cron asks <i>what went well, what went wrong, what patterns emerge</i>; conclusions feed future behavior</li>
+      <li><b>Preference learning</b> — analyzes feedback history for repeated patterns, infers rules automatically</li>
+      <li><b>World model</b> — builds a model of user behavior over time (activity, topics, correlations) with confidence + expiration</li>
+      <li><b>Self-improvement proposals</b> — formal proposals with diff preview; user approves or rejects each via Telegram</li>
+    </ul>
+    <p>All of this runs on the same memory server with no additional infrastructure. Visible in the Memory Graph's <b>Brain</b> tab.</p>
+    <figure>
+      <img src="img/brain.jpg" alt="Brain Dashboard">
+      <figcaption>Brain tab — learned skills, active preferences, daily reflections, world model insights, and pending self-improvement proposals, all on the same memory server.</figcaption>
+    </figure>
+    <p><b>v2 update — April 2026:</b> extended with a full <i>cognition harness</i>: goal engine, hierarchical plans, three-layer memory, causal world model, verifier/sandbox, experiment engine, skill compiler, and a metrics framework. 13 new tables, ~70 endpoints, 8 new crons — all additive.</p>
+
+    <h4>— The $100 question</h4>
+    <p>The entire system runs on a single <b>$100/month Anthropic Max Plan</b>. No cloud VMs running inference. No LangChain, no AutoGPT, no agent framework. Just Claude Code on a Linux machine with MCP plugins.</p>
+    <p>The key insight: Claude Code is not just a coding assistant — it is a general-purpose autonomous agent runtime. Give it tools, instructions, and a schedule, and it becomes a full 24/7 assistant.</p>
+
+    <h4>— Start command</h4>
+<pre>claude --channels plugin:telegram@claude-plugins-official --dangerously-skip-permissions</pre>
+    <p>Claude Code reads your CLAUDE.md, connects to Telegram, creates all cron jobs, and starts running autonomously.</p>
+
+    <p style="margin-top:32px"><a href="https://github.com/missingus3r/friday-showcase" target="_blank">GitHub ↗</a></p>
+  </div>
+</div>
+
+<!-- Harness deep-dive modal -->
+<div class="modal-scrim" id="scrimH"></div>
+<div class="modal" id="modalH" role="dialog" aria-modal="true">
+  <div class="modal-head">
+    <h3><span class="pulse"></span> The self-evolving harness</h3>
+    <button class="close" id="closeHarness">Close ✕</button>
+  </div>
+  <div class="modal-body">
+    <h4>— Why this layer exists</h4>
+    <p>Before the harness, Friday could already talk, remember, schedule, and reflect — but all of that was <b>reactive</b>. The system waited for a message, did what it was told, and went quiet. There was no persistent goal. No plan tree. No separation between <i>I think this</i> and <i>I verified this</i>. No A/B tests. No metrics proving improvement.</p>
+    <p>The harness is a thin, entirely additive cognition layer that gives Friday the scaffolding to <b>act as if it were trying to get better</b> — and the receipts to check whether it is.</p>
+<pre>goal → hypothesis → plan → execution → verification → reward → model update</pre>
+
+    <h4>— The blueprint (8 subsystems)</h4>
+    <table class="stack-t">
+      <tr><td>Goal engine</td><td>persistent intentions with utility, deadline, subgoals</td></tr>
+      <tr><td>Planner</td><td>hierarchical plan trees: goal → action → tool → rollback</td></tr>
+      <tr><td>Self-knowledge</td><td>capabilities + 6-rung autonomy ladder</td></tr>
+      <tr><td>Three-layer memory</td><td>episodic / semantic / procedural + provenance + decay</td></tr>
+      <tr><td>Causal world model</td><td>entities, relations, events, testable predictions</td></tr>
+      <tr><td>Safety</td><td>verifier + sandbox (dry-run before live)</td></tr>
+      <tr><td>Learning</td><td>experiments (A/B) + skill compiler (draft → beta → stable)</td></tr>
+      <tr><td>Metrics</td><td>11 KPIs measuring actual improvement</td></tr>
+    </table>
+    <p>13 new tables, ~60 new endpoints. Every change is additive — no existing table was dropped, no endpoint broken.</p>
+
+    <h4>— Goal engine &amp; plan trees</h4>
+    <p>Each non-trivial task becomes a first-class row with utility, deadline, constraints, success criteria, subgoals, risk tier, and autonomy level. <code>GET /goal/next</code> ranks by <i>utility × urgency × (1 − progress)</i>. A daily cron at 09:37 flags anything past deadline or stalled &gt;5 days.</p>
+    <p>Plans are executable trees, not text. Each node carries <b>node_type</b>, <b>tool</b>, <b>expected_result</b>, <b>exit_condition</b>, and <b>rollback</b>.</p>
+
+    <h4>— Three-layer memory</h4>
+    <ul>
+      <li><b>Episodic</b> — what happened, when, with what outcome</li>
+      <li><b>Semantic</b> — stable facts, concepts, relations</li>
+      <li><b>Procedural</b> — how to do things; skills with preconditions, success rate, maturity</li>
+    </ul>
+    <p>Every belief records <b>provenance</b>. A weekly decay job halves confidence on anything unverified. Verifying a row resets the clock.</p>
+
+    <h4>— Causal world model</h4>
+    <ul>
+      <li><b>wm_entities</b> — the <i>state</i> of a thing</li>
+      <li><b>wm_relations</b> — subject-predicate-object facts with evidence</li>
+      <li><b>wm_events</b> — discrete events with causes[] and effects[]</li>
+      <li><b>wm_predictions</b> — testable future claims; on resolution a <b>calibration gap</b> is computed</li>
+    </ul>
+
+    <h4>— Self-knowledge &amp; autonomy ladder</h4>
+    <p>The <code>capabilities</code> table gives Friday a live self-portrait: confidence (Bayesian blend), success/failure counts, cost and time averages, autonomy_max. On top sits a 6-rung autonomy ladder:</p>
+    <table class="cron-t">
+      <tr><td>L0</td><td>Suggest only</td><td>—</td><td>propose but don't act</td></tr>
+      <tr><td>L1</td><td>Sandbox</td><td>—</td><td>dry-run only</td></tr>
+      <tr><td>L2</td><td>Low-risk act</td><td>—</td><td>reversible actions</td></tr>
+      <tr><td>L3</td><td>Bounded act</td><td>—</td><td>with stop conditions</td></tr>
+      <tr><td>L4</td><td>Long chain</td><td>—</td><td>with checkpoints</td></tr>
+      <tr><td>L5</td><td>Self-modify</td><td>—</td><td>rollback required</td></tr>
+    </table>
+    <p><code>POST /autonomy/check</code> gates every risky action. No unrecorded jump of autonomy.</p>
+    <figure>
+      <img src="img/harness/brain.png" alt="Brain dashboard showing Overview, Goals &amp; Plans, and three-layer Memory sections">
+      <figcaption>Brain — the single audit surface for everything the harness touches. Sub-nav pills scroll to each subsystem: Overview, Goals &amp; Plans, Memory, World Model, Self-knowledge, Safety, Learning, Metrics.</figcaption>
+    </figure>
+
+    <h4>— Verifier &amp; sandbox</h4>
+    <p>Every important claim is logged with a <b>check_type</b> (factual, consistency, hallucination, evidence). Every irreversible action (email, code push, spending) must first run as dry-run with a verdict before graduating to live.</p>
+    <p><i>Without evidence, don't act. Without verification, don't learn from that action as if it were correct.</i></p>
+
+    <h4>— Experiments &amp; skill compiler</h4>
+    <p>The experiment engine measures cause and effect with guardrails — conclusions are only drawn if <b>delta &gt; threshold</b> AND <b>samples &gt; threshold</b>. Otherwise: inconclusive.</p>
+    <p>Skills have maturity gates: <b>draft → beta</b> (one recorded run), <b>beta → stable</b> (≥ 3 runs, ≥ 66% success), <b>stable → deprecated</b> (&lt; 50% over last 10). A nightly 02:37 cron applies the rules automatically.</p>
+
+    <h4>— 11 KPIs that prove improvement</h4>
+    <ul>
+      <li><b>tasks_solved_no_correction_pct</b> — did the user accept the first answer?</li>
+      <li><b>hallucination_rate</b> — self-reported "I was wrong" rate</li>
+      <li><b>time_to_complete_goal_sec</b> — goal creation to completion</li>
+      <li><b>skill_reuse_rate</b> — are compiled skills being picked up?</li>
+      <li><b>skill_success_rate</b> — average success across stable skills</li>
+      <li><b>calibration_gap</b> — |confidence − outcome| on resolved predictions</li>
+      <li><b>actions_reverted_pct</b> — live actions that needed a rollback</li>
+      <li><b>cost_per_useful_task</b> — $ per accepted task</li>
+      <li><b>goals_completed_per_week</b> — throughput of closed goals</li>
+      <li><b>approved_improvements_effective_pct</b> — did proposals actually move a KPI?</li>
+      <li><b>world_model_precision</b> — average capability confidence</li>
+    </ul>
+    <p>A daily 22:23 cron computes values. <code>/metric/summary</code> returns latest + 7-day min / avg / max.</p>
+
+    <figure>
+      <img src="img/harness/crons.png" alt="Crons dashboard showing runtime-active crons with live countdowns and persisted prompts all synced">
+      <figcaption>Crons — left: runtime jobs with live countdowns; right: persisted prompts from <code>~/.claude/cron-prompts.md</code>. Each disk prompt shows <code>sincronizado</code> if the runtime has it, <code>⚠ no corriendo</code> otherwise — the signal to recreate.</figcaption>
+    </figure>
+
+    <h4>— Golden rule</h4>
+    <p><b>No unrecorded autonomy.</b> Every operational decision — a goal created, a plan executed, an action sandboxed, a prediction resolved, a skill promoted — leaves a row. The dashboard is where a human audits whether the system is <i>earning</i> its autonomy, one row at a time.</p>
+
+    <p style="margin-top:32px"><a href="https://github.com/missingus3r/memory-graph" target="_blank">memory-graph repo ↗</a></p>
+  </div>
+</div>
+
+<!-- Tweaks -->
+<div class="tweaks" id="tweaks">
+  <h4>Tweaks</h4>
+  <label>
+    <span>Accent</span>
+    <div id="sw">
+      <span class="sw" data-c="#22d3ee" style="background:#22d3ee"></span>
+      <span class="sw" data-c="#67e8f9" style="background:#67e8f9"></span>
+      <span class="sw" data-c="#06b6d4" style="background:#06b6d4"></span>
+      <span class="sw" data-c="#a8acb1" style="background:#a8acb1"></span>
+    </div>
+  </label>
+  <label>
+    <span>Mode</span>
+    <div class="mode-row">
+      <button data-m="dark">Dark</button>
+      <button data-m="light">Light</button>
+    </div>
+  </label>
+</div>
+
+<script>
+// ---- Diagram row highlight ----
+const diagram = document.getElementById('diagram');
+const rows = [...diagram.querySelectorAll('.row')];
+function light(idx){ rows.forEach((r,i)=>r.classList.toggle('on', i===idx)); }
+let i=0, auto=true;
+diagram.addEventListener('mouseenter',()=>auto=false);
+diagram.addEventListener('mouseleave',()=>auto=true);
+rows.forEach((r,idx)=>r.addEventListener('mouseenter',()=>light(idx)));
+light(0);
+setInterval(()=>{ if(!auto) return; i=(i+1)%rows.length; light(i); }, 1500);
+
+// ---- Copy command ----
+document.getElementById('copyBtn').addEventListener('click',()=>{
+  const t = document.getElementById('cmd').textContent;
+  navigator.clipboard?.writeText(t);
+  const b = document.getElementById('copyBtn');
+  const o = b.textContent; b.textContent='Copied';
+  setTimeout(()=>b.textContent=o,1400);
+});
+
+// ---- Tweaks ----
+const root = document.documentElement;
+function applyTweaks(t){
+  root.style.setProperty('--accent', t.accent);
+  // derive soft bg from accent (approx)
+  root.style.setProperty('--accent-soft', hexToRgba(t.accent, 0.14));
+  root.setAttribute('data-mode', t.mode);
+  document.querySelectorAll('#sw .sw').forEach(el=>el.classList.toggle('on', el.dataset.c===t.accent));
+  document.querySelectorAll('.mode-row button').forEach(b=>b.classList.toggle('on', b.dataset.m===t.mode));
+  document.querySelectorAll('#themeToggle button').forEach(b=>b.classList.toggle('on', b.dataset.theme===t.mode));
+}
+function hexToRgba(hex, a){
+  const m = hex.replace('#','');
+  const v = m.length===3 ? m.split('').map(c=>c+c).join('') : m;
+  const r=parseInt(v.slice(0,2),16), g=parseInt(v.slice(2,4),16), b=parseInt(v.slice(4,6),16);
+  return `rgba(${r},${g},${b},${a})`;
+}
+applyTweaks(TWEAKS);
+document.querySelectorAll('#sw .sw').forEach(el=>{
+  el.addEventListener('click',()=>{
+    TWEAKS.accent = el.dataset.c; applyTweaks(TWEAKS);
+    window.parent?.postMessage({type:'__edit_mode_set_keys', edits:{accent:TWEAKS.accent}},'*');
   });
 });
+document.querySelectorAll('.mode-row button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    TWEAKS.mode = b.dataset.m; applyTweaks(TWEAKS);
+    window.parent?.postMessage({type:'__edit_mode_set_keys', edits:{mode:TWEAKS.mode}},'*');
+  });
+});
+document.querySelectorAll('#themeToggle button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    TWEAKS.mode = b.dataset.theme; applyTweaks(TWEAKS);
+    window.parent?.postMessage({type:'__edit_mode_set_keys', edits:{mode:TWEAKS.mode}},'*');
+  });
+});
+
+// Edit mode protocol
+window.addEventListener('message', e=>{
+  if(e.data?.type==='__activate_edit_mode') document.getElementById('tweaks').classList.add('on');
+  if(e.data?.type==='__deactivate_edit_mode') document.getElementById('tweaks').classList.remove('on');
+});
+window.parent?.postMessage({type:'__edit_mode_available'},'*');
+
+// ---- Modal ----
+function bindModal(btnId, scrimId, modalId, closeId){
+  const scrim = document.getElementById(scrimId);
+  const modal = document.getElementById(modalId);
+  const open = ()=>{ scrim.classList.add('on'); modal.classList.add('on'); document.body.classList.add('modal-open'); };
+  const close = ()=>{ scrim.classList.remove('on'); modal.classList.remove('on'); document.body.classList.remove('modal-open'); };
+  document.getElementById(btnId).addEventListener('click', open);
+  document.getElementById(closeId).addEventListener('click', close);
+  scrim.addEventListener('click', close);
+}
+bindModal('openModal','scrim','modal','closeModal');
+bindModal('openHarness','scrimH','modalH','closeHarness');
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ document.querySelectorAll('.modal.on, .modal-scrim.on').forEach(el=>el.classList.remove('on')); document.body.classList.remove('modal-open'); } });
 </script>
 </body>
 </html>
