@@ -3,7 +3,90 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Friday — a 24/7 AI assistant</title>
+
+<title>Friday — a 24/7 self-evolving AI assistant powered by Claude Code</title>
+<meta name="description" content="Friday is a 24/7 personal AI assistant that runs on your own machine, talks via Telegram, and learns from its own behavior. Powered by Claude Code (Opus 4.6/4.7) — adaptable to OpenAI Codex, Gemini CLI, OpenCode and local models.">
+<meta name="keywords" content="AI assistant, Claude Code, Anthropic, Opus 4.7, self-evolving AI, autonomous agent, Telegram bot, MCP plugins, personal AI, 24/7 assistant, agentic AI, local AI, OpenAI Codex, Gemini CLI, OpenCode, Iron Man Friday, JARVIS alternative, cron AI, memory graph">
+<meta name="author" content="Bruno Silveira (missingus3r)">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="googlebot" content="index, follow">
+<link rel="canonical" href="https://missingus3r.github.io/friday-showcase/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Friday">
+<meta property="og:title" content="Friday — a 24/7 self-evolving AI assistant">
+<meta property="og:description" content="A personal AI that never goes to sleep. Runs on your laptop, talks via Telegram, remembers, schedules, and writes first. Powered by Claude Code on your existing subscription.">
+<meta property="og:url" content="https://missingus3r.github.io/friday-showcase/">
+<meta property="og:image" content="https://missingus3r.github.io/friday-showcase/img/brain.jpg">
+<meta property="og:image:alt" content="Friday Brain dashboard — learned skills, preferences, reflections, world model insights, and pending self-improvement proposals">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@missingus3r">
+<meta name="twitter:creator" content="@missingus3r">
+<meta name="twitter:title" content="Friday — a 24/7 self-evolving AI assistant">
+<meta name="twitter:description" content="A personal AI that never goes to sleep. Runs on your laptop, talks via Telegram, remembers, schedules, and writes first.">
+<meta name="twitter:image" content="https://missingus3r.github.io/friday-showcase/img/brain.jpg">
+
+<!-- Favicon -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%2322d3ee'/%3E%3C/svg%3E">
+
+<!-- JSON-LD: SoftwareApplication + author -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Friday",
+      "alternateName": "Friday — 24/7 AI assistant",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Linux, macOS, Windows",
+      "description": "A 24/7 self-evolving personal AI assistant that runs on your own computer and talks to you through Telegram. Powered by Claude Code (Anthropic's CLI agent) on the Max Plan, with no custom AI backend, fine-tuned models, or orchestration framework. Adaptable to OpenAI Codex, Google Gemini CLI, OpenCode, and local models with minor adjustments.",
+      "url": "https://missingus3r.github.io/friday-showcase/",
+      "downloadUrl": "https://github.com/missingus3r/friday-showcase",
+      "softwareVersion": "2.9.0",
+      "datePublished": "2025-09-01",
+      "dateModified": "2026-04-19",
+      "license": "https://github.com/missingus3r/friday-showcase",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "description": "Free and open source. Requires an existing Claude Code subscription."
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Bruno Silveira",
+        "url": "https://github.com/missingus3r",
+        "sameAs": ["https://x.com/missingus3r"]
+      },
+      "featureList": [
+        "Self-evolving cognition harness with goals, plans, memory, world model, verifier, sandbox, experiments, skill compiler, metrics",
+        "Telegram-native chat interface via MCP plugin",
+        "Persistent memory with hybrid RAG search (FTS5 + vector embeddings)",
+        "18 autonomous cron jobs with self-healing watchdog",
+        "Voice messages (TTS/STT via ElevenLabs)",
+        "Email handling (AgentMail)",
+        "Notion knowledge base integration",
+        "Web research (search + fetch)",
+        "Git operations (commit, push, PR)",
+        "Adaptable to OpenAI Codex, Google Gemini CLI, OpenCode, and local models"
+      ],
+      "keywords": "AI assistant, Claude Code, Opus 4.7, self-evolving AI, autonomous agent, Telegram, MCP, personal AI"
+    },
+    {
+      "@type": "WebSite",
+      "name": "Friday",
+      "url": "https://missingus3r.github.io/friday-showcase/",
+      "inLanguage": "en"
+    }
+  ]
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -238,6 +321,7 @@ try{
   <a href="#pieces"><span class="num">05</span><span>Pieces</span></a>
   <a href="#idea"><span class="num">06</span><span>Idea</span></a>
   <a href="#setup"><span class="num">07</span><span>Setup</span></a>
+  <a href="#agents"><span class="num">08</span><span>Agents</span></a>
 </aside>
 
 <div class="wrap">
@@ -349,6 +433,22 @@ try{
         </div>
       </div></div>
     </div>
+  </section>
+
+  <section id="agents">
+    <div class="kicker">— 08 —  Bring your own model</div>
+    <h2>Tested on Claude. <b>Adaptable to anything.</b></h2>
+    <p class="body">Friday is built and proven on <b>Claude Code with Anthropic's Opus 4.6 and 4.7</b>. That's the path with the most polish today — every cron, MCP plugin, and self-evolving subsystem is verified end-to-end on it.</p>
+    <p class="body">The architecture isn't tied to a single vendor, though. The brain is just an agentic CLI that can use tools, schedule jobs, and read a system prompt. With small adjustments to <code style="font-family:var(--mono);font-size:13px;color:var(--accent)">CLAUDE.md</code> and the cron prompts, the same setup runs on:</p>
+
+    <div class="diagram" style="margin-top:48px">
+      <div class="row on"><span class="k">Anthropic</span><span class="arrow">→</span><span><b>Claude Code</b> · Opus 4.6 / 4.7 — the tested path</span></div>
+      <div class="row"><span class="k">OpenAI</span><span class="arrow">→</span><span><b>Codex</b> CLI · GPT-5.x family</span></div>
+      <div class="row"><span class="k">Google</span><span class="arrow">→</span><span><b>Gemini CLI</b> · Gemini 3.x family</span></div>
+      <div class="row"><span class="k">Open</span><span class="arrow">→</span><span><b>OpenCode</b> with local models (Qwen, GLM, Llama) or any cloud provider</span></div>
+    </div>
+
+    <p class="body" style="margin-top:32px">Every agent has its own quirks — tool-use schemas, scheduling primitives, MCP support — so adapting is a real exercise, not a one-line swap. The blueprint and the lessons are here; the port is up to you.</p>
   </section>
 
   <footer>

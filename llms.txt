@@ -1,0 +1,60 @@
+# Friday — a 24/7 self-evolving AI assistant
+
+> A personal AI that never goes to sleep. Runs on your own machine, talks via Telegram, remembers, schedules, and writes first. Powered by Claude Code on your existing subscription — no custom AI backend, no fine-tuned models, no orchestration framework.
+
+## What it is
+
+Friday is a 24/7 personal AI assistant that runs on a standard Windows, Linux, or macOS machine. It communicates through Telegram, runs scheduled tasks autonomously, manages files and projects, and maintains persistent memory across sessions. It also **learns from its own behavior**: acquires new skills, reflects on daily performance, infers user preferences from repeated corrections, and proposes its own improvements.
+
+## How it works
+
+Claude Code (Anthropic's agentic CLI) sits at the center, connecting to external services through MCP (Model Context Protocol) plugins and shell tools. A `CLAUDE.md` file acts as the system prompt, defining behavior, available tools, and cron schedules. There is no glue code between the LLM and the tools — Claude Code already provides the runtime.
+
+## What makes it different
+
+- **Self-evolving** — extracts reusable patterns from solved tasks (skills), reflects on its own performance nightly, infers user preferences from repeated corrections, builds a behavioral world model, and proposes formal self-improvements with diff previews.
+- **Cognition harness (v2)** — additive layer with goal engine, hierarchical plan trees, three-layer memory (episodic / semantic / procedural), causal world model, verifier + sandbox, experiment engine, skill compiler, and 11-KPI metrics framework. 13 SQLite tables, ~70 endpoints, 8 new crons.
+- **Writes first** — proactive check-ins, reminders, follow-ups based on memory and context. Not just reactive.
+- **Self-healing** — heartbeat cron monitors all 18 jobs and recreates any that expire.
+
+## Tested model
+
+Built and proven on **Claude Code with Anthropic's Opus 4.6 and 4.7**.
+
+## Adaptable to other agents (with adjustments)
+
+- **OpenAI Codex CLI** with GPT-5.x family
+- **Google Gemini CLI** with Gemini 3.x family
+- **OpenCode** with local models (Qwen, GLM, Llama) or any cloud provider
+
+The architecture is not tied to a single vendor — the brain is just an agentic CLI that can use tools, schedule jobs, and read a system prompt. Every agent has its own quirks (tool-use schemas, scheduling primitives, MCP support), so adapting is a real exercise, not a one-line swap.
+
+## The stack
+
+- **Brain** — Claude Code CLI (Opus 4.7, 1M context)
+- **Chat** — Telegram (via MCP plugin)
+- **Memory** — Flask + SQLite + embedding-based hybrid RAG (FTS5 + vector cosine, RRF)
+- **Knowledge** — Notion (via MCP plugin)
+- **Voice** — ElevenLabs TTS + STT
+- **Scheduling** — Claude Code built-in cron system
+- **Cost** — Just your existing Claude Code subscription
+
+## 18 autonomous cron jobs
+
+Email check, cron watchdog, daily briefing, heartbeat, monthly usage, reflection, preference learning, AI model monitor, memory API health, weekly summarization, goal prioritizer, memory decay, daily metrics, predictions resolver, skill promotion, experiments runner, world model grower, auto-audit, telegram plugin watchdog.
+
+## Links
+
+- Live page: https://missingus3r.github.io/friday-showcase/
+- Source: https://github.com/missingus3r/friday-showcase
+- Memory server: https://github.com/missingus3r/memory-graph
+- Setup guide: https://github.com/missingus3r/friday-showcase/blob/main/SETUP.md
+- Author: Bruno Silveira (https://github.com/missingus3r, https://x.com/missingus3r)
+
+## License
+
+Open source. Free to fork, study, adapt.
+
+## Inspiration
+
+Named after the last A.I. assistant Tony Stark built before hanging up the suit. This one doesn't have a suit either — just a terminal.
