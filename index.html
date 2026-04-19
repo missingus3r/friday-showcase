@@ -395,7 +395,7 @@
                 <tbody>
                     <tr>
                         <td>Brain</td>
-                        <td>Claude Code CLI (Opus 4.6, 1M context)</td>
+                        <td>Claude Code CLI (Opus 4.7, 1M context)</td>
                     </tr>
                     <tr>
                         <td>Interface</td>
@@ -466,8 +466,8 @@
 
         <!-- Section: Scheduled Jobs -->
         <section id="scheduled-jobs">
-            <h2>Scheduled Jobs (10 Crons)</h2>
-            <p>The system runs 10 autonomous cron jobs that keep it alive and learning:</p>
+            <h2>Scheduled Jobs (18 Crons)</h2>
+            <p>The system runs 18 autonomous cron jobs that keep it alive and learning (10 original + 8 added by the v2 harness):</p>
             <table class="stack-table">
                 <thead>
                     <tr>
@@ -480,18 +480,29 @@
                 <tbody>
                     <tr><td>1</td><td>Email check</td><td>Every 1h</td><td>Check inbox for new emails, notify if any</td></tr>
                     <tr><td>2</td><td>Cron watchdog</td><td>Every 6h</td><td>Verify no crons are about to expire (7-day TTL)</td></tr>
-                    <tr><td>3</td><td>Daily briefing</td><td>Daily ~9 AM</td><td>Weather, currencies, AI news, movies + cron status</td></tr>
-                    <tr><td>4</td><td>Heartbeat</td><td>Every 1h</td><td>System health, verify all 10 crons, social check-in</td></tr>
+                    <tr><td>3</td><td>Daily briefing</td><td>Daily ~9 AM</td><td>Weather, currencies, AI news, movies + cron status + pending proposals</td></tr>
+                    <tr><td>4</td><td>Heartbeat</td><td>Every 1h</td><td>System health, verify all 18 crons, social check-in</td></tr>
                     <tr><td>5</td><td>Monthly usage</td><td>End of month</td><td>API usage report across all services</td></tr>
                     <tr><td>6</td><td>Reflection</td><td>Every 12h</td><td>Review logs for patterns, mistakes, insights</td></tr>
                     <tr><td>7</td><td>Preference learning</td><td>Daily (night)</td><td>Infer rules from repeated feedback corrections</td></tr>
-                    <tr><td>8</td><td>AI Model Monitor</td><td>Daily 10:17</td><td>Scan for new AI model releases, update index</td></tr>
+                    <tr><td>8</td><td>AI Model Monitor</td><td>Daily 10:17</td><td>Scan for new AI model releases + AGI forecast aggregate (Metaculus + Manifold + Kalshi via agi.goodheartlabs.com)</td></tr>
                     <tr><td>9</td><td>Memory API health</td><td>Every 3h</td><td>Health check with auto-restart on failure</td></tr>
                     <tr><td>10</td><td>Weekly summarization</td><td>Weekly (Sun)</td><td>Compress old conversation logs into weekly summaries</td></tr>
+                    <tr><td>11</td><td><strong>Goal priorizer</strong></td><td>Daily 9:37</td><td>Flag goals with deadlines &lt; 3d or no progress &gt; 5d <em>(v2)</em></td></tr>
+                    <tr><td>12</td><td><strong>Memory decay</strong></td><td>Weekly (Sun)</td><td>Apply confidence half-life to unverified beliefs <em>(v2)</em></td></tr>
+                    <tr><td>13</td><td><strong>Daily metrics</strong></td><td>Daily 22:23</td><td>Compute hallucination rate, calibration gap, etc. <em>(v2)</em></td></tr>
+                    <tr><td>14</td><td><strong>Predictions resolver</strong></td><td>Daily 21:53</td><td>Close out predictions whose due_at has passed <em>(v2)</em></td></tr>
+                    <tr><td>15</td><td><strong>Skill promotion</strong></td><td>Daily 02:37</td><td>Promote draft→beta→stable with guardrails <em>(v2)</em></td></tr>
+                    <tr><td>16</td><td><strong>Experiments runner</strong></td><td>Every 6h (:17)</td><td>Drive A/B experiments via sandbox dry-runs, auto-conclude <em>(v2)</em></td></tr>
+                    <tr><td>17</td><td><strong>World model grower</strong></td><td>Daily 06:53</td><td>Detect recurring topics/entities, POST to /worldmodel and /entity <em>(v2)</em></td></tr>
+                    <tr><td>18</td><td><strong>Auto-audit</strong></td><td>3x/day (8:19, 14:19, 20:19)</td><td>Integrity scan of core tables, fail rates, overdue predictions <em>(v2)</em></td></tr>
                 </tbody>
             </table>
             <p style="font-size:0.88rem;color:#94a3b8;margin-top:12px">
-                The heartbeat and briefing crons act as watchdogs &mdash; they verify all 10 jobs are active and recreate any that are missing.
+                The heartbeat and briefing crons act as watchdogs &mdash; they verify all 18 jobs are active and recreate any that are missing.
+            </p>
+            <p style="font-size:0.88rem;color:#94a3b8;margin-top:12px">
+                <strong>Disaster recovery</strong> is also built in (memory server v2.9.0+): <code>/backup/export</code> returns a consistent whole-DB snapshot, <code>POST /backup/import</code> validates and swaps it in. A <strong>💾 Backup</strong> button on the dashboard topbar triggers the same flow from the browser. Recommended: nightly off-site rsync of <code>/backup/export</code>.
             </p>
         </section>
 
@@ -556,7 +567,7 @@
 
             <div class="highlight-box" style="border-left-color:#c084fc">
                 <p>
-                    <strong>v2 update &mdash; April 2026:</strong> the self-evolving core has been extended with a full <em>cognition harness</em>: goal engine, hierarchical plans, three-layer memory, causal world model, verifier/sandbox, experiment engine, skill compiler and a metrics framework that proves whether the system is actually improving. The infrastructure added 13 new tables, ~60 endpoints and 5 new crons, all additive &mdash; nothing old was removed.
+                    <strong>v2 update &mdash; April 2026:</strong> the self-evolving core has been extended with a full <em>cognition harness</em>: goal engine, hierarchical plans, three-layer memory, causal world model, verifier/sandbox, experiment engine, skill compiler and a metrics framework that proves whether the system is actually improving. The infrastructure added 13 new tables, ~70 endpoints and 8 new crons, all additive &mdash; nothing old was removed. Version 2.9.0 (April 2026) adds <em>disaster recovery</em>: whole-DB snapshot export/import over HTTP.
                 </p>
                 <p style="margin-top:12px">
                     &rarr; <a href="harness.html"><strong>Read the technical deep-dive: The Self-Evolving Harness</strong></a>

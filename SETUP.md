@@ -132,6 +132,14 @@ Have Claude Code generate `~/projects/memory-graph/api_server.py` as the core se
 | GET/PUT | /kv/<key> | Key-value store (used for UI state persistence) |
 | GET | /graph | Serve web visualization app |
 
+**Backup / Restore (disaster recovery):**
+| Method | Endpoint | Purpose |
+|--------|----------|---------|
+| GET | /backup/info | DB path, size, last modified, disk free, list of pre-import backups |
+| GET | /backup/export | Consistent `.db` snapshot via `VACUUM INTO`, streamed as attachment |
+| GET | /backup/export?format=dump | Plain SQL dump (portable, diffable) |
+| POST | /backup/import (form field `file`) | Validate uploaded SQLite + core tables, back up current as `memory.db.pre-import-<ts>`, swap in. Server restart required to reload connections |
+
 **Self-Evolving System:**
 | Method | Endpoint | Purpose |
 |--------|----------|---------|
@@ -153,9 +161,11 @@ Have Claude Code generate `~/projects/memory-graph/api_server.py` as the core se
 | GET | /insight/list | All insights |
 | DELETE | /insight/<id> | Delete an insight |
 | POST | /proposal | Create improvement proposal `{file_path, change_type, description, diff_preview}` |
-| GET | /proposal/pending | Pending proposals |
-| PUT | /proposal/<id>/approve | Approve a proposal |
-| PUT | /proposal/<id>/reject | Reject a proposal |
+| GET | /proposal/pending | Pending proposals (status=pending only) |
+| GET | /proposal/list?status= | All proposals, optionally filtered by status |
+| GET | /proposal/<id> | Get one proposal |
+| PUT/POST/PATCH | /proposal/<id>/approve | Approve a proposal (any of the three HTTP verbs works since v2.8.0) |
+| PUT/POST/PATCH | /proposal/<id>/reject | Reject a proposal |
 | POST | /worldmodel | Create/update soft observation `{category, pattern, evidence, confidence}` |
 | GET | /worldmodel/active | Active observations (non-expired, confidence >= 0.4, not yet promoted) |
 | GET | /worldmodel/list | All observations including promoted ones |
@@ -324,21 +334,21 @@ You have a persistent memory HTTP API running on `http://127.0.0.1:7777`.
 At the start of each session, perform these steps automatically:
 
 1. **Check memory API health**: `curl -s http://127.0.0.1:7777/health` — if the API is down, start it automatically and wait 2 seconds before verifying again.
-2. **Create all 15 cron jobs** (see list below). The heartbeat and briefing crons verify that all 15 are active and recreate any that are missing.
+2. **Create all 18 cron jobs** (see list below). The heartbeat and briefing crons verify that all 18 are active and recreate any that are missing.
 3. **Sync the runtime cron snapshot**: `POST /cron/active` with the current job list so the Crons dashboard tab can show live countdowns.
 
-### The 15 Cron Jobs
+### The 18 Cron Jobs
 
 | # | Name | Schedule | What it does |
 |---|------|----------|-------------|
 | 1 | Email check | Every 1h (:13) | Check inbox for new emails, notify user if any |
 | 2 | Cron watchdog | Every 6h (:23) | Verify no crons are about to expire (7-day TTL), alert if any are |
-| 3 | Daily briefing | Daily ~9:00 AM | Weather, currencies, AI news, movies. Lists active crons at the end |
-| 4 | Heartbeat | Every 1h (:43) | System state check, verify all 15 crons active, recreate missing. Social message 1x/day (50/50) if no alerts. Silent between 00:00-08:00 |
+| 3 | Daily briefing | Daily ~9:00 AM | Weather, currencies, AI news, movies. Lists active crons + pending proposals at the end |
+| 4 | Heartbeat | Every 1h (:43) | System state check, verify all 18 crons active, recreate missing. Social message 1x/day (50/50) if no alerts. Silent between 00:00-08:00 |
 | 5 | Monthly usage | Days 28-31, 10:03 | Run usage report script, remind user to send stats from other machines |
 | 6 | Reflection | Every 12h (11:27, 23:27) | Review logs for patterns, mistakes, insights. Save to /reflection |
 | 7 | Preference learning | Daily 3:07 | Analyze feedback patterns, generate preference rules, propose code changes |
-| 8 | AI Model Monitor | Daily 10:17 | Scan for new AI model releases (WebSearch + HuggingFace), update model index |
+| 8 | AI Model Monitor | Daily 10:17 | Scan for new AI model releases (WebSearch + HuggingFace) + check AGI forecasts at agi.goodheartlabs.com (aggregates Metaculus + Manifold + Kalshi); update index if shifted |
 | 9 | Memory API health | Every 3h (:33) | Check API health, auto-restart if down, notify user of failures |
 | 10 | Weekly summarization | Sundays 4:47 | Compress old conversation logs into weekly summaries (originals preserved) |
 | 11 | **Goal priorizer** *(v2 harness)* | Daily 9:37 | Flag goals with deadline < 3d or no progress > 5d. GET /goal/active + /goal/next |
@@ -346,8 +356,11 @@ At the start of each session, perform these steps automatically:
 | 13 | **Daily metrics** *(v2 harness)* | Daily 22:23 | Compute hallucination_rate, calibration_gap, world_model_precision, goals_completed_today → POST /metric |
 | 14 | **Predictions resolver** *(v2 harness)* | Daily 21:53 | Resolve predictions with due_at in the past where evidence is clear |
 | 15 | **Skill promotion** *(v2 harness)* | Daily 2:37 | Auto-promote skills: draft→beta (≥1 run), beta→stable (≥3 runs & ≥66% success), stable→deprecated (<50% in last 10) |
+| 16 | **Experiments runner** *(v2 harness)* | Every 6h (:17) | For running experiments with samples < min_samples, pick variant with fewest observations, dry-run via /sandbox/execute, then record /experiment/<id>/observation. Auto-conclude when min_samples reached |
+| 17 | **World model grower** *(v2 harness)* | Daily 6:53 | Scan /conversation/recent?hours=24, detect 2+ mentions of same topic/entity/behavior, POST /worldmodel; auto-insert /entity rows for people/projects/places |
+| 18 | **Auto-audit** *(v2 harness)* | 3x/day (8:19, 14:19, 20:19) | Integrity scan: empty reflections, worldmodel occurrences=0, memories without description, core tables stale >7d, capabilities fail rate >50%, predictions overdue. Error → alert user; improvement → proposal |
 
-Persist the 15 prompts to `~/.claude/cron-prompts.md` so they survive session restarts. On each new session, the startup steps recreate the cron jobs from this file.
+Persist the 18 prompts to `~/.claude/cron-prompts.md` so they survive session restarts. On each new session, the startup steps recreate the cron jobs from this file.
 
 ## Notes
 - When the user says "note" followed by text or a link:
