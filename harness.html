@@ -103,7 +103,8 @@
                 <li><a href="#wiring">10. Wiring: how Friday actually uses it</a></li>
                 <li><a href="#brain">11. The Brain dashboard</a></li>
                 <li><a href="#crons">12. The Crons dashboard</a></li>
-                <li><a href="#objective">13. What this buys us</a></li>
+                <li><a href="#disaster-recovery">13. Disaster recovery (v2.9.0)</a></li>
+                <li><a href="#objective">14. What this buys us</a></li>
             </ul>
         </nav>
 
@@ -118,7 +119,7 @@
 
         <section id="blueprint">
             <h2>2. The blueprint</h2>
-            <p>Everything lives in the same SQLite database that the Friday memory API (<code>~/proyectos/memory-graph</code>) was already using. The API gained 13 new tables and roughly 60 new endpoints across 8 subsystems:</p>
+            <p>Everything lives in the same SQLite database that the Friday memory API (<code>~/proyectos/memory-graph</code>) was already using. The API gained 13 new tables and roughly 70 new endpoints across 8 subsystems (plus a disaster-recovery surface added in v2.9.0):</p>
 
             <table class="stack-table">
                 <thead>
@@ -341,7 +342,7 @@ PATCH /experiment/&lt;id&gt;/conclude {}   // auto-picks winner only if delta &g
 
         <section id="crons">
             <h2>12. The Crons dashboard</h2>
-            <p>The harness only works if its 15 cron jobs are actually running. Because Claude Code crons are session-local (they die with the process), drift is possible: the disk has a prompt, the runtime doesn't have the job. The <strong>Crons</strong> tab is a two-column diff:</p>
+            <p>The harness only works if its 18 cron jobs are actually running. Because Claude Code crons are session-local (they die with the process), drift is possible: the disk has a prompt, the runtime doesn't have the job. The <strong>Crons</strong> tab is a two-column diff:</p>
 
             <ul>
                 <li><strong>Runtime active</strong> (left) — the snapshot Friday POSTs to <code>/cron/active</code> whenever it loads or changes jobs. Each entry shows the label, cron expression, prompt preview, and a <em>live countdown</em> to the next fire computed in JS (ticking every second).</li>
@@ -349,13 +350,28 @@ PATCH /experiment/&lt;id&gt;/conclude {}   // auto-picks winner only if delta &g
             </ul>
 
             <figure class="screenshot">
-                <img src="img/harness/crons.png" alt="Crons dashboard showing 15 runtime-active crons with live countdowns and 15 persisted prompts all synced">
-                <figcaption>Crons &mdash; left: 15 runtime jobs with live countdowns; right: 15 persisted prompts, all marked <code>sincronizado</code>.</figcaption>
+                <img src="img/harness/crons.png" alt="Crons dashboard showing 18 runtime-active crons with live countdowns and 18 persisted prompts all synced">
+                <figcaption>Crons &mdash; left: 18 runtime jobs with live countdowns; right: 18 persisted prompts, all marked <code>sincronizado</code>.</figcaption>
             </figure>
         </section>
 
+        <section id="disaster-recovery">
+            <h2>13. Disaster recovery (v2.9.0)</h2>
+            <p>None of the above matters if the machine dies and the SQLite file is lost. The self-evolving harness accumulates everything &mdash; goals, plans, calibration curves, skill maturity, world model, verification history, metrics &mdash; directly on disk. Losing that file means starting from a cold assistant that has no memory of any prior correction, preference, or learned skill.</p>
+
+            <p>v2.9.0 adds three endpoints and a UI button in the dashboard topbar to address this:</p>
+
+            <ul>
+                <li><code>GET /backup/info</code> &mdash; path, size, last modification time, free disk space, and list of <code>.pre-import-&lt;ts&gt;</code> backups left by prior imports.</li>
+                <li><code>GET /backup/export</code> &mdash; consistent whole-DB snapshot produced via SQLite's <code>VACUUM INTO</code> (safe while the server is serving requests), streamed as a <code>.db</code> download. Optional <code>?format=dump</code> returns a portable <code>.sql</code> dump instead.</li>
+                <li><code>POST /backup/import</code> &mdash; validates that the uploaded file is a real SQLite database and contains the core tables, renames the current DB as <code>memory.db.pre-import-&lt;ts&gt;</code>, then swaps in the uploaded file. The API keeps serving the old DB from its in-memory connection until the server is restarted &mdash; restart to load the new one.</li>
+            </ul>
+
+            <p>The <strong>💾 Backup</strong> button on the dashboard topbar opens a modal with the info panel, export buttons (<code>.db</code> or <code>.sql</code>), and a file picker for import &mdash; with a confirm step before overwriting. The recommended operational pattern is a nightly cron that pipes <code>/backup/export</code> into off-site storage (external drive, Drive, S3, Dropbox). If the mini-pc dies, upload the most recent snapshot into a fresh install via <code>/backup/import</code>, restart, and Friday resumes exactly where it stopped &mdash; including every learned skill, active goal, pending proposal and calibration entry.</p>
+        </section>
+
         <section id="objective">
-            <h2>13. What this buys us</h2>
+            <h2>14. What this buys us</h2>
             <p>A system like Friday starts to feel AGI-like not when it talks better or integrates more APIs, but when it can:</p>
 
             <ul>
