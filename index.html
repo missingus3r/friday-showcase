@@ -95,7 +95,7 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
   .stack .row span{font-family:var(--mono);font-size:12px;color:var(--ink-3)}
 
   /* Steps */
-  .steps{margin:48px auto 0;max-width:560px;text-align:left}
+  .steps{margin:48px auto 0;max-width:780px;text-align:left}
   .step{display:grid;grid-template-columns:40px 1fr;gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
   .step .sn{font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.14em;padding-top:2px}
   .step b{display:block;font-weight:500;font-size:15px;margin-bottom:4px}
@@ -103,6 +103,9 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
 
   /* Terminal */
   .terminal{margin:36px auto 0;max-width:640px;background:#06070a;border:1px solid var(--line);border-radius:10px;padding:18px 22px;font-family:var(--mono);font-size:13px;line-height:1.7;text-align:left;position:relative}
+  #term{max-width:none;width:100%;overflow-x:auto}
+  #term > div:not(.bar){white-space:nowrap;padding-right:64px}
+  #term .cmd{font-size:12.5px}
   [data-mode="light"] .terminal{background:#0e0f10;color:#f4f5f6}
   .terminal .bar{display:flex;gap:6px;margin-bottom:14px}
   .terminal .bar i{width:9px;height:9px;border-radius:50%;background:#2a2d31;display:inline-block}
