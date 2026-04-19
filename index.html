@@ -112,9 +112,11 @@ try{
 
   /* Terminal */
   .terminal{margin:36px auto 0;max-width:640px;background:#06070a;border:1px solid var(--line);border-radius:10px;padding:18px 22px;font-family:var(--mono);font-size:13px;line-height:1.7;text-align:left;position:relative}
-  #term{max-width:none;width:100%;overflow-x:auto}
-  #term > div:not(.bar){white-space:nowrap;padding-right:64px}
+  #term{max-width:none;width:100%}
   #term .cmd{font-size:12.5px}
+  @media (min-width: 820px){
+    #term > div:not(.bar){white-space:nowrap;padding-right:64px}
+  }
   [data-mode="light"] .terminal{background:#0e0f10;color:#f4f5f6}
   .terminal .bar{display:flex;gap:6px;margin-bottom:14px}
   .terminal .bar i{width:9px;height:9px;border-radius:50%;background:#2a2d31;display:inline-block}
