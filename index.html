@@ -188,6 +188,15 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
   .modal-body figure figcaption{font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:.1em;margin-top:10px;text-align:center;line-height:1.5;padding:0 8px}
   body.modal-open{overflow:hidden}
 
+  /* TOC */
+  .toc{position:fixed;top:50%;left:24px;transform:translateY(-50%);display:flex;flex-direction:column;gap:6px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;z-index:40}
+  .toc a{color:var(--ink-3);text-decoration:none;padding:5px 0 5px 12px;border-left:1px solid var(--line);transition:color .2s ease, border-color .2s ease, padding-left .2s ease;display:flex;gap:8px;align-items:center}
+  .toc a .num{color:var(--ink-3);opacity:.7}
+  .toc a:hover{color:var(--ink-2);border-color:var(--line-2)}
+  .toc a.active{color:var(--accent);border-color:var(--accent);padding-left:14px}
+  .toc a.active .num{color:var(--accent);opacity:1}
+  @media (max-width: 1180px){ .toc{display:none} }
+
   /* Theme toggle */
   .theme-toggle{display:inline-flex;align-items:center;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
   .theme-toggle button{background:transparent;border:none;color:inherit;font:inherit;letter-spacing:inherit;padding:6px 12px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:color .2s ease}
@@ -207,6 +216,16 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
     <div class="status">Online · 24/7</div>
   </div>
 </nav>
+
+<aside class="toc" aria-label="Section index">
+  <a href="#what"><span class="num">01</span><span>What</span></a>
+  <a href="#how"><span class="num">02</span><span>How</span></a>
+  <a href="#unique"><span class="num">03</span><span>Different</span></a>
+  <a href="#does"><span class="num">04</span><span>Does</span></a>
+  <a href="#pieces"><span class="num">05</span><span>Pieces</span></a>
+  <a href="#idea"><span class="num">06</span><span>Idea</span></a>
+  <a href="#setup"><span class="num">07</span><span>Setup</span></a>
+</aside>
 
 <div class="wrap">
 
@@ -281,7 +300,7 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
     </div>
   </section>
 
-  <section>
+  <section id="pieces">
     <div class="kicker">— 05 —  The pieces</div>
     <h2>A short list of <b>honest parts.</b></h2>
     <div class="stack">
@@ -295,7 +314,7 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
     </div>
   </section>
 
-  <section>
+  <section id="idea">
     <div class="kicker">— 06 —  A quiet idea</div>
     <p class="pull">The assistant isn't bolted on top of something. <b>It is the something.</b></p>
     <div class="pull-attr">— the philosophy</div>
@@ -582,6 +601,26 @@ const TWEAKS = /*EDITMODE-BEGIN*/{
 </div>
 
 <script>
+// ---- TOC active section ----
+(function(){
+  const links = [...document.querySelectorAll('.toc a')];
+  const map = new Map();
+  links.forEach(a=>{
+    const el = document.querySelector(a.getAttribute('href'));
+    if(el) map.set(el, a);
+  });
+  if(!map.size) return;
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(l=>l.classList.remove('active'));
+        map.get(e.target)?.classList.add('active');
+      }
+    });
+  }, {rootMargin:'-40% 0px -55% 0px', threshold:0});
+  map.forEach((_, el)=>obs.observe(el));
+})();
+
 // ---- Diagram row highlight ----
 const diagram = document.getElementById('diagram');
 const rows = [...diagram.querySelectorAll('.row')];
