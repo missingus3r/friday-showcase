@@ -217,6 +217,11 @@ try{
   .pull-attr{font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:.2em;text-transform:uppercase;margin-top:20px}
 
   /* Footer */
+  /* Star CTA */
+  .star-cta{display:inline-flex;align-items:center;gap:10px;margin-top:36px;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:var(--accent-soft);border:1px solid var(--accent);padding:14px 22px;border-radius:6px;text-decoration:none;transition:all .2s ease}
+  .star-cta:hover{background:var(--accent);color:#06070a}
+  .star-cta .star{font-size:16px;color:var(--accent);transition:color .2s ease}
+  .star-cta:hover .star{color:#06070a}
   footer{padding:80px 0 80px;border-top:1px solid var(--line)}
   footer .tag{font-size:14px;color:var(--ink-3);max-width:46ch;margin:0 auto 24px;font-weight:300}
   footer .links{display:flex;justify-content:center;gap:20px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2)}
@@ -322,6 +327,7 @@ try{
   <a href="#idea"><span class="num">06</span><span>Idea</span></a>
   <a href="#setup"><span class="num">07</span><span>Setup</span></a>
   <a href="#agents"><span class="num">08</span><span>Agents</span></a>
+  <a href="#support"><span class="num">09</span><span>Star</span></a>
 </aside>
 
 <div class="wrap">
@@ -449,6 +455,13 @@ try{
     </div>
 
     <p class="body" style="margin-top:32px">Every agent has its own quirks — tool-use schemas, scheduling primitives, MCP support — so adapting is a real exercise, not a one-line swap. The blueprint and the lessons are here; the port is up to you.</p>
+  </section>
+
+  <section id="support">
+    <div class="kicker">— 09 —  If it's useful</div>
+    <h2>Star the repo. <b>Keep it alive.</b></h2>
+    <p class="body">Friday is a personal project kept public so others can learn from it or fork it. If it saved you time, star the repo — it's the lightest signal that this kind of work is worth continuing.</p>
+    <a class="star-cta" href="https://github.com/missingus3r/friday-showcase" target="_blank" rel="noopener"><span class="star">★</span> Star on GitHub</a>
   </section>
 
   <footer>
