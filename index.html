@@ -416,7 +416,7 @@ try{
     <p class="body">No website. No app. No account. One terminal window on your own machine — when you close the lid, it keeps working.</p>
 
     <style>
-    .tg-demo{--tg-blue:#3390ec;--tg-out:#effdde;--tg-out-time:#5bb45a;--tg-in:#fff;--tg-in-time:#8b9aa5;--tg-icon:#707991;--tg-sys:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;display:flex;justify-content:center;margin:26px 0 4px}
+    .tg-demo{--tg-blue:#3390ec;--tg-out:#effdde;--tg-out-time:#5bb45a;--tg-in:#fff;--tg-in-time:#8b9aa5;--tg-icon:#707991;--tg-sys:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;display:flex;justify-content:center;margin:0}
     .tg-demo *{box-sizing:border-box}
     .tg-demo .phone{width:390px;max-width:100%;border-radius:30px;overflow:hidden;border:8px solid #1c1c20;box-shadow:0 40px 80px -40px rgba(0,0,0,.5);font-family:var(--tg-sys);background:#fff;text-align:left}
     .tg-demo .tg-header{display:flex;align-items:center;gap:11px;background:#fff;padding:11px 14px;border-bottom:1px solid #ededed}
@@ -454,7 +454,20 @@ try{
     .tg-demo .tg-send{width:40px;height:40px;border-radius:50%;background:var(--tg-blue);display:grid;place-items:center;flex:none}
     .tg-demo .tg-send svg{width:20px;height:20px;fill:#fff}
     @media(prefers-reduced-motion:reduce){.tg-demo *{animation:none!important}}
+    .tg-carousel{position:relative;max-width:460px;margin:26px auto 4px;font-family:var(--mono)}
+    .tg-cap{text-align:center;font-size:12px;color:var(--ink-3);margin:0 0 11px;letter-spacing:.06em;text-transform:uppercase}
+    .tg-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:6;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 22px/1 var(--sans);cursor:pointer;display:grid;place-items:center;box-shadow:0 6px 18px -8px rgba(0,0,0,.45);transition:border-color .2s,color .2s}
+    .tg-prev{left:-8px}
+    .tg-next{right:-8px}
+    .tg-nav:hover{border-color:var(--accent);color:var(--accent)}
+    .tg-dots{display:flex;justify-content:center;gap:7px;margin-top:13px}
+    .tg-dot{width:7px;height:7px;border-radius:50%;background:var(--line-2);border:0;padding:0;cursor:pointer;transition:background .2s,transform .2s}
+    .tg-dot.on{background:var(--accent);transform:scale(1.25)}
+    @media(max-width:480px){.tg-prev{left:-4px}.tg-next{right:-4px}.tg-nav{width:34px;height:34px;font-size:19px}}
     </style>
+    <div class="tg-carousel">
+      <button class="tg-nav tg-prev" id="tgPrev" aria-label="Previous example">‹</button>
+      <div class="tg-cap" id="tgCap">Scheduling &amp; memory</div>
     <div class="tg-demo" aria-hidden="true">
       <div class="phone">
         <div class="tg-header">
@@ -481,18 +494,44 @@ try{
         </div>
       </div>
     </div>
+      <button class="tg-nav tg-next" id="tgNext" aria-label="Next example">›</button>
+      <div class="tg-dots" id="tgDots"></div>
+    </div>
     <script>
     (function(){
       var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
       var msgs = document.getElementById('tgMsgs');
       var chat = document.getElementById('tgChat');
+      var cap  = document.getElementById('tgCap');
+      var dots = document.getElementById('tgDots');
       if(!msgs || !chat) return;
       var tick = '<svg class="tick" viewBox="0 0 18 9"><path d="M1 5.2 4.2 8.4 10 1.6"/><path d="M7 8.4 12.8 1.6"/></svg>';
-      var convo = [
-        {who:'me', text:'book me a dentist for next week, the usual one', time:'15:41'},
-        {who:'fr', html:'Done — <b>Dr. Méndez on Pocitos</b>, Tuesday 3pm. You always ask for afternoons, so I skipped the morning slots.', time:'15:41', delay:1300},
-        {who:'me', text:'nice. and remind me the day before', time:'15:42'},
-        {who:'fr', html:"Set. I'll ping you Monday at 8am — that's when you actually read me.", time:'15:42', delay:1100}
+      var CONVOS = [
+        {cap:'Scheduling & memory', msgs:[
+          {who:'me', text:'book me a dentist for next week, the usual one', time:'15:41'},
+          {who:'fr', html:'Done — <b>Dr. Méndez on Pocitos</b>, Tuesday 3pm. You always ask for afternoons, so I skipped the morning slots.', time:'15:41', delay:1300},
+          {who:'me', text:'nice. and remind me the day before', time:'15:42'},
+          {who:'fr', html:"Set. I'll ping you Monday at 8am — that's when you actually read me.", time:'15:42', delay:1100}
+        ]},
+        {cap:'Video & link analysis', msgs:[
+          {who:'me', text:'https://youtu.be/… can you summarize this?', time:'21:09'},
+          {who:'fr', html:'Watched it — 14 min on transformer scaling. TL;DR: <b>data quality beats raw size</b>, and small models close the gap fast. Full notes saved to your Notion.', time:'21:09', delay:1600},
+          {who:'me', text:'perfect, thanks', time:'21:10'}
+        ]},
+        {cap:'Proactive monitoring', msgs:[
+          {who:'fr', html:'Heads up — a new frontier model just dropped. Added it to your AGI-countdown index with the official link.', time:'09:02'},
+          {who:'fr', html:'One-liner: bigger context, cheaper, strong on coding. Want the full benchmark rundown?', time:'09:02', delay:900},
+          {who:'me', text:'yes please', time:'09:14'}
+        ]},
+        {cap:'Notes → knowledge base', msgs:[
+          {who:'me', text:'note: ramen place on 21st, Tomás recommended it', time:'13:27'},
+          {who:'fr', html:"Saved to Notion + your notes file. I'll surface it next time you ask where to eat.", time:'13:27', delay:1000}
+        ]},
+        {cap:'Self-improvement', msgs:[
+          {who:'fr', html:'Proposal: the briefing keeps surfacing stale AI news. I can restrict it to the last 48h. Apply?', time:'23:31'},
+          {who:'me', text:'yes', time:'23:33'},
+          {who:'fr', html:"Applied — with a backup. If tomorrow's briefing regresses, I roll it back automatically.", time:'23:33', delay:1200}
+        ]}
       ];
       function bottom(){ chat.scrollTop = chat.scrollHeight; }
       function bubble(m){
@@ -502,30 +541,51 @@ try{
         div.innerHTML = (m.html || m.text) + '<span class="meta">'+meta+'</span>';
         msgs.appendChild(div); bottom();
       }
-      function typing(cb, ms){
-        var t = document.createElement('div');
-        t.className = 'typing';
-        t.innerHTML = '<span></span><span></span><span></span>';
-        msgs.appendChild(t); bottom();
-        setTimeout(function(){ t.remove(); cb(); }, ms);
+      var idx = 0, gen = 0;
+      function play(list){
+        var g = ++gen;
+        msgs.innerHTML = '<div class="datechip">Today</div>';
+        if(reduce){ list.forEach(bubble); return; }
+        var i = 0;
+        (function step(){
+          if(g !== gen || i >= list.length) return;
+          var m = list[i++];
+          if(m.who === 'fr' && m.delay){
+            var t = document.createElement('div');
+            t.className = 'typing';
+            t.innerHTML = '<span></span><span></span><span></span>';
+            msgs.appendChild(t); bottom();
+            setTimeout(function(){ if(g!==gen) return; t.remove(); bubble(m); setTimeout(step, 700); }, m.delay);
+          } else {
+            bubble(m);
+            setTimeout(step, m.who==='me' ? 900 : 700);
+          }
+        })();
       }
-      if(reduce){ convo.forEach(bubble); return; }
-      var i = 0, started = false;
-      function next(){
-        if(i >= convo.length) return;
-        var m = convo[i++];
-        if(m.who === 'fr' && m.delay){
-          typing(function(){ bubble(m); setTimeout(next, 700); }, m.delay);
-        } else {
-          bubble(m);
-          setTimeout(next, m.who==='me' ? 900 : 700);
-        }
+      function renderDots(){
+        dots.innerHTML = '';
+        CONVOS.forEach(function(c, k){
+          var b = document.createElement('button');
+          b.className = 'tg-dot' + (k===idx ? ' on' : '');
+          b.setAttribute('aria-label', c.cap);
+          b.onclick = function(){ idx = k; render(); };
+          dots.appendChild(b);
+        });
       }
-      function start(){ if(started) return; started = true; setTimeout(next, 400); }
+      function render(){
+        cap.textContent = CONVOS[idx].cap;
+        renderDots();
+        play(CONVOS[idx].msgs);
+      }
+      document.getElementById('tgPrev').onclick = function(){ idx = (idx - 1 + CONVOS.length) % CONVOS.length; render(); };
+      document.getElementById('tgNext').onclick = function(){ idx = (idx + 1) % CONVOS.length; render(); };
+      renderDots();
+      var startedOnce = false;
+      function start(){ if(startedOnce) return; startedOnce = true; render(); }
       if('IntersectionObserver' in window){
         var io = new IntersectionObserver(function(es){
           es.forEach(function(e){ if(e.isIntersecting){ io.disconnect(); start(); } });
-        }, {threshold:.35});
+        }, {threshold:.3});
         io.observe(chat);
       } else { start(); }
     })();
@@ -609,7 +669,7 @@ try{
     <h2>Four steps. <b>No wizards.</b></h2>
 
     <div class="steps">
-      <div class="step"><span class="sn">01</span><div><b>Install Claude Code</b><span>One CLI. macOS, Linux, or Windows.</span></div></div>
+      <div class="step"><span class="sn">01</span><div><b>Install Claude Code</b><span><a href="https://docs.claude.com/en/docs/claude-code/overview" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">Get it from Anthropic ↗</a> — one CLI, macOS / Linux / Windows.</span></div></div>
       <div class="step"><span class="sn">02</span><div><b>Grab the setup guide</b><span><a href="https://missingus3r.github.io/friday-showcase/SETUP.md" download="SETUP.md" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">Download SETUP.md</a> or <a href="https://github.com/missingus3r/friday-showcase/blob/main/SETUP.md" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">view on GitHub</a>.</span></div></div>
       <div class="step"><span class="sn">03</span><div><b>Hand it to a fresh session</b><span>It walks through keys, Telegram, and the memory server on its own.</span></div></div>
       <div class="step"><span class="sn">04</span><div><b>Start Friday</b><span>One command. It's live.</span>
