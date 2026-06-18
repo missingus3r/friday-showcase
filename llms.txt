@@ -13,9 +13,9 @@ Claude Code (Anthropic's agentic CLI) sits at the center, connecting to external
 ## What makes it different
 
 - **Self-evolving** — extracts reusable patterns from solved tasks (skills), reflects on its own performance nightly, infers user preferences from repeated corrections, builds a behavioral world model, and proposes formal self-improvements with diff previews.
-- **Cognition harness (v2)** — additive layer with goal engine, hierarchical plan trees, three-layer memory (episodic / semantic / procedural), causal world model, verifier + sandbox, experiment engine, skill compiler, and 11-KPI metrics framework. 13 SQLite tables, ~70 endpoints, 8 new crons.
+- **Cognition harness (v2)** — additive layer with goal engine, hierarchical plan trees, three-layer memory (episodic / semantic / procedural), causal world model, verifier + sandbox, experiment engine, skill compiler, and 11-KPI metrics framework. 13 SQLite tables and dozens of endpoints, all additive. Later passes (v2.13 → v2.20) closed the loops end-to-end: auto-calibration, self-applying proposals with rollback, sandbox auto-promotion, hybrid recall, and a `/harness/health` loop monitor.
 - **Writes first** — proactive check-ins, reminders, follow-ups based on memory and context. Not just reactive.
-- **Self-healing** — heartbeat cron monitors all 18 jobs and recreates any that expire.
+- **Self-healing** — a heartbeat cron monitors every scheduled job and recreates any that expire (7-day lifetime), and detects a "deaf" Telegram poller.
 
 ## Tested model
 

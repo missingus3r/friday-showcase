@@ -47,9 +47,9 @@
       "description": "A 24/7 self-evolving personal AI assistant that runs on your own computer and talks to you through Telegram. Powered by Claude Code (Anthropic's CLI agent) on the Max Plan, with no custom AI backend, fine-tuned models, or orchestration framework. Adaptable to OpenAI Codex, Google Gemini CLI, OpenCode, and local models with minor adjustments.",
       "url": "https://missingus3r.github.io/friday-showcase/",
       "downloadUrl": "https://github.com/missingus3r/friday-showcase",
-      "softwareVersion": "2.9.0",
+      "softwareVersion": "2.20.1",
       "datePublished": "2025-09-01",
-      "dateModified": "2026-04-19",
+      "dateModified": "2026-06-18",
       "license": "https://github.com/missingus3r/friday-showcase",
       "offers": {
         "@type": "Offer",
@@ -542,28 +542,17 @@ try{
       <li><b>Memory API health monitoring</b> — periodic health checks with automatic restart on failure</li>
     </ul>
 
-    <h4>— Scheduled jobs (18 crons)</h4>
-    <p>The system runs 18 autonomous cron jobs that keep it alive and learning — 10 original plus 8 added by the v2 harness. The heartbeat and briefing crons act as watchdogs, verifying all jobs are active and recreating any that are missing.</p>
+    <h4>— Scheduled jobs</h4>
+    <p>A handful of autonomous cron jobs keep the system alive and learning. Over time the assistant <b>consolidated its own schedule</b> — collapsing 25 sprawling jobs into 8 grouped ones. Exact times are arbitrary, so adapt them to your day; what matters is the split between the <b>essential</b> jobs (the framework itself) and the <b>project-specific</b> ones you'd swap for your own.</p>
     <table class="cron-t">
-      <tr><td>1</td><td>Email check</td><td>every 1h</td><td>inbox scan + notify</td></tr>
-      <tr><td>2</td><td>Cron watchdog</td><td>every 6h</td><td>verify no crons expiring</td></tr>
-      <tr><td>3</td><td>Daily briefing</td><td>daily ~9am</td><td>weather, markets, news, proposals</td></tr>
-      <tr><td>4</td><td>Heartbeat</td><td>every 1h</td><td>health + social check-in</td></tr>
-      <tr><td>5</td><td>Monthly usage</td><td>end of month</td><td>api usage report</td></tr>
-      <tr><td>6</td><td>Reflection</td><td>every 12h</td><td>review logs for patterns</td></tr>
-      <tr><td>7</td><td>Preference learning</td><td>daily (night)</td><td>infer rules from feedback</td></tr>
-      <tr><td>8</td><td>AI model monitor</td><td>daily 10:17</td><td>new releases + AGI forecast</td></tr>
-      <tr><td>9</td><td>Memory API health</td><td>every 3h</td><td>auto-restart on failure</td></tr>
-      <tr><td>10</td><td>Weekly summarization</td><td>sunday</td><td>compress old logs</td></tr>
-      <tr><td>11</td><td>Goal prioritizer <i>(v2)</i></td><td>daily 9:37</td><td>flag stuck / near-deadline goals</td></tr>
-      <tr><td>12</td><td>Memory decay <i>(v2)</i></td><td>sunday</td><td>confidence half-life on beliefs</td></tr>
-      <tr><td>13</td><td>Daily metrics <i>(v2)</i></td><td>daily 22:23</td><td>hallucination + calibration</td></tr>
-      <tr><td>14</td><td>Predictions resolver <i>(v2)</i></td><td>daily 21:53</td><td>close out past-due predictions</td></tr>
-      <tr><td>15</td><td>Skill promotion <i>(v2)</i></td><td>daily 02:37</td><td>draft → beta → stable</td></tr>
-      <tr><td>16</td><td>Experiments runner <i>(v2)</i></td><td>every 6h</td><td>A/B via sandbox dry-runs</td></tr>
-      <tr><td>17</td><td>World model grower <i>(v2)</i></td><td>daily 06:53</td><td>detect recurring topics</td></tr>
-      <tr><td>18</td><td>Auto-audit <i>(v2)</i></td><td>3x / day</td><td>integrity scan of core tables</td></tr>
+      <tr><td>Heartbeat + self-heal</td><td>health check, verify every cron is alive and recreate any that expired (7-day lifetime), watch for a "deaf" Telegram poller</td></tr>
+      <tr><td>Daily briefing</td><td>weather, markets, news, project changes — sent unprompted</td></tr>
+      <tr><td>Harness daily</td><td>reflection, metrics, goal prioritizer, predictions resolver, memory decay, skill promotion, preference learning, auto-audit</td></tr>
+      <tr><td>Overnight swarm</td><td>parallel sub-agents (productivity, memory, news, improvements) synthesized into one digest</td></tr>
+      <tr><td>Experiments runner</td><td>A/B variants via sandbox dry-runs</td></tr>
+      <tr><td>Weekly summarization</td><td>compress old logs without deleting originals</td></tr>
     </table>
+    <p style="opacity:.7;font-size:.92em"><b>Project-specific (examples — swap for your own):</b> AI-model release monitor, dataset scrapers, monthly usage reports. These aren't part of the core framework — they're whatever <i>you</i> want running 24/7.</p>
 
     <h4>— Memory server</h4>
     <p>A single Flask + SQLite server handles conversation logging, long-term memory, entity tracking, key-value storage, and RAG with vector embeddings. Embeddings are stored as BLOBs in the same SQLite file — no external vector database.</p>
@@ -575,7 +564,7 @@ try{
       <li><b>Hybrid search</b> — FTS5 keyword + semantic combined via Reciprocal Rank Fusion, weighted by importance</li>
       <li><b>Weekly summarization</b> — compresses old logs without deleting originals</li>
       <li><b>Web visualization</b> — <code>/graph</code> serves Graph, Logs, Architecture, and RAG tabs (D3.js force-directed)</li>
-      <li><b>Disaster recovery</b> — <code>/backup/export</code> and <code>/backup/import</code> swap whole-DB snapshots (v2.9.0+)</li>
+      <li><b>Disaster recovery</b> — <code>/backup/export</code> and <code>/backup/import</code> swap whole-DB snapshots over HTTP</li>
     </ul>
     <figure>
       <img src="img/graph.png" alt="Memory Graph visualization">
@@ -596,7 +585,8 @@ try{
       <img src="img/brain.jpg" alt="Brain Dashboard">
       <figcaption>Brain tab — learned skills, active preferences, daily reflections, world model insights, and pending self-improvement proposals, all on the same memory server.</figcaption>
     </figure>
-    <p><b>v2 update — April 2026:</b> extended with a full <i>cognition harness</i>: goal engine, hierarchical plans, three-layer memory, causal world model, verifier/sandbox, experiment engine, skill compiler, and a metrics framework. 13 new tables, ~70 endpoints, 8 new crons — all additive.</p>
+    <p><b>The cognition harness (v2):</b> a full additive layer — goal engine, hierarchical plans, three-layer memory, causal world model, verifier/sandbox, experiment engine, skill compiler, and a metrics framework. 13 new tables, dozens of endpoints — all additive, nothing dropped.</p>
+    <p><b>Since then (v2.13 → v2.20):</b> the loops were closed end-to-end. Calibration auto-adjusts confidence on each new prediction; approved proposals apply their own diff with backup + rollback; the sandbox auto-promotes an action after consecutive clean dry-runs; skills ratchet draft → beta → stable on their own; memory decay expires stale beliefs. A <code>/harness/health</code> endpoint and a <b>Loop Health</b> panel surface any core table that has gone quiet too long. Recall went hybrid (keyword + semantic + importance), and the assistant learned to coordinate with a second bot over a local bus.</p>
 
     <h4>— The $100 question</h4>
     <p>The entire system runs on a single <b>$100/month Anthropic Max Plan</b>. No cloud VMs running inference. No LangChain, no AutoGPT, no agent framework. Just Claude Code on a Linux machine with MCP plugins.</p>
@@ -637,7 +627,7 @@ try{
     <p>13 new tables, ~60 new endpoints. Every change is additive — no existing table was dropped, no endpoint broken.</p>
 
     <h4>— Goal engine &amp; plan trees</h4>
-    <p>Each non-trivial task becomes a first-class row with utility, deadline, constraints, success criteria, subgoals, risk tier, and autonomy level. <code>GET /goal/next</code> ranks by <i>utility × urgency × (1 − progress)</i>. A daily cron at 09:37 flags anything past deadline or stalled &gt;5 days.</p>
+    <p>Each non-trivial task becomes a first-class row with utility, deadline, constraints, success criteria, subgoals, risk tier, and autonomy level. <code>GET /goal/next</code> ranks by <i>utility × urgency × (1 − progress)</i>. A daily cron flags anything past deadline or stalled &gt;5 days.</p>
     <p>Plans are executable trees, not text. Each node carries <b>node_type</b>, <b>tool</b>, <b>expected_result</b>, <b>exit_condition</b>, and <b>rollback</b>.</p>
 
     <h4>— Three-layer memory</h4>
@@ -678,7 +668,7 @@ try{
 
     <h4>— Experiments &amp; skill compiler</h4>
     <p>The experiment engine measures cause and effect with guardrails — conclusions are only drawn if <b>delta &gt; threshold</b> AND <b>samples &gt; threshold</b>. Otherwise: inconclusive.</p>
-    <p>Skills have maturity gates: <b>draft → beta</b> (one recorded run), <b>beta → stable</b> (≥ 3 runs, ≥ 66% success), <b>stable → deprecated</b> (&lt; 50% over last 10). A nightly 02:37 cron applies the rules automatically.</p>
+    <p>Skills have maturity gates: <b>draft → beta</b> (one recorded run), <b>beta → stable</b> (≥ 3 runs, ≥ 66% success), <b>stable → deprecated</b> (&lt; 50% over last 10). A nightly cron applies the rules automatically.</p>
 
     <h4>— 11 KPIs that prove improvement</h4>
     <ul>
@@ -694,7 +684,7 @@ try{
       <li><b>approved_improvements_effective_pct</b> — did proposals actually move a KPI?</li>
       <li><b>world_model_precision</b> — average capability confidence</li>
     </ul>
-    <p>A daily 22:23 cron computes values. <code>/metric/summary</code> returns latest + 7-day min / avg / max.</p>
+    <p>A daily cron computes values. <code>/metric/summary</code> returns latest + 7-day min / avg / max.</p>
 
     <figure>
       <img src="img/harness/crons.png" alt="Crons dashboard showing runtime-active crons with live countdowns and persisted prompts all synced">

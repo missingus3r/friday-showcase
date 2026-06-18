@@ -83,36 +83,28 @@ The memory server includes a visual web endpoint that renders all stored logs, m
 - **Self-improvement proposals** — detects potential optimizations and creates formal proposals with diffs, never applying changes without explicit user approval
 - **Memory API health monitoring** — periodic health checks on the memory server with automatic restart if it goes down, and user notification on failures
 
-## Scheduled Jobs (18 Crons)
+## Scheduled Jobs
 
-The system runs 18 autonomous cron jobs that keep it alive and learning (10 original + 8 added by the v2 harness):
+A handful of autonomous cron jobs keep the system alive and learning. Over time the assistant **consolidated its own schedule** — collapsing 25 sprawling jobs into 8 grouped ones. Exact times are arbitrary, so adapt them to your routine; what matters is the split between the **essential** jobs (the framework itself) and the **project-specific** ones you swap for your own.
 
-| # | Job | Schedule | Purpose |
-|---|-----|----------|---------|
-| 1 | Email check | Every 1h | Check inbox for new emails, notify if any |
-| 2 | Cron watchdog | Every 6h | Verify no crons are about to expire (7-day TTL) |
-| 3 | Daily briefing | Daily ~9 AM | Weather, currencies, AI news, movies + cron status + pending proposals |
-| 4 | Heartbeat | Every 1h | System health, verify all 18 crons active, social check-in |
-| 5 | Monthly usage | End of month | API usage report across all services |
-| 6 | Reflection | Every 12h | Review logs for patterns, mistakes, insights |
-| 7 | Preference learning | Daily (night) | Infer rules from repeated feedback corrections |
-| 8 | AI Model Monitor | Daily 10:17 | Scan for new AI model releases + AGI forecast aggregate (agi.goodheartlabs.com: Metaculus+Manifold+Kalshi) |
-| 9 | Memory API health | Every 3h | Health check with auto-restart on failure |
-| 10 | Weekly summarization | Weekly (Sun) | Compress old conversation logs into weekly summaries |
-| 11 | **Goal priorizer** | Daily 9:37 | Flag goals with deadlines &lt; 3d or no progress &gt; 5d *(v2 harness)* |
-| 12 | **Memory decay** | Weekly (Sun) | Apply confidence half-life to unverified beliefs *(v2 harness)* |
-| 13 | **Daily metrics** | Daily 22:23 | Compute hallucination rate, calibration gap, etc. *(v2 harness)* |
-| 14 | **Predictions resolver** | Daily 21:53 | Close out predictions whose due_at has passed *(v2 harness)* |
-| 15 | **Skill promotion** | Daily 02:37 | Promote draft→beta→stable with guardrails *(v2 harness)* |
-| 16 | **Experiments runner** | Every 6h (:17) | Drive running A/B experiments via /sandbox dry-run, auto-conclude when min_samples reached *(v2 harness)* |
-| 17 | **World model grower** | Daily 06:53 | Detect 2+ mentions of same topic/entity/behavior in last 24h, POST /worldmodel + auto-insert /entity rows *(v2 harness)* |
-| 18 | **Auto-audit** | 3x/day (8:19, 14:19, 20:19) | Integrity scan: empty reflections, stale core tables, capabilities fail rate >50%, predictions overdue. Notify on errors *(v2 harness)* |
+**Essential — the framework:**
 
-The heartbeat and briefing crons act as watchdogs — they verify all 18 jobs are active and recreate any that are missing. The dashboard's **Crons tab** gives a two-column diff: runtime-active with live countdowns to the next fire, and persisted-on-disk prompts with sync badges.
+| Job | Purpose |
+|-----|---------|
+| Heartbeat + self-heal | Health check, verify every cron is alive and recreate any that expired (7-day TTL), watch for a "deaf" Telegram poller (Bot API up but no local listener) |
+| Daily briefing | Weather, currencies, AI news, project changes — sent unprompted |
+| Harness daily | Reflection, metrics, goal prioritizer, predictions resolver, memory decay, skill promotion, preference learning, auto-audit |
+| Overnight swarm | Parallel sub-agents (productivity, memory, news, improvements) synthesized into one digest |
+| Experiments runner | Drive A/B experiments via `/sandbox` dry-runs, auto-conclude when `min_samples` reached |
+| Weekly summarization | Compress old conversation logs into summaries without deleting originals |
+
+**Project-specific (examples — swap for your own):** AI-model release monitor, dataset scrapers, monthly usage reports. These aren't part of the core framework — they're whatever *you* want running 24/7.
+
+The heartbeat and briefing crons act as watchdogs — they verify every job is active and recreate any that are missing, and refresh them before the 7-day lifetime expires. The dashboard's **Crons tab** gives a two-column diff: runtime-active with live countdowns to the next fire, and persisted-on-disk prompts with sync badges.
 
 ### Disaster recovery
 
-The memory server (v2.9.0+) exposes `/backup/export` and `/backup/import` — a whole-DB snapshot over HTTP. Recommended setup: schedule a nightly off-site rsync of `/backup/export` to a drive or cloud bucket. If the machine dies, upload the snapshot to a fresh install via `POST /backup/import`, restart, and Friday picks up where it stopped. A **💾 Backup** button on the dashboard topbar triggers the same flow from the browser.
+The memory server exposes `/backup/export` and `/backup/import` — a whole-DB snapshot over HTTP. Recommended setup: schedule a nightly off-site rsync of `/backup/export` to a drive or cloud bucket. If the machine dies, upload the snapshot to a fresh install via `POST /backup/import`, restart, and Friday picks up where it stopped. A **💾 Backup** button on the dashboard topbar triggers the same flow from the browser.
 
 ## Memory Server
 
@@ -187,7 +179,7 @@ That's it. Claude Code reads your CLAUDE.md, connects to Telegram, creates all c
 
 The self-evolving core has been extended with a full **cognition harness**: a thin, entirely additive layer that turns Friday from "an LLM with tools" into a system that sets goals, plans, verifies, experiments, and measures whether it is actually improving.
 
-**What was added:** 13 new SQLite tables, ~70 new API endpoints (including `/backup/export`, `/backup/import`, `/backup/info` for disaster recovery in v2.9.0), 8 new scheduled jobs, and 10 mandatory operational rules in `CLAUDE.md`. Nothing existing was removed — every new column is an `ALTER TABLE … IF NOT EXISTS`, so older databases upgrade in place.
+**What was added:** 13 new SQLite tables, dozens of new API endpoints (including `/backup/export`, `/backup/import`, `/backup/info` for disaster recovery, and `/harness/health` for loop monitoring), the cognition-harness cron passes, and a set of mandatory operational rules in `CLAUDE.md`. Nothing existing was removed — every new column is an `ALTER TABLE … IF NOT EXISTS`, so older databases upgrade in place. Later passes (v2.13 → v2.20) closed the loops end-to-end: auto-calibration, self-applying proposals with rollback, sandbox auto-promotion, and hybrid recall.
 
 **8 subsystems:**
 
