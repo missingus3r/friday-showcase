@@ -334,7 +334,7 @@ try{
 
   <header class="hero">
     <div class="eyebrow">A 24/7 AI assistant</div>
-    <h1>A personal assistant that <b>never goes to sleep.</b></h1>
+    <h1>A personal assistant that <b>rewrites itself.</b></h1>
     <p class="lede">Friday runs on your own computer and talks to you through Telegram. It remembers things, checks in first, and handles the small stuff — so you don't have to.</p>
     <div class="hero-meta">
       <div>Runs on<b>One laptop</b></div>
@@ -345,7 +345,7 @@ try{
   </header>
 
   <style>
-  .evo-term{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;max-width:540px;margin:30px auto 0;font-family:var(--mono)}
+  .evo-term{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;max-width:540px;margin:14px auto 52px;font-family:var(--mono);text-align:left}
   .evo-bar{display:flex;align-items:center;gap:11px;padding:13px 16px;border-bottom:1px solid var(--line);font-size:12px;color:var(--ink-3)}
   .evo-bar .evo-ver{margin-left:auto}
   .evo-bar .evo-ver b{color:var(--ink);font-weight:600}
@@ -356,7 +356,12 @@ try{
   .evo-line{opacity:0;transform:translateY(6px);animation:evoRise .4s forwards}
   @keyframes evoRise{to{opacity:1;transform:none}}
   .evo-line .evo-t{color:var(--ink-3)}
-  .evo-line .evo-tag{color:var(--ink-3)}
+  .evo-line .evo-tag{font-weight:500}
+  .evo-tag-memory{color:#22d3ee}
+  .evo-tag-habits{color:#f59e0b}
+  .evo-tag-review{color:#a78bfa}
+  .evo-tag-tools{color:#34d399}
+  .evo-tag-deploy{color:#fb7185}
   .evo-line .evo-ok{color:var(--accent);font-weight:600}
   .evo-cursor{display:inline-block;width:7px;height:14px;background:var(--accent);vertical-align:-2px;margin-left:3px;animation:evoBlink 1s steps(1) infinite}
   @keyframes evoBlink{50%{opacity:0}}
@@ -393,7 +398,7 @@ try{
       var time = new Date().toLocaleTimeString('en-GB',{hour12:false});
       var div = document.createElement('div');
       div.className = 'evo-line';
-      div.innerHTML = '<span class="evo-t">'+time+'</span> <span class="evo-tag">['+l.tag+']</span> '+l.t+(l.ok?' <span class="evo-ok">✓</span>':'')+'<span class="evo-cursor"></span>';
+      div.innerHTML = '<span class="evo-t">'+time+'</span> <span class="evo-tag evo-tag-'+l.tag+'">['+l.tag+']</span> '+l.t+(l.ok?' <span class="evo-ok">✓</span>':'')+'<span class="evo-cursor"></span>';
       log.querySelectorAll('.evo-cursor').forEach(function(c){c.remove();});
       log.appendChild(div);
       bump(l.bump);
