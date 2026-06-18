@@ -19,7 +19,7 @@ Claude Code (Anthropic's agentic CLI) sits at the center, connecting to external
 
 ## Tested model
 
-Built and proven on **Claude Code with Anthropic's Opus 4.6 and 4.7**.
+Built and proven on **Claude Code with Anthropic's Fable 5.x and Opus 4.x**.
 
 ## Adaptable to other agents (with adjustments)
 
@@ -31,7 +31,7 @@ The architecture is not tied to a single vendor — the brain is just an agentic
 
 ## The stack
 
-- **Brain** — Claude Code CLI (Opus 4.7, 1M context)
+- **Brain** — Claude Code CLI (Fable 5.x / Opus 4.x, 1M context)
 - **Chat** — Telegram (via MCP plugin)
 - **Memory** — Flask + SQLite + embedding-based hybrid RAG (FTS5 + vector cosine, RRF)
 - **Knowledge** — Notion (via MCP plugin)

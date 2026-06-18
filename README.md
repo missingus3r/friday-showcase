@@ -44,7 +44,7 @@ Claude Code already *is* the runtime. It has native tool use, MCP plugin support
 
 | Component | Technology |
 |-----------|-----------|
-| Brain | Claude Code CLI (Opus 4.7, 1M context) |
+| Brain | Claude Code CLI (Fable 5.x / Opus 4.x, 1M context) |
 | Communication | Telegram MCP plugin |
 | Memory | Flask + SQLite + Embeddings (RAG) |
 | Knowledge | Notion MCP |
