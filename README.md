@@ -129,9 +129,11 @@ Claude Code generates a single Flask + SQLite server handling conversation loggi
 
 > The whole memory layer is one Python file. No vector DB, no Redis, no Elasticsearch — just Flask + SQLite + embeddings in the same file.
 
-## Self-Evolving System
+## Self-Evolving Harness
 
-The assistant doesn't just follow instructions — it learns from its own behavior and improves over time. Five systems work together:
+The assistant doesn't just follow instructions — it learns from its own behavior and improves over time. On top of the base assistant sits a thin, entirely additive **cognition harness** that turns Friday from "an LLM with tools" into a system that sets goals, plans, verifies, experiments, and measures whether it's actually improving. (In the spirit of [*When AI builds itself* — Anthropic](https://www.anthropic.com/institute/recursive-self-improvement).)
+
+Five subsystems do the learning:
 
 - **Skill Acquisition** — extracts the pattern from a solved task and saves it as a reusable skill with trigger patterns and steps; usage is tracked.
 - **Daily Self-Reflection** — a nightly cron reviews the day's logs (what went well, what went wrong, what patterns emerge) and stores conclusions that feed future behavior.
@@ -145,7 +147,26 @@ It all runs on the same memory server, visible in the Memory Graph's **Brain** t
 ![Brain Dashboard](img/brain.jpg)
 *The Brain tab: skills, preferences, reflections, world-model insights, and pending proposals — all on the same memory server.*
 
+**What the harness adds:** 13 SQLite tables, dozens of endpoints (including `/backup/*` for disaster recovery and `/harness/health` for loop monitoring), the harness cron passes, and operational rules in `CLAUDE.md`. Nothing was removed — new columns are `ALTER TABLE … IF NOT EXISTS`, so old DBs upgrade in place. Later passes closed the loops end-to-end: auto-calibration, self-applying proposals with rollback, sandbox auto-promotion, and hybrid recall.
+
+**8 subsystems:**
+
+| Subsystem | Purpose |
+|-----------|---------|
+| **Goal engine** | Persistent goals with utility, deadline, constraints, success criteria, subgoals, progress. `/goal/next` ranks by `utility × urgency × (1 − progress)`. |
+| **Hierarchical planner** | Plan trees: goal → sub-goal → action → tool → expected result → exit condition → rollback. Stored as executable structures, not text. |
+| **Three-layer memory** | Episodic (what happened), semantic (stable facts), procedural (skills). Every row carries `provenance`, `confidence`, `last_verified`. Weekly decay cron. |
+| **Causal world model** | `wm_entities` (state), `wm_relations` (subject-predicate-object), `wm_events` (with causes/effects), `wm_predictions` (testable claims with calibration gap). |
+| **Self-knowledge & autonomy** | `capabilities` with Bayesian-calibrated confidence + 6-rung autonomy ladder (L0 suggest → L5 self-modify with rollback). Gate: `/autonomy/check`. |
+| **Verifier & sandbox** | Explicit `factual / consistency / goal_alignment / hallucination / uncertainty / evidence` checks. Dry-run / simulation / live execution modes. |
+| **Experiments & skill compiler** | A/B variants with min-delta & min-samples guardrails. Skills gain maturity (draft → beta → stable → deprecated) with promotion rules. |
+| **Metrics** | 11 KPI catalog: `hallucination_rate`, `calibration_gap`, `goals_completed_per_week`, `skill_success_rate`, etc. Daily cron records them. |
+
+**Consolidated Brain dashboard** — eight sections (Overview, Goals, Memory, World, Self, Safety, Learning, Metrics) behind a sticky sub-nav. **Crons dashboard** — runtime snapshot with live countdowns + disk-persisted prompts with sync badges.
+
 > The system gets better every day not because the model changes, but because it builds a growing library of skills, preferences, and patterns on top of it. The model stays the same; the assistant evolves.
+
+> **Golden rule (in `CLAUDE.md`):** no unrecorded autonomy. Every goal, plan node, sandboxed action, resolved prediction, and promoted skill leaves a row — the dashboards are where a human audits whether the system is earning its autonomy.
 
 ## The $100 Question
 
@@ -170,31 +191,6 @@ claude --channels plugin:telegram@claude-plugins-official --dangerously-skip-per
 ```
 
 Claude Code reads your CLAUDE.md, connects to Telegram, creates the cron jobs, and runs autonomously.
-
-## v2 Update — Self-Evolving Harness (April 2026)
-
-The self-evolving core gained a full **cognition harness**: a thin, entirely additive layer that turns Friday from "an LLM with tools" into a system that sets goals, plans, verifies, experiments, and measures its own improvement.
-
-**What was added:** 13 new SQLite tables, dozens of endpoints (including `/backup/*` for disaster recovery and `/harness/health` for loop monitoring), the harness cron passes, and operational rules in `CLAUDE.md`. Nothing was removed — new columns are `ALTER TABLE … IF NOT EXISTS`, so old DBs upgrade in place. Later passes (v2.13 → v2.20) closed the loops end-to-end: auto-calibration, self-applying proposals with rollback, sandbox auto-promotion, and hybrid recall.
-
-**8 subsystems:**
-
-| Subsystem | Purpose |
-|-----------|---------|
-| **Goal engine** | Persistent goals with utility, deadline, constraints, success criteria, subgoals, progress. `/goal/next` ranks by `utility × urgency × (1 − progress)`. |
-| **Hierarchical planner** | Plan trees: goal → sub-goal → action → tool → expected result → exit condition → rollback. Stored as executable structures, not text. |
-| **Three-layer memory** | Episodic (what happened), semantic (stable facts), procedural (skills). Every row carries `provenance`, `confidence`, `last_verified`. Weekly decay cron. |
-| **Causal world model** | `wm_entities` (state), `wm_relations` (subject-predicate-object), `wm_events` (with causes/effects), `wm_predictions` (testable claims with calibration gap). |
-| **Self-knowledge & autonomy** | `capabilities` with Bayesian-calibrated confidence + 6-rung autonomy ladder (L0 suggest → L5 self-modify with rollback). Gate: `/autonomy/check`. |
-| **Verifier & sandbox** | Explicit `factual / consistency / goal_alignment / hallucination / uncertainty / evidence` checks. Dry-run / simulation / live execution modes. |
-| **Experiments & skill compiler** | A/B variants with min-delta & min-samples guardrails. Skills gain maturity (draft → beta → stable → deprecated) with promotion rules. |
-| **Metrics** | 11 KPI catalog: `hallucination_rate`, `calibration_gap`, `goals_completed_per_week`, `skill_success_rate`, etc. Daily cron records them. |
-
-**Consolidated Brain dashboard** — eight sections (Overview, Goals, Memory, World, Self, Safety, Learning, Metrics) behind a sticky sub-nav.
-
-**Crons dashboard** — runtime snapshot with live countdowns + disk-persisted prompts with sync badges.
-
-> **Golden rule (in `CLAUDE.md`):** no unrecorded autonomy. Every goal, plan node, sandboxed action, resolved prediction, and promoted skill leaves a row — the dashboards are where a human audits whether the system is earning its autonomy.
 
 ---
 
