@@ -414,6 +414,122 @@ try{
     <h2>A quiet friend <b>in your pocket.</b></h2>
     <p class="body">You talk to Friday the way you'd text a friend. Voice notes, links, questions, photos. It reads the news you care about, jots things down, runs errands in the background, and writes back when something matters.</p>
     <p class="body">No website. No app. No account. One terminal window on your own machine — when you close the lid, it keeps working.</p>
+
+    <style>
+    .tg-demo{--tg-blue:#3390ec;--tg-out:#effdde;--tg-out-time:#5bb45a;--tg-in:#fff;--tg-in-time:#8b9aa5;--tg-icon:#707991;--tg-sys:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;display:flex;justify-content:center;margin:26px 0 4px}
+    .tg-demo *{box-sizing:border-box}
+    .tg-demo .phone{width:390px;max-width:100%;border-radius:30px;overflow:hidden;border:8px solid #1c1c20;box-shadow:0 40px 80px -40px rgba(0,0,0,.5);font-family:var(--tg-sys);background:#fff;text-align:left}
+    .tg-demo .tg-header{display:flex;align-items:center;gap:11px;background:#fff;padding:11px 14px;border-bottom:1px solid #ededed}
+    .tg-demo .tg-back{color:var(--tg-blue);font-size:24px;line-height:1;margin-right:2px}
+    .tg-demo .tg-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#5db8ff,var(--tg-blue));display:grid;place-items:center;color:#fff;font-weight:600;font-size:16px}
+    .tg-demo .tg-id{flex:1;min-width:0}
+    .tg-demo .tg-id .nm{font-weight:600;font-size:15.5px;color:#000;display:flex;align-items:center;gap:6px}
+    .tg-demo .tg-id .nm .bot{font-size:10px;font-weight:600;color:#fff;background:var(--tg-blue);padding:1px 5px;border-radius:4px;letter-spacing:.02em}
+    .tg-demo .tg-id .st{font-size:13px;color:var(--tg-blue)}
+    .tg-demo .tg-actions{display:flex;gap:18px;color:var(--tg-icon)}
+    .tg-demo .tg-actions svg{width:21px;height:21px;fill:currentColor}
+    .tg-demo .tg-chat{position:relative;height:440px;overflow-y:auto;background:linear-gradient(160deg,#a7c7dd,#c5dcea);padding:14px 12px 10px}
+    .tg-demo .tg-chat::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.16) 1px,transparent 1.6px);background-size:22px 22px}
+    .tg-demo .msgs{position:relative;z-index:1;display:flex;flex-direction:column;gap:3px}
+    .tg-demo .datechip{align-self:center;margin:2px 0 8px;background:rgba(0,0,0,.18);color:#fff;font-size:12px;font-weight:500;padding:4px 11px;border-radius:12px}
+    .tg-demo .bubble{position:relative;max-width:78%;padding:7px 11px 6px;border-radius:13px;font-size:15px;line-height:1.35;color:#000;box-shadow:0 1px .5px rgba(0,0,0,.13);animation:tgPop .28s ease both}
+    @keyframes tgPop{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+    .tg-demo .me{align-self:flex-end;background:var(--tg-out);border-bottom-right-radius:4px}
+    .tg-demo .me::after{content:"";position:absolute;right:-6px;bottom:0;width:12px;height:12px;background:var(--tg-out);clip-path:polygon(0 0,0 100%,100% 100%)}
+    .tg-demo .fr{align-self:flex-start;background:var(--tg-in);border-bottom-left-radius:4px}
+    .tg-demo .fr::after{content:"";position:absolute;left:-6px;bottom:0;width:12px;height:12px;background:var(--tg-in);clip-path:polygon(100% 0,100% 100%,0 100%)}
+    .tg-demo .fr b{font-weight:600}
+    .tg-demo .meta{float:right;margin:4px 0 -2px 10px;font-size:11px;line-height:1;display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+    .tg-demo .me .meta{color:var(--tg-out-time)}
+    .tg-demo .fr .meta{color:var(--tg-in-time)}
+    .tg-demo .meta .tick{width:16px;height:9px;fill:none;stroke:var(--tg-blue);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+    .tg-demo .typing{align-self:flex-start;background:var(--tg-in);border-radius:13px;border-bottom-left-radius:4px;padding:12px 14px;display:flex;gap:4px;box-shadow:0 1px .5px rgba(0,0,0,.13);animation:tgPop .28s ease both}
+    .tg-demo .typing span{width:7px;height:7px;border-radius:50%;background:#9aa3ad;animation:tgTd 1.2s infinite}
+    .tg-demo .typing span:nth-child(2){animation-delay:.2s}
+    .tg-demo .typing span:nth-child(3){animation-delay:.4s}
+    @keyframes tgTd{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-4px);opacity:1}}
+    .tg-demo .tg-input{display:flex;align-items:center;gap:10px;padding:9px 12px;background:#fff;border-top:1px solid #ededed}
+    .tg-demo .tg-input .field{flex:1;display:flex;align-items:center;gap:9px;background:#f1f3f5;border-radius:20px;padding:9px 14px;color:#9aa3ad;font-size:15px}
+    .tg-demo .tg-input svg{width:22px;height:22px;fill:var(--tg-icon);flex:none}
+    .tg-demo .tg-send{width:40px;height:40px;border-radius:50%;background:var(--tg-blue);display:grid;place-items:center;flex:none}
+    .tg-demo .tg-send svg{width:20px;height:20px;fill:#fff}
+    @media(prefers-reduced-motion:reduce){.tg-demo *{animation:none!important}}
+    </style>
+    <div class="tg-demo" aria-hidden="true">
+      <div class="phone">
+        <div class="tg-header">
+          <span class="tg-back">‹</span>
+          <div class="tg-av">F</div>
+          <div class="tg-id">
+            <div class="nm">Friday <span class="bot">BOT</span></div>
+            <div class="st">online</div>
+          </div>
+          <div class="tg-actions">
+            <svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1l-2.2 2.2z"/></svg>
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+          </div>
+        </div>
+        <div class="tg-chat" id="tgChat">
+          <div class="msgs" id="tgMsgs">
+            <div class="datechip">Today</div>
+          </div>
+        </div>
+        <div class="tg-input">
+          <svg viewBox="0 0 24 24"><path d="M16.5 6v11.5a4 4 0 1 1-8 0V5a2.5 2.5 0 0 1 5 0v11.5a1 1 0 0 1-2 0V6H10v10.5a2.5 2.5 0 0 0 5 0V5a4 4 0 0 0-8 0v12.5a5.5 5.5 0 0 0 11 0V6h-1.5z"/></svg>
+          <div class="field"><span>Message</span></div>
+          <div class="tg-send"><svg viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2.5-7.5L3 11z"/></svg></div>
+        </div>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var msgs = document.getElementById('tgMsgs');
+      var chat = document.getElementById('tgChat');
+      if(!msgs || !chat) return;
+      var tick = '<svg class="tick" viewBox="0 0 18 9"><path d="M1 5.2 4.2 8.4 10 1.6"/><path d="M7 8.4 12.8 1.6"/></svg>';
+      var convo = [
+        {who:'me', text:'book me a dentist for next week, the usual one', time:'15:41'},
+        {who:'fr', html:'Done — <b>Dr. Méndez on Pocitos</b>, Tuesday 3pm. You always ask for afternoons, so I skipped the morning slots.', time:'15:41', delay:1300},
+        {who:'me', text:'nice. and remind me the day before', time:'15:42'},
+        {who:'fr', html:"Set. I'll ping you Monday at 8am — that's when you actually read me.", time:'15:42', delay:1100}
+      ];
+      function bottom(){ chat.scrollTop = chat.scrollHeight; }
+      function bubble(m){
+        var meta = m.time + (m.who==='me' ? ' '+tick : '');
+        var div = document.createElement('div');
+        div.className = 'bubble ' + m.who;
+        div.innerHTML = (m.html || m.text) + '<span class="meta">'+meta+'</span>';
+        msgs.appendChild(div); bottom();
+      }
+      function typing(cb, ms){
+        var t = document.createElement('div');
+        t.className = 'typing';
+        t.innerHTML = '<span></span><span></span><span></span>';
+        msgs.appendChild(t); bottom();
+        setTimeout(function(){ t.remove(); cb(); }, ms);
+      }
+      if(reduce){ convo.forEach(bubble); return; }
+      var i = 0, started = false;
+      function next(){
+        if(i >= convo.length) return;
+        var m = convo[i++];
+        if(m.who === 'fr' && m.delay){
+          typing(function(){ bubble(m); setTimeout(next, 700); }, m.delay);
+        } else {
+          bubble(m);
+          setTimeout(next, m.who==='me' ? 900 : 700);
+        }
+      }
+      function start(){ if(started) return; started = true; setTimeout(next, 400); }
+      if('IntersectionObserver' in window){
+        var io = new IntersectionObserver(function(es){
+          es.forEach(function(e){ if(e.isIntersecting){ io.disconnect(); start(); } });
+        }, {threshold:.35});
+        io.observe(chat);
+      } else { start(); }
+    })();
+    </script>
   </section>
 
   <section id="how">
