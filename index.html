@@ -344,6 +344,66 @@ try{
     </div>
   </header>
 
+  <style>
+  .evo-term{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;max-width:540px;margin:30px auto 0;font-family:var(--mono)}
+  .evo-bar{display:flex;align-items:center;gap:11px;padding:13px 16px;border-bottom:1px solid var(--line);font-size:12px;color:var(--ink-3)}
+  .evo-bar .evo-ver{margin-left:auto}
+  .evo-bar .evo-ver b{color:var(--ink);font-weight:600}
+  .evo-live{display:inline-flex;align-items:center;gap:6px;color:var(--ink-2)}
+  .evo-live i{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:evoPulse 1.6s infinite}
+  @keyframes evoPulse{50%{opacity:.2}}
+  .evo-body{font-size:13px;line-height:1.8;padding:18px;height:288px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;color:var(--ink-2)}
+  .evo-line{opacity:0;transform:translateY(6px);animation:evoRise .4s forwards}
+  @keyframes evoRise{to{opacity:1;transform:none}}
+  .evo-line .evo-t{color:var(--ink-3)}
+  .evo-line .evo-tag{color:var(--ink-3)}
+  .evo-line .evo-ok{color:var(--accent);font-weight:600}
+  .evo-cursor{display:inline-block;width:7px;height:14px;background:var(--accent);vertical-align:-2px;margin-left:3px;animation:evoBlink 1s steps(1) infinite}
+  @keyframes evoBlink{50%{opacity:0}}
+  @media(prefers-reduced-motion:reduce){.evo-line,.evo-live i,.evo-cursor{animation:none!important}}
+  </style>
+  <div class="evo-term" aria-hidden="true">
+    <div class="evo-bar">
+      <span class="evo-live"><i></i>evolving</span>
+      <span>friday.log</span>
+      <span class="evo-ver">v<b id="evover">2.4.0</b></span>
+    </div>
+    <div class="evo-body" id="evolog"></div>
+  </div>
+  <script>
+  (function(){
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var log = document.getElementById('evolog');
+    var verEl = document.getElementById('evover');
+    var minor = 4, patch = 0;
+    var lines = [
+      {t:'merged 41 messages into long-term memory', tag:'memory'},
+      {t:'noticed you reply faster mornings — shifting digests to 8am', tag:'habits'},
+      {t:"reviewed yesterday's answers — fixed 2 that aged badly", tag:'review', ok:1},
+      {t:'wrote a new tool: pdf → summary', tag:'tools', bump:1},
+      {t:'compressed 1,204 old messages, kept the gist', tag:'memory'},
+      {t:'rolled back a change that broke search — back to stable', tag:'deploy', ok:1},
+      {t:'learned a new shortcut from how you phrased that', tag:'habits', bump:1},
+      {t:'re-indexed memory · recall is sharper now', tag:'memory', ok:1}
+    ];
+    var i = 0;
+    function bump(b){ if(b){minor++;patch=0;}else{patch++;} verEl.textContent='2.'+minor+'.'+patch; }
+    function add(){
+      var l = lines[i % lines.length]; i++;
+      var time = new Date().toLocaleTimeString('en-GB',{hour12:false});
+      var div = document.createElement('div');
+      div.className = 'evo-line';
+      div.innerHTML = '<span class="evo-t">'+time+'</span> <span class="evo-tag">['+l.tag+']</span> '+l.t+(l.ok?' <span class="evo-ok">✓</span>':'')+'<span class="evo-cursor"></span>';
+      log.querySelectorAll('.evo-cursor').forEach(function(c){c.remove();});
+      log.appendChild(div);
+      bump(l.bump);
+      while(log.children.length > 7) log.removeChild(log.firstChild);
+    }
+    if(reduce){ for(var k=0;k<5;k++) add(); }
+    else { add(); setInterval(add, 2600); }
+  })();
+  </script>
+
   <section id="what">
     <div class="kicker">— 01 —  What it is</div>
     <h2>A quiet friend <b>in your pocket.</b></h2>
@@ -571,8 +631,8 @@ try{
       <figcaption>Memory graph — D3.js force-directed visualization showing conversations, memories, and entities as interactive nodes. Drag, zoom, click to explore.</figcaption>
     </figure>
 
-    <h4>— Self-evolving system</h4>
-    <p>Five subsystems work together to make the assistant improve over time:</p>
+    <h4>— Self-evolving harness</h4>
+    <p>A thin, additive cognition layer makes the assistant improve over time — in the spirit of <a href="https://www.anthropic.com/institute/recursive-self-improvement" target="_blank">When AI builds itself ↗</a> (Anthropic). Five subsystems do the learning:</p>
     <ul>
       <li><b>Skill acquisition</b> — extracts patterns from solved tasks; saves them as reusable skills with trigger patterns and step-by-step procedures</li>
       <li><b>Daily self-reflection</b> — nightly cron asks <i>what went well, what went wrong, what patterns emerge</i>; conclusions feed future behavior</li>
@@ -585,8 +645,8 @@ try{
       <img src="img/brain.jpg" alt="Brain Dashboard">
       <figcaption>Brain tab — learned skills, active preferences, daily reflections, world model insights, and pending self-improvement proposals, all on the same memory server.</figcaption>
     </figure>
-    <p><b>The cognition harness (v2):</b> a full additive layer — goal engine, hierarchical plans, three-layer memory, causal world model, verifier/sandbox, experiment engine, skill compiler, and a metrics framework. 13 new tables, dozens of endpoints — all additive, nothing dropped.</p>
-    <p><b>Since then (v2.13 → v2.20):</b> the loops were closed end-to-end. Calibration auto-adjusts confidence on each new prediction; approved proposals apply their own diff with backup + rollback; the sandbox auto-promotes an action after consecutive clean dry-runs; skills ratchet draft → beta → stable on their own; memory decay expires stale beliefs. A <code>/harness/health</code> endpoint and a <b>Loop Health</b> panel surface any core table that has gone quiet too long. Recall went hybrid (keyword + semantic + importance), and the assistant learned to coordinate with a second bot over a local bus.</p>
+    <p><b>The cognition harness:</b> a full additive layer — goal engine, hierarchical plans, three-layer memory, causal world model, verifier/sandbox, experiment engine, skill compiler, and a metrics framework. 13 tables, dozens of endpoints — all additive, nothing dropped.</p>
+    <p>The loops are closed end-to-end: calibration auto-adjusts confidence on each new prediction; approved proposals apply their own diff with backup + rollback; the sandbox auto-promotes an action after consecutive clean dry-runs; skills ratchet draft → beta → stable on their own; memory decay expires stale beliefs. A <code>/harness/health</code> endpoint and a <b>Loop Health</b> panel surface any core table that has gone quiet too long. Recall is hybrid (keyword + semantic + importance), and the assistant coordinates with a second bot over a local bus.</p>
 
     <h4>— The $100 question</h4>
     <p>The entire system runs on a single <b>$100/month Anthropic Max Plan</b>. No cloud VMs running inference. No LangChain, no AutoGPT, no agent framework. Just Claude Code on a Linux machine with MCP plugins.</p>
