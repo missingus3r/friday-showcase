@@ -164,7 +164,7 @@ Have Claude Code generate `~/projects/memory-graph/api_server.py` as the core se
 | GET | /proposal/pending | Pending proposals (status=pending only) |
 | GET | /proposal/list?status= | All proposals, optionally filtered by status |
 | GET | /proposal/<id> | Get one proposal |
-| PUT/POST/PATCH | /proposal/<id>/approve | Approve a proposal (any of the three HTTP verbs works since v2.8.0) |
+| PUT/POST/PATCH | /proposal/<id>/approve | Approve a proposal (any of the three HTTP verbs works) |
 | PUT/POST/PATCH | /proposal/<id>/reject | Reject a proposal |
 | POST | /worldmodel | Create/update soft observation `{category, pattern, evidence, confidence}` |
 | GET | /worldmodel/active | Active observations (non-expired, confidence >= 0.4, not yet promoted) |
@@ -175,7 +175,7 @@ Have Claude Code generate `~/projects/memory-graph/api_server.py` as the core se
 | POST | /keywords | Add/update keyword `{keyword, score}` |
 | DELETE | /keywords/<id> | Delete a keyword |
 
-**Goal Engine & Plans (v2 harness):**
+**Goal Engine & Plans (harness):**
 | Method | Endpoint | Purpose |
 |--------|----------|---------|
 | POST | /goal | Create a goal `{title, utility, deadline, constraints, success_criteria, subgoals, risk_tier, autonomy_level}` |
@@ -192,7 +192,7 @@ Have Claude Code generate `~/projects/memory-graph/api_server.py` as the core se
 | PATCH | /plan/node/<node_id> | Update node status / result |
 | DELETE | /plan/<plan_id> | Delete a plan and all its nodes |
 
-**Self-Knowledge (v2 harness):**
+**Self-Knowledge (harness):**
 | Method | Endpoint | Purpose |
 |--------|----------|---------|
 | POST | /capability | Register a capability `{name, domain, description, confidence, autonomy_max, max_risk_tier}` |
@@ -205,7 +205,7 @@ Have Claude Code generate `~/projects/memory-graph/api_server.py` as the core se
 | GET | /autonomy/levels | 6-rung ladder (L0 suggest → L5 self-modify) |
 | POST | /autonomy/check | Gate: `{capability, proposed_level, risk_tier}` → allowed / reason |
 
-**Structured World Model (v2 harness):**
+**Structured World Model (harness):**
 | Method | Endpoint | Purpose |
 |--------|----------|---------|
 | POST | /wm/entity | Upsert state entity `{name, type, state, attributes, confidence}` |
@@ -218,7 +218,7 @@ Have Claude Code generate `~/projects/memory-graph/api_server.py` as the core se
 | GET | /wm/prediction/list?resolved= | List predictions |
 | PATCH | /wm/prediction/<id>/resolve | Close with `{actual_outcome, correct}` — computes calibration gap |
 
-**Three-Layer Memory views (v2 harness):**
+**Three-Layer Memory views (harness):**
 | Method | Endpoint | Purpose |
 |--------|----------|---------|
 | GET | /memory/episodic?hours= | What happened, when (conversations + wm_events, windowed) |
@@ -227,7 +227,7 @@ Have Claude Code generate `~/projects/memory-graph/api_server.py` as the core se
 | POST | /memory/<id>/verify | Mark memory re-verified, reset decay clock, boost confidence |
 | POST | /memory/decay | Apply half-life decay to memories/entities/world_model (weekly cron) |
 
-**Safety — Verifier & Sandbox (v2 harness):**
+**Safety — Verifier & Sandbox (harness):**
 | Method | Endpoint | Purpose |
 |--------|----------|---------|
 | POST | /verify | Record a check `{subject_type, subject_id, check_type, passed, confidence, reason, sources, halluc_risk}`. check_type ∈ factual / consistency / goal_alignment / hallucination / uncertainty / evidence |
@@ -235,7 +235,7 @@ Have Claude Code generate `~/projects/memory-graph/api_server.py` as the core se
 | POST | /sandbox/execute | Record `{mode, action, input, simulated_output, predicted_cost, verdict}`. mode ∈ dry-run / simulation / live |
 | GET | /sandbox/list | List executions |
 
-**Learning — Experiments & Skill Compiler (v2 harness):**
+**Learning — Experiments & Skill Compiler (harness):**
 | Method | Endpoint | Purpose |
 |--------|----------|---------|
 | POST | /experiment | Create A/B `{hypothesis, metric, variants, min_delta, min_samples}` |
@@ -245,14 +245,14 @@ Have Claude Code generate `~/projects/memory-graph/api_server.py` as the core se
 | POST | /skill/<id>/record | Record skill outcome `{outcome, cost, time_sec, failure_domain}` |
 | PATCH | /skill/<id>/promote | Move maturity draft→beta→stable (guardrails: ≥3 runs, ≥66% success for stable) |
 
-**Metrics Framework (v2 harness):**
+**Metrics Framework (harness):**
 | Method | Endpoint | Purpose |
 |--------|----------|---------|
 | POST | /metric | Record sample `{name, value, unit, context, tags}` |
 | GET | /metric/list?name= | List samples |
 | GET | /metric/summary | Latest + 7-day min/avg/max per metric, with known-KPI flag. Catalog of 11 KPIs: hallucination_rate, calibration_gap, skill_success_rate, goals_completed_per_week, etc. |
 
-**Crons snapshot (v2 harness):**
+**Crons snapshot (harness):**
 | Method | Endpoint | Purpose |
 |--------|----------|---------|
 | POST | /cron/active | Replace the snapshot of currently scheduled crons `{crons:[{job_id, label, cron_expr, prompt_preview}]}` |
@@ -280,8 +280,8 @@ Also create an `index.html` in the same directory — a single-page web app serv
 2. **Logs** — Chronological view of all conversation logs with collapsible date groups and search.
 3. **Architecture** — System diagram with draggable nodes showing all components and connections. Node positions persist server-side via the `/kv` endpoint.
 4. **RAG** — Semantic search dashboard with hybrid search interface, embedding stats, and result previews.
-5. **Brain** (v2 harness) — consolidated audit surface. Sticky sub-nav with 8 sections: Overview (counts + KPIs), Goals & Plans, Memory (3 layers), World Model (entities, relations, events, predictions), Self-knowledge (capabilities + autonomy levels), Safety (verifications + sandbox), Learning (experiments + reflections + preferences + insights + proposals + keywords), Metrics. Responsive grid layout.
-6. **Crons** (v2 harness) — two-column diff: runtime-active with live countdowns to next fire (updated every second via JS cron-next), and persisted prompts from `~/.claude/cron-prompts.md` with sync badges (`sincronizado` / `⚠ no corriendo`).
+5. **Brain** (harness) — consolidated audit surface. Sticky sub-nav with 8 sections: Overview (counts + KPIs), Goals & Plans, Memory (3 layers), World Model (entities, relations, events, predictions), Self-knowledge (capabilities + autonomy levels), Safety (verifications + sandbox), Learning (experiments + reflections + preferences + insights + proposals + keywords), Metrics. Responsive grid layout.
+6. **Crons** (harness) — two-column diff: runtime-active with live countdowns to next fire (updated every second via JS cron-next), and persisted prompts from `~/.claude/cron-prompts.md` with sync badges (`sincronizado` / `⚠ no corriendo`).
 
 A CSS variable `--topbar-h` is kept in sync with the actual topbar height so panels never overlap when the topbar wraps on mobile.
 
@@ -334,33 +334,25 @@ You have a persistent memory HTTP API running on `http://127.0.0.1:7777`.
 At the start of each session, perform these steps automatically:
 
 1. **Check memory API health**: `curl -s http://127.0.0.1:7777/health` — if the API is down, start it automatically and wait 2 seconds before verifying again.
-2. **Create all 18 cron jobs** (see list below). The heartbeat and briefing crons verify that all 18 are active and recreate any that are missing.
+2. **Create the 8 grouped cron jobs** (see below). The heartbeat and briefing crons verify every job is alive and recreate any that are missing — and refresh them before the 7-day lifetime runs out.
 3. **Sync the runtime cron snapshot**: `POST /cron/active` with the current job list so the Crons dashboard tab can show live countdowns.
 
-### The 18 Cron Jobs
+### The cron jobs
 
-| # | Name | Schedule | What it does |
-|---|------|----------|-------------|
-| 1 | Email check | Every 1h (:13) | Check inbox for new emails, notify user if any |
-| 2 | Cron watchdog | Every 6h (:23) | Verify no crons are about to expire (7-day TTL), alert if any are |
-| 3 | Daily briefing | Daily ~9:00 AM | Weather, currencies, AI news, movies. Lists active crons + pending proposals at the end |
-| 4 | Heartbeat | Every 1h (:43) | System state check, verify all 18 crons active, recreate missing. Social message 1x/day (50/50) if no alerts. Silent between 00:00-08:00 |
-| 5 | Monthly usage | Days 28-31, 10:03 | Run usage report script, remind user to send stats from other machines |
-| 6 | Reflection | Every 12h (11:27, 23:27) | Review logs for patterns, mistakes, insights. Save to /reflection |
-| 7 | Preference learning | Daily 3:07 | Analyze feedback patterns, generate preference rules, propose code changes |
-| 8 | AI Model Monitor | Daily 10:17 | Scan for new AI model releases (WebSearch + HuggingFace) + check AGI forecasts at agi.goodheartlabs.com (aggregates Metaculus + Manifold + Kalshi); update index if shifted |
-| 9 | Memory API health | Every 3h (:33) | Check API health, auto-restart if down, notify user of failures |
-| 10 | Weekly summarization | Sundays 4:47 | Compress old conversation logs into weekly summaries (originals preserved) |
-| 11 | **Goal priorizer** *(v2 harness)* | Daily 9:37 | Flag goals with deadline < 3d or no progress > 5d. GET /goal/active + /goal/next |
-| 12 | **Memory decay** *(v2 harness)* | Sundays 5:17 | POST /memory/decay with halflife_days=60. Reduces confidence on unverified beliefs |
-| 13 | **Daily metrics** *(v2 harness)* | Daily 22:23 | Compute hallucination_rate, calibration_gap, world_model_precision, goals_completed_today → POST /metric |
-| 14 | **Predictions resolver** *(v2 harness)* | Daily 21:53 | Resolve predictions with due_at in the past where evidence is clear |
-| 15 | **Skill promotion** *(v2 harness)* | Daily 2:37 | Auto-promote skills: draft→beta (≥1 run), beta→stable (≥3 runs & ≥66% success), stable→deprecated (<50% in last 10) |
-| 16 | **Experiments runner** *(v2 harness)* | Every 6h (:17) | For running experiments with samples < min_samples, pick variant with fewest observations, dry-run via /sandbox/execute, then record /experiment/<id>/observation. Auto-conclude when min_samples reached |
-| 17 | **World model grower** *(v2 harness)* | Daily 6:53 | Scan /conversation/recent?hours=24, detect 2+ mentions of same topic/entity/behavior, POST /worldmodel; auto-insert /entity rows for people/projects/places |
-| 18 | **Auto-audit** *(v2 harness)* | 3x/day (8:19, 14:19, 20:19) | Integrity scan: empty reflections, worldmodel occurrences=0, memories without description, core tables stale >7d, capabilities fail rate >50%, predictions overdue. Error → alert user; improvement → proposal |
+Schedules are suggestions — adapt them to your routine. What matters is the split between the **essential** jobs (the framework itself) and the **project-specific** ones you swap for your own. They're grouped so a handful of jobs cover everything (over time the assistant consolidated 25 sprawling jobs into these 8):
 
-Persist the 18 prompts to `~/.claude/cron-prompts.md` so they survive session restarts. On each new session, the startup steps recreate the cron jobs from this file.
+| Group | Runs | What it does |
+|-------|------|-------------|
+| 1 · Briefing + disk index | Daily (morning) | Weather, currencies, AI news, project changes — sent unprompted; then snapshot disk/index changes |
+| 2 · 6-hour group | Every 6h | Cron watchdog (no job near its 7-day expiry) + experiments runner (A/B variants via `/sandbox` dry-runs, auto-conclude at `min_samples`) |
+| 3 · Hourly group | Every hour | Email check (notify on new mail) + heartbeat (health, verify all jobs active & recreate missing, one 50/50 social check-in per day, silent 00:00–08:00) |
+| 4 · Harness daily | 2×/day | The whole cognition pass in one run: reflection, world-model grower, goal prioritizer, daily metrics, predictions resolver, memory decay, skill promotion, preference learning, auto-audit |
+| 5 · Research daily *(project-specific)* | Daily | AI-model release monitor + AGI forecast aggregate (agi.goodheartlabs.com: Metaculus + Manifold + Kalshi) + your own data jobs. Swap these for whatever you track. |
+| 6 · Overnight swarm | Daily (night) | Parallel sub-agents (productivity, memory, news, improvements) synthesized into one digest |
+| 7 · Telegram watchdog + mentions | Every ~10 min | Detect Bot-API-down or a "deaf" local poller (API up but no listener); poll a local bus for mentions from other bots |
+| 8 · Weekly summarization | Weekly | Compress old conversation logs into summaries (originals preserved) |
+
+Persist the prompts to `~/.claude/cron-prompts.md` so they survive session restarts. On each new session, the startup steps recreate the jobs from this file (and refresh any that have hit their 7-day expiry).
 
 ## Notes
 - When the user says "note" followed by text or a link:
@@ -396,7 +388,7 @@ Persist the 18 prompts to `~/.claude/cron-prompts.md` so they survive session re
 - NEVER apply changes directly — always propose and wait for user approval
 - Notify user via Telegram when a proposal is created
 
-## Self-Improving Harness (v2 — operational rules)
+## Self-Improving Harness (operational rules)
 
 These are mandatory. They turn the new infrastructure from "installed" into "in use":
 
@@ -489,10 +481,10 @@ claude --channels plugin:telegram@claude-plugins-official --dangerously-skip-per
 When Claude Code restarts with the Telegram plugin:
 1. Read `~/.claude/CLAUDE.md` — this is your instruction set
 2. Check memory API health — start the server if it's down
-3. Create all 15 cron jobs (email, watchdog, briefing, heartbeat, monthly usage, reflection, preference learning, AI model monitor, memory API health, weekly summarization, goal priorizer, memory decay, daily metrics, predictions resolver, skill promotion)
-4. Sync the runtime snapshot: POST /cron/active with the 15 jobs so the Crons dashboard can show live countdowns
+3. Create the 8 grouped cron jobs (briefing + disk index; 6-hour group; hourly group; harness daily; research daily; overnight swarm; telegram watchdog + mentions; weekly summarization)
+4. Sync the runtime snapshot: POST /cron/active with the jobs so the Crons dashboard can show live countdowns
 5. Send a welcome message to the user via Telegram:
-   > "System online. All 15 crons active. Memory API connected. Harness ready. Send me a message anytime."
+   > "System online. All 8 crons active. Memory API connected. Harness ready. Send me a message anytime."
 6. Begin listening for Telegram messages
 
 ---
