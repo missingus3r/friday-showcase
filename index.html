@@ -133,7 +133,7 @@ try{
   .wrap{max-width:880px;margin:0 auto;padding:0 28px;text-align:center}
 
   /* Top nav */
-  nav.top{display:flex;align-items:center;justify-content:space-between;padding:22px 28px;border-bottom:1px solid var(--line);max-width:100%;}
+  nav.top{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;border-bottom:1px solid var(--line);max-width:100%;position:sticky;top:0;z-index:50;background:var(--bg)}
   .mark{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;letter-spacing:.02em}
   .pulse{width:7px;height:7px;border-radius:50%;background:var(--accent);position:relative}
   .pulse::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--accent);opacity:.4;animation:ring 2.4s ease-out infinite}
@@ -320,43 +320,53 @@ try{
   .theme-toggle button{background:transparent;border:none;color:inherit;font:inherit;letter-spacing:inherit;padding:6px 12px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:color .2s ease}
   .theme-toggle button svg{width:12px;height:12px}
   .theme-toggle button.on{background:var(--accent);color:#06070a}
+  /* Language toggle */
+  .lang-toggle{display:inline-flex;align-items:center;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--ink-3)}
+  .lang-toggle button{background:transparent;border:none;color:inherit;font:inherit;letter-spacing:inherit;padding:6px 10px;border-radius:999px;cursor:pointer;transition:color .2s ease}
+  .lang-toggle button.on{background:var(--accent);color:#06070a}
+  @media(max-width:520px){.lang-toggle button{padding:6px 7px}.theme-toggle button span,.theme-toggle button{font-size:10px}}
 </style>
 </head>
 <body>
 
 <nav class="top">
   <div class="mark">Friday</div>
-  <div style="display:flex;align-items:center;gap:18px">
+  <div style="display:flex;align-items:center;gap:12px">
+    <div class="lang-toggle" id="langToggle" role="group" aria-label="Language">
+      <button data-lang="en" aria-label="English">EN</button>
+      <button data-lang="es" aria-label="Español">ES</button>
+      <button data-lang="pt" aria-label="Português">PT</button>
+    </div>
     <div class="theme-toggle" id="themeToggle" role="group" aria-label="Theme">
-      <button data-theme="light" aria-label="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>Light</button>
-      <button data-theme="dark" aria-label="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>Dark</button>
+      <button data-theme="light" aria-label="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><span data-i18n="theme.light">Light</span></button>
+      <button data-theme="dark" aria-label="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg><span data-i18n="theme.dark">Dark</span></button>
     </div>
   </div>
 </nav>
 
 <aside class="toc" aria-label="Section index">
-  <a href="#what"><span class="num">01</span><span>What</span></a>
-  <a href="#how"><span class="num">02</span><span>How</span></a>
-  <a href="#unique"><span class="num">03</span><span>Different</span></a>
-  <a href="#compare"><span class="num">04</span><span>Compare</span></a>
-  <a href="#pieces"><span class="num">05</span><span>Pieces</span></a>
-  <a href="#idea"><span class="num">06</span><span>Idea</span></a>
-  <a href="#setup"><span class="num">07</span><span>Setup</span></a>
-  <a href="#agents"><span class="num">08</span><span>Agents</span></a>
-  <a href="#support"><span class="num">09</span><span>Star</span></a>
+  <a href="#what"><span class="num">01</span><span data-i18n="nav.what">What</span></a>
+  <a href="#how"><span class="num">02</span><span data-i18n="nav.how">How</span></a>
+  <a href="#unique"><span class="num">03</span><span data-i18n="nav.different">Different</span></a>
+  <a href="#compare"><span class="num">04</span><span data-i18n="nav.compare">Compare</span></a>
+  <a href="#pieces"><span class="num">05</span><span data-i18n="nav.pieces">Pieces</span></a>
+  <a href="#idea"><span class="num">06</span><span data-i18n="nav.idea">Idea</span></a>
+  <a href="#setup"><span class="num">07</span><span data-i18n="nav.setup">Setup</span></a>
+  <a href="#agents"><span class="num">08</span><span data-i18n="nav.agents">Agents</span></a>
+  <a href="#support"><span class="num">09</span><span data-i18n="nav.star">Star</span></a>
 </aside>
 
 <div class="wrap">
 
   <header class="hero">
-    <div class="eyebrow">Friday, a 24/7 AI assistant</div>
-    <h1>A personal assistant that <b>rewrites itself.</b></h1>
-    <p class="lede">Friday runs on your own computer and talks to you through Telegram. It remembers things, checks in first, and handles the small stuff — so you don't have to.</p>
+    <div class="eyebrow" data-i18n="hero.eyebrow">Friday, a 24/7 AI assistant</div>
+    <h1 data-i18n-html="hero.h1">A personal assistant that <b>rewrites itself.</b></h1>
+    <p class="lede" data-i18n="hero.lede">Friday runs on your own computer and talks to you through Telegram. It remembers things, checks in first, and handles the small stuff — so you don't have to.</p>
     <div class="hero-meta">
-      <div>Runs on<b>One laptop</b></div>
-      <div>Talks via<b>Telegram</b></div>
-      <div>Costs<b>Nothing, just your Claude Code subscription</b></div>
-      <div>Sleeps<b>Never</b></div>
+      <div data-i18n-html="hero.m1">Runs on<b>One laptop</b></div>
+      <div data-i18n-html="hero.m2">Talks via<b>Telegram</b></div>
+      <div data-i18n-html="hero.m3">Costs<b>Nothing, just your Claude Code subscription</b></div>
+      <div data-i18n-html="hero.m4">Sleeps<b>Never</b></div>
     </div>
   </header>
 
@@ -426,10 +436,10 @@ try{
   </script>
 
   <section id="what">
-    <div class="kicker">— 01 —  What it is</div>
-    <h2>A quiet friend <b>in your pocket.</b></h2>
-    <p class="body">You talk to Friday the way you'd text a friend. Voice notes, links, questions, photos. It reads the news you care about, jots things down, runs errands in the background, and writes back when something matters.</p>
-    <p class="body">No website. No app. No account. One terminal window on your own machine — when you close the lid, it keeps working.</p>
+    <div class="kicker" data-i18n="what.kicker">— 01 —  What it is</div>
+    <h2 data-i18n-html="what.h2">A quiet friend <b>in your pocket.</b></h2>
+    <p class="body" data-i18n="what.p1">You talk to Friday the way you'd text a friend. Voice notes, links, questions, photos. It reads the news you care about, jots things down, runs errands in the background, and writes back when something matters.</p>
+    <p class="body" data-i18n="what.p2">No website. No app. No account. One terminal window on your own machine — when you close the lid, it keeps working.</p>
 
     <style>
     .tg-demo{--tg-blue:#3390ec;--tg-out:#effdde;--tg-out-time:#5bb45a;--tg-in:#fff;--tg-in-time:#8b9aa5;--tg-icon:#707991;--tg-sys:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;display:flex;justify-content:center;margin:0}
@@ -492,7 +502,7 @@ try{
           <div class="tg-av">F</div>
           <div class="tg-id">
             <div class="nm">Friday <span class="bot">BOT</span></div>
-            <div class="st">online</div>
+            <div class="st" data-i18n="tg.online">online</div>
           </div>
           <div class="tg-actions">
             <svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1l-2.2 2.2z"/></svg>
@@ -501,12 +511,12 @@ try{
         </div>
         <div class="tg-chat" id="tgChat">
           <div class="msgs" id="tgMsgs">
-            <div class="datechip">Today</div>
+            <div class="datechip" data-i18n="tg.today">Today</div>
           </div>
         </div>
         <div class="tg-input">
           <svg viewBox="0 0 24 24"><path d="M16.5 6v11.5a4 4 0 1 1-8 0V5a2.5 2.5 0 0 1 5 0v11.5a1 1 0 0 1-2 0V6H10v10.5a2.5 2.5 0 0 0 5 0V5a4 4 0 0 0-8 0v12.5a5.5 5.5 0 0 0 11 0V6h-1.5z"/></svg>
-          <div class="field"><span>Message</span></div>
+          <div class="field"><span data-i18n="tg.message">Message</span></div>
           <div class="tg-send"><svg viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2.5-7.5L3 11z"/></svg></div>
         </div>
       </div>
@@ -555,6 +565,74 @@ try{
           {who:'fr', html:"<img src='img/security-cam.jpg' alt='Security cam — person detected with a red bounding box'>🚨 <b>Person detected</b> — snapshot + a 10s clip, sent right here. All on-device; nothing leaves your machine.", time:'23:15', delay:1500}
         ]}
       ];
+      var CONVOS_T = {
+        es: [
+          {cap:'Agenda y memoria', msgs:[
+            {who:'me', text:'agéndame un dentista para la semana que viene, el de siempre', time:'15:41'},
+            {who:'fr', html:'Listo — <b>Dr. Méndez en Pocitos</b>, martes 15hs. Siempre pedís a la tarde, así que salté los turnos de la mañana.', time:'15:41', delay:1300},
+            {who:'me', text:'genial. y recordámelo el día antes', time:'15:42'},
+            {who:'fr', html:'Hecho. Te aviso el lunes a las 8am — que es cuando realmente me leés.', time:'15:42', delay:1100}
+          ]},
+          {cap:'Análisis de video y links', msgs:[
+            {who:'me', text:'https://youtu.be/… me lo resumís?', time:'21:09'},
+            {who:'fr', html:'Lo vi — 14 min sobre escalado de transformers. TL;DR: <b>la calidad de datos le gana al tamaño</b>, y los modelos chicos achican la brecha rápido. Guardé las notas en tu Notion.', time:'21:09', delay:1600},
+            {who:'me', text:'perfecto, gracias', time:'21:10'}
+          ]},
+          {cap:'Monitoreo proactivo', msgs:[
+            {who:'fr', html:'Ojo — salió un nuevo modelo frontier. Lo agregué a tu índice AGI-countdown con el link oficial.', time:'09:02'},
+            {who:'fr', html:'En una línea: más contexto, más barato, fuerte en código. ¿Querés el rundown completo de benchmarks?', time:'09:02', delay:900},
+            {who:'me', text:'sí, dale', time:'09:14'}
+          ]},
+          {cap:'Notas → base de conocimiento', msgs:[
+            {who:'me', text:'nota: lugar de ramen en la 21, lo recomendó Tomás', time:'13:27'},
+            {who:'fr', html:'Guardado en Notion + tu archivo de notas. Te lo recuerdo la próxima que preguntes dónde comer.', time:'13:27', delay:1000}
+          ]},
+          {cap:'Auto-mejora', msgs:[
+            {who:'fr', html:'Propuesta: el briefing sigue trayendo noticias de IA viejas. Puedo limitarlo a las últimas 48h. ¿Aplico?', time:'23:31'},
+            {who:'me', text:'sí', time:'23:33'},
+            {who:'fr', html:'Aplicado — con backup. Si mañana el briefing empeora, lo revierto solo.', time:'23:33', delay:1200}
+          ]},
+          {cap:'Visión local (cámara)', msgs:[
+            {who:'me', text:'prendé la cámara de seguridad', time:'22:48'},
+            {who:'fr', html:'Vigilando 👁️ — cámara (IP/USB) + <b>YOLOv8n</b> corriendo local. Te aviso apenas vea a alguien.', time:'22:48', delay:1200},
+            {who:'fr', html:"<img src='img/security-cam.jpg' alt='Cámara — persona detectada con recuadro rojo'>🚨 <b>Persona detectada</b> — foto + clip de 10s, acá mismo. Todo on-device; nada sale de tu máquina.", time:'23:15', delay:1500}
+          ]}
+        ],
+        pt: [
+          {cap:'Agenda e memória', msgs:[
+            {who:'me', text:'marca um dentista pra semana que vem, o de sempre', time:'15:41'},
+            {who:'fr', html:'Pronto — <b>Dr. Méndez no Pocitos</b>, terça 15h. Você sempre pede à tarde, então pulei os horários da manhã.', time:'15:41', delay:1300},
+            {who:'me', text:'ótimo. e me lembra no dia anterior', time:'15:42'},
+            {who:'fr', html:'Feito. Te aviso segunda às 8h — que é quando você realmente me lê.', time:'15:42', delay:1100}
+          ]},
+          {cap:'Análise de vídeo e links', msgs:[
+            {who:'me', text:'https://youtu.be/… consegue resumir?', time:'21:09'},
+            {who:'fr', html:'Assisti — 14 min sobre escala de transformers. TL;DR: <b>qualidade de dados supera o tamanho</b>, e modelos pequenos fecham a lacuna rápido. Salvei as notas no seu Notion.', time:'21:09', delay:1600},
+            {who:'me', text:'perfeito, valeu', time:'21:10'}
+          ]},
+          {cap:'Monitoramento proativo', msgs:[
+            {who:'fr', html:'Atenção — saiu um novo modelo de fronteira. Adicionei ao seu índice AGI-countdown com o link oficial.', time:'09:02'},
+            {who:'fr', html:'Em uma linha: mais contexto, mais barato, forte em código. Quer o resumo completo dos benchmarks?', time:'09:02', delay:900},
+            {who:'me', text:'sim, manda', time:'09:14'}
+          ]},
+          {cap:'Notas → base de conhecimento', msgs:[
+            {who:'me', text:'nota: lugar de ramen na 21, o Tomás recomendou', time:'13:27'},
+            {who:'fr', html:'Salvo no Notion + seu arquivo de notas. Te lembro na próxima vez que perguntar onde comer.', time:'13:27', delay:1000}
+          ]},
+          {cap:'Autoaperfeiçoamento', msgs:[
+            {who:'fr', html:'Proposta: o briefing continua trazendo notícias de IA velhas. Posso limitar às últimas 48h. Aplico?', time:'23:31'},
+            {who:'me', text:'sim', time:'23:33'},
+            {who:'fr', html:'Aplicado — com backup. Se amanhã o briefing piorar, eu reverto sozinho.', time:'23:33', delay:1200}
+          ]},
+          {cap:'Visão local (câmera)', msgs:[
+            {who:'me', text:'liga a câmera de segurança', time:'22:48'},
+            {who:'fr', html:'Vigiando 👁️ — câmera (IP/USB) + <b>YOLOv8n</b> rodando localmente. Te aviso assim que ver alguém.', time:'22:48', delay:1200},
+            {who:'fr', html:"<img src='img/security-cam.jpg' alt='Câmera — pessoa detectada com retângulo vermelho'>🚨 <b>Pessoa detectada</b> — foto + clipe de 10s, aqui mesmo. Tudo on-device; nada sai da sua máquina.", time:'23:15', delay:1500}
+          ]}
+        ]
+      };
+      var DATE_T = {en:'Today', es:'Hoy', pt:'Hoje'};
+      function C(){ return (window.__lang && CONVOS_T[window.__lang]) || CONVOS; }
       function bottom(){ chat.scrollTop = chat.scrollHeight; }
       function bubble(m){
         var meta = m.time + (m.who==='me' ? ' '+tick : '');
@@ -566,7 +644,7 @@ try{
       var idx = 0, gen = 0;
       function play(list){
         var g = ++gen;
-        msgs.innerHTML = '<div class="datechip">Today</div>';
+        msgs.innerHTML = '<div class="datechip">'+(DATE_T[window.__lang]||DATE_T.en)+'</div>';
         if(reduce){ list.forEach(bubble); return; }
         var i = 0;
         (function step(){
@@ -586,7 +664,7 @@ try{
       }
       function renderDots(){
         dots.innerHTML = '';
-        CONVOS.forEach(function(c, k){
+        C().forEach(function(c, k){
           var b = document.createElement('button');
           b.className = 'tg-dot' + (k===idx ? ' on' : '');
           b.setAttribute('aria-label', c.cap);
@@ -595,12 +673,13 @@ try{
         });
       }
       function render(){
-        cap.textContent = CONVOS[idx].cap;
+        cap.textContent = C()[idx].cap;
         renderDots();
-        play(CONVOS[idx].msgs);
+        play(C()[idx].msgs);
       }
-      document.getElementById('tgPrev').onclick = function(){ idx = (idx - 1 + CONVOS.length) % CONVOS.length; render(); };
-      document.getElementById('tgNext').onclick = function(){ idx = (idx + 1) % CONVOS.length; render(); };
+      window.__renderCarousel = render;
+      document.getElementById('tgPrev').onclick = function(){ idx = (idx - 1 + C().length) % C().length; render(); };
+      document.getElementById('tgNext').onclick = function(){ idx = (idx + 1) % C().length; render(); };
       renderDots();
       var startedOnce = false;
       function start(){ if(startedOnce) return; startedOnce = true; render(); }
@@ -615,51 +694,51 @@ try{
   </section>
 
   <section id="how">
-    <div class="kicker">— 02 —  How it works</div>
-    <h2>One brain. <b>Lots of tools.</b></h2>
-    <p class="body">Friday is a single model (Fable 5.x / Opus 4.x) that can use tools by itself. You tell it how to behave in a plain text file (CLAUDE.md), then it handles the rest — chatting, remembering, scheduling, acting.</p>
+    <div class="kicker" data-i18n="how.kicker">— 02 —  How it works</div>
+    <h2 data-i18n-html="how.h2">One brain. <b>Lots of tools.</b></h2>
+    <p class="body" data-i18n="how.p1">Friday is a single model (Fable 5.x / Opus 4.x) that can use tools by itself. You tell it how to behave in a plain text file (CLAUDE.md), then it handles the rest — chatting, remembering, scheduling, acting.</p>
 
     <div class="diagram" id="diagram">
-      <div class="row" data-i="0"><span class="k">You</span><span class="arrow">→</span><span>send a message on Telegram</span></div>
-      <div class="center"><span class="brain"><span class="dot"></span>Friday</span><span class="arrow" style="color:var(--ink-3)">↓</span><span class="tag">reads · thinks · acts</span></div>
-      <div class="row" data-i="1"><span class="k">Memory</span><span class="arrow">→</span><span>remembers what you said</span></div>
-      <div class="row" data-i="2"><span class="k">Notes</span><span class="arrow">→</span><span>writes things down in Notion</span></div>
-      <div class="row" data-i="3"><span class="k">Voice</span><span class="arrow">→</span><span>speaks and listens</span></div>
-      <div class="row" data-i="4"><span class="k">Email</span><span class="arrow">→</span><span>reads, drafts, forwards</span></div>
-      <div class="row" data-i="5"><span class="k">GitHub</span><span class="arrow">→</span><span>commits and pushes code</span></div>
-      <div class="row" data-i="6"><span class="k">Web</span><span class="arrow">→</span><span>searches and fetches</span></div>
-      <div class="row" data-i="7"><span class="k">Cron</span><span class="arrow">→</span><span>wakes up on schedule</span></div>
+      <div class="row" data-i="0"><span class="k" data-i18n="how.k0">You</span><span class="arrow">→</span><span data-i18n="how.t0">send a message on Telegram</span></div>
+      <div class="center"><span class="brain"><span class="dot"></span>Friday</span><span class="arrow" style="color:var(--ink-3)">↓</span><span class="tag" data-i18n="how.center">reads · thinks · acts</span></div>
+      <div class="row" data-i="1"><span class="k" data-i18n="how.k1">Memory</span><span class="arrow">→</span><span data-i18n="how.t1">remembers what you said</span></div>
+      <div class="row" data-i="2"><span class="k" data-i18n="how.k2">Notes</span><span class="arrow">→</span><span data-i18n="how.t2">writes things down in Notion</span></div>
+      <div class="row" data-i="3"><span class="k" data-i18n="how.k3">Voice</span><span class="arrow">→</span><span data-i18n="how.t3">speaks and listens</span></div>
+      <div class="row" data-i="4"><span class="k" data-i18n="how.k4">Email</span><span class="arrow">→</span><span data-i18n="how.t4">reads, drafts, forwards</span></div>
+      <div class="row" data-i="5"><span class="k">GitHub</span><span class="arrow">→</span><span data-i18n="how.t5">commits and pushes code</span></div>
+      <div class="row" data-i="6"><span class="k" data-i18n="how.k6">Web</span><span class="arrow">→</span><span data-i18n="how.t6">searches and fetches</span></div>
+      <div class="row" data-i="7"><span class="k">Cron</span><span class="arrow">→</span><span data-i18n="how.t7">wakes up on schedule</span></div>
     </div>
-    <p class="body" style="margin-top:48px">Those tools add up to a handful of small jobs it runs all day — on its own:</p>
+    <p class="body" style="margin-top:48px" data-i18n="how.p2">Those tools add up to a handful of small jobs it runs all day — on its own:</p>
     <div class="caps">
-      <div class="cap"><span class="n">01</span><span class="t">Scheduled briefings</span><span class="d">weather · forex · news</span></div>
-      <div class="cap"><span class="n">02</span><span class="t">Watches for new AI models</span><span class="d">huggingface · blogs</span></div>
-      <div class="cap"><span class="n">03</span><span class="t">Analyzes videos</span><span class="d">youtube · reports</span></div>
-      <div class="cap"><span class="n">04</span><span class="t">Self-healing jobs</span><span class="d">monitors · recreates</span></div>
-      <div class="cap"><span class="n">05</span><span class="t">Reaches out first</span><span class="d">proactive check-ins</span></div>
-      <div class="cap"><span class="n">06</span><span class="t">Runs on your machine</span><span class="d">no cloud vm</span></div>
+      <div class="cap"><span class="n">01</span><span class="t" data-i18n="how.c1t">Scheduled briefings</span><span class="d" data-i18n="how.c1d">weather · forex · news</span></div>
+      <div class="cap"><span class="n">02</span><span class="t" data-i18n="how.c2t">Watches for new AI models</span><span class="d" data-i18n="how.c2d">huggingface · blogs</span></div>
+      <div class="cap"><span class="n">03</span><span class="t" data-i18n="how.c3t">Analyzes videos</span><span class="d" data-i18n="how.c3d">youtube · reports</span></div>
+      <div class="cap"><span class="n">04</span><span class="t" data-i18n="how.c4t">Self-healing jobs</span><span class="d" data-i18n="how.c4d">monitors · recreates</span></div>
+      <div class="cap"><span class="n">05</span><span class="t" data-i18n="how.c5t">Reaches out first</span><span class="d" data-i18n="how.c5d">proactive check-ins</span></div>
+      <div class="cap"><span class="n">06</span><span class="t" data-i18n="how.c6t">Runs on your machine</span><span class="d" data-i18n="how.c6d">no cloud vm</span></div>
     </div>
-    <button class="open-modal" id="openModal"><span class="plus">+</span> Technical details</button>
+    <button class="open-modal" id="openModal" data-i18n-html="how.btn"><span class="plus">+</span> Technical details</button>
   </section>
 
   <section id="unique">
-    <div class="kicker">— 03 —  What makes it different</div>
-    <h2>It <b>learns</b>. And it <b>writes first</b>.</h2>
+    <div class="kicker" data-i18n="unique.kicker">— 03 —  What makes it different</div>
+    <h2 data-i18n-html="unique.h2">It <b>learns</b>. And it <b>writes first</b>.</h2>
     <div class="diagram" style="margin-top:48px">
-      <div class="row on"><span class="k">Learns</span><span class="arrow">→</span><span>picks up new skills from what you ask it to do</span></div>
-      <div class="row on"><span class="k">Reflects</span><span class="arrow">→</span><span>reviews its own day every night, notes what went wrong</span></div>
-      <div class="row on"><span class="k">Adapts</span><span class="arrow">→</span><span>learns your preferences from repeated corrections</span></div>
-      <div class="row on"><span class="k">Proposes</span><span class="arrow">→</span><span>suggests its own improvements — you approve or reject</span></div>
-      <div class="row on"><span class="k">Writes first</span><span class="arrow">→</span><span>reaches out with check-ins, reminders, follow-ups</span></div>
+      <div class="row on"><span class="k" data-i18n="unique.r1k">Learns</span><span class="arrow">→</span><span data-i18n="unique.r1t">picks up new skills from what you ask it to do</span></div>
+      <div class="row on"><span class="k" data-i18n="unique.r2k">Reflects</span><span class="arrow">→</span><span data-i18n="unique.r2t">reviews its own day every night, notes what went wrong</span></div>
+      <div class="row on"><span class="k" data-i18n="unique.r3k">Adapts</span><span class="arrow">→</span><span data-i18n="unique.r3t">learns your preferences from repeated corrections</span></div>
+      <div class="row on"><span class="k" data-i18n="unique.r4k">Proposes</span><span class="arrow">→</span><span data-i18n="unique.r4t">suggests its own improvements — you approve or reject</span></div>
+      <div class="row on"><span class="k" data-i18n="unique.r5k">Writes first</span><span class="arrow">→</span><span data-i18n="unique.r5t">reaches out with check-ins, reminders, follow-ups</span></div>
     </div>
-    <p class="body" style="margin-top:32px">The model stays the same. The assistant evolves.</p>
-    <button class="open-modal" id="openHarness"><span class="plus">+</span> The harness — deep dive</button>
+    <p class="body" style="margin-top:32px" data-i18n="unique.p">The model stays the same. The assistant evolves.</p>
+    <button class="open-modal" id="openHarness" data-i18n-html="unique.btn"><span class="plus">+</span> The harness — deep dive</button>
   </section>
 
   <section id="compare">
-    <div class="kicker">— 04 —  How it compares</div>
-    <h2>Friday, <b>next to the others.</b></h2>
-    <p class="body">A few open agents chase the same idea. Here's where Friday lines up — and where it honestly doesn't.</p>
+    <div class="kicker" data-i18n="cmp.kicker">— 04 —  How it compares</div>
+    <h2 data-i18n-html="cmp.h2">Friday, <b>next to the others.</b></h2>
+    <p class="body" data-i18n="cmp.body">A few open agents chase the same idea. Here's where Friday lines up — and where it honestly doesn't.</p>
     <div class="compare-wrap">
       <table class="compare">
         <thead>
@@ -673,58 +752,58 @@ try{
           </tr>
         </thead>
         <tbody>
-          <tr><td class="feat">Open source</td><td class="me"><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
-          <tr><td class="feat">Runs fully local</td><td class="me"><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
-          <tr><td class="feat">Persistent memory</td><td class="me"><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="no">—</span></td></tr>
-          <tr><td class="feat">Self-improving skills</td><td class="me"><span class="yes">✓</span></td><td><span class="partial">~</span></td><td><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td></tr>
-          <tr><td class="feat">Scheduled jobs (cron)</td><td class="me"><span class="yes">✓</span></td><td><span class="partial">~</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="no">—</span></td></tr>
-          <tr><td class="feat">Messaging (Telegram / WhatsApp …)</td><td class="me"><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="partial">~</span></td><td><span class="no">—</span></td></tr>
-          <tr><td class="feat">System &amp; tool access</td><td class="me"><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="partial">~</span></td><td><span class="partial">~</span></td></tr>
-          <tr><td class="feat">Sub-agents / multi-agent</td><td class="me"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="partial">~</span></td><td><span class="no">—</span></td></tr>
-          <tr><td class="feat">Model-agnostic</td><td class="me"><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="partial">~</span></td></tr>
-          <tr><td class="feat">Proactive (writes first)</td><td class="me"><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="no">—</span></td></tr>
-          <tr><td class="feat">Live camera &amp; object detection</td><td class="me"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td></tr>
+          <tr><td class="feat" data-i18n="cmp.f1">Open source</td><td class="me"><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+          <tr><td class="feat" data-i18n="cmp.f2">Runs fully local</td><td class="me"><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+          <tr><td class="feat" data-i18n="cmp.f3">Persistent memory</td><td class="me"><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="no">—</span></td></tr>
+          <tr><td class="feat" data-i18n="cmp.f4">Self-improving skills</td><td class="me"><span class="yes">✓</span></td><td><span class="partial">~</span></td><td><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td></tr>
+          <tr><td class="feat" data-i18n="cmp.f5">Scheduled jobs (cron)</td><td class="me"><span class="yes">✓</span></td><td><span class="partial">~</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="no">—</span></td></tr>
+          <tr><td class="feat" data-i18n="cmp.f6">Messaging (Telegram / WhatsApp …)</td><td class="me"><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="partial">~</span></td><td><span class="no">—</span></td></tr>
+          <tr><td class="feat" data-i18n="cmp.f7">System &amp; tool access</td><td class="me"><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="partial">~</span></td><td><span class="partial">~</span></td></tr>
+          <tr><td class="feat" data-i18n="cmp.f8">Sub-agents / multi-agent</td><td class="me"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="partial">~</span></td><td><span class="no">—</span></td></tr>
+          <tr><td class="feat" data-i18n="cmp.f9">Model-agnostic</td><td class="me"><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="partial">~</span></td></tr>
+          <tr><td class="feat" data-i18n="cmp.f10">Proactive (writes first)</td><td class="me"><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="no">—</span></td></tr>
+          <tr><td class="feat" data-i18n="cmp.f11">Live camera &amp; object detection</td><td class="me"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td></tr>
         </tbody>
       </table>
     </div>
-    <p class="compare-note">✓ yes &nbsp;·&nbsp; ~ partial / unconfirmed &nbsp;·&nbsp; — no.<br>Compiled from public docs, June 2026. Closest cousin: <b style="color:var(--ink-2)">Hermes</b> by Nous Research.</p>
+    <p class="compare-note" data-i18n-html="cmp.note">✓ yes &nbsp;·&nbsp; ~ partial / unconfirmed &nbsp;·&nbsp; — no.<br>Compiled from public docs, June 2026. Closest cousin: <b style="color:var(--ink-2)">Hermes</b> by Nous Research.</p>
   </section>
 
   <section id="pieces">
-    <div class="kicker">— 05 —  The pieces</div>
-    <h2>A short list of <b>honest parts.</b></h2>
+    <div class="kicker" data-i18n="pieces.kicker">— 05 —  The pieces</div>
+    <h2 data-i18n-html="pieces.h2">A short list of <b>honest parts.</b></h2>
     <div class="stack">
-      <div class="row"><b>Brain</b><span>Claude Code CLI</span></div>
-      <div class="row"><b>Chat</b><span>Telegram</span></div>
-      <div class="row"><b>Memory</b><span>SQLite + embeddings</span></div>
-      <div class="row"><b>Knowledge</b><span>Notion</span></div>
-      <div class="row"><b>Voice</b><span>ElevenLabs</span></div>
-      <div class="row"><b>Schedules</b><span>built-in cron</span></div>
-      <div class="row"><b>Total cost</b><span style="color:var(--accent)">Just your Claude Code subscription</span></div>
+      <div class="row"><b data-i18n="pieces.l1">Brain</b><span>Claude Code CLI</span></div>
+      <div class="row"><b data-i18n="pieces.l2">Chat</b><span>Telegram</span></div>
+      <div class="row"><b data-i18n="pieces.l3">Memory</b><span>SQLite + embeddings</span></div>
+      <div class="row"><b data-i18n="pieces.l4">Knowledge</b><span>Notion</span></div>
+      <div class="row"><b data-i18n="pieces.l5">Voice</b><span>ElevenLabs</span></div>
+      <div class="row"><b data-i18n="pieces.l6">Schedules</b><span>built-in cron</span></div>
+      <div class="row"><b data-i18n="pieces.l7">Total cost</b><span style="color:var(--accent)" data-i18n="pieces.cost">Just your Claude Code subscription</span></div>
     </div>
   </section>
 
   <section id="idea">
-    <div class="kicker">— 06 —  A quiet idea</div>
-    <p class="pull">The assistant isn't bolted on top of something. <b>It is the something.</b></p>
-    <div class="pull-attr">— the philosophy</div>
+    <div class="kicker" data-i18n="idea.kicker">— 06 —  A quiet idea</div>
+    <p class="pull" data-i18n-html="idea.pull">The assistant isn't bolted on top of something. <b>It is the something.</b></p>
+    <div class="pull-attr" data-i18n="idea.attr">— the philosophy</div>
   </section>
 
   <section id="setup">
-    <div class="kicker">— 07 —  Set it up</div>
-    <h2>Four steps. <b>No wizards.</b></h2>
+    <div class="kicker" data-i18n="setup.kicker">— 07 —  Set it up</div>
+    <h2 data-i18n-html="setup.h2">Four steps. <b>No wizards.</b></h2>
 
     <div class="steps">
-      <div class="step"><span class="sn">01</span><div><b>Install Claude Code</b><span><a href="https://docs.claude.com/en/docs/claude-code/overview" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">Get it from Anthropic ↗</a> — one CLI, macOS / Linux / Windows.</span></div></div>
-      <div class="step"><span class="sn">02</span><div><b>Grab the setup guide</b><span><a href="https://missingus3r.github.io/friday-showcase/SETUP.md" download="SETUP.md" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">Download SETUP.md</a> or <a href="https://github.com/missingus3r/friday-showcase/blob/main/SETUP.md" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">view on GitHub</a>.</span></div></div>
-      <div class="step"><span class="sn">03</span><div><b>Hand it to a fresh session</b><span>Paste this prompt — it walks through keys, Telegram, the memory server, and the cron jobs on its own.</span>
+      <div class="step"><span class="sn">01</span><div><b data-i18n="setup.s1t">Install Claude Code</b><span data-i18n-html="setup.s1d"><a href="https://docs.claude.com/en/docs/claude-code/overview" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">Get it from Anthropic ↗</a> — one CLI, macOS / Linux / Windows.</span></div></div>
+      <div class="step"><span class="sn">02</span><div><b data-i18n="setup.s2t">Grab the setup guide</b><span data-i18n-html="setup.s2d"><a href="https://missingus3r.github.io/friday-showcase/SETUP.md" download="SETUP.md" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">Download SETUP.md</a> or <a href="https://github.com/missingus3r/friday-showcase/blob/main/SETUP.md" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">view on GitHub</a>.</span></div></div>
+      <div class="step"><span class="sn">03</span><div><b data-i18n="setup.s3t">Hand it to a fresh session</b><span data-i18n="setup.s3d">Paste this prompt — it walks through keys, Telegram, the memory server, and the cron jobs on its own.</span>
         <div class="terminal" id="termPrompt" style="margin-top:16px">
           <div class="bar"><i></i><i></i><i></i></div>
           <div><span class="prompt">›</span> <span class="cmd" id="setupPrompt">Read SETUP.md in this repo and set me up as Friday --with-camera: install the dependencies, ask me for any missing API keys, configure the Telegram plugin, start the memory server, create the scheduled jobs, and set up the optional live camera (IP/USB security camera + YOLOv8n object detection). Walk me through it step by step. Remove --with-camera and the camera step to skip it.</span></div>
           <button class="copy" id="copyPrompt">Copy</button>
         </div>
       </div></div>
-      <div class="step"><span class="sn">04</span><div><b>Start Friday</b><span>One command. It's live.</span>
+      <div class="step"><span class="sn">04</span><div><b data-i18n="setup.s4t">Start Friday</b><span data-i18n="setup.s4d">One command. It's live.</span>
         <div class="terminal" id="term" style="margin-top:16px">
           <div class="bar"><i></i><i></i><i></i></div>
           <div><span class="prompt">›</span> <span class="cmd" id="cmd">claude <span class="flag">--channels</span> plugin:telegram@claude-plugins-official <span class="flag">--dangerously-skip-permissions</span></span></div>
@@ -734,39 +813,39 @@ try{
     </div>
 
     <div style="max-width:640px;margin:56px auto 0;text-align:left;border-top:1px solid var(--line);padding-top:36px">
-      <div class="eyebrow" style="margin-bottom:14px">Optional add-on</div>
-      <h3 style="font-size:20px;font-weight:500;margin:0 0 12px">Live camera &amp; object detection</h3>
-      <p class="body" style="margin:0;max-width:100%">Point Friday at a security camera (IP, USB, etc.) and it watches for people on-device with <b>YOLOv8n</b> (Ultralytics + OpenCV). On a detection it grabs a snapshot with a bounding box, records a ~10-second clip, and sends both to Telegram — nothing leaves your machine.</p>
-      <p class="body" style="margin:14px 0 0;max-width:100%">No extra commands: keep the <code style="font-family:var(--mono);font-size:13px;color:var(--accent)">--with-camera</code> flag in the setup prompt (step 03) and the assistant installs and wires it up for you. Drop the flag to skip it.</p>
-      <p style="font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:14px;letter-spacing:.03em">Model: YOLOv8n (nano · CPU-friendly) · watches the “person” class · opt-in.</p>
+      <div class="eyebrow" style="margin-bottom:14px" data-i18n="setup.addon.tag">Optional add-on</div>
+      <h3 style="font-size:20px;font-weight:500;margin:0 0 12px" data-i18n="setup.addon.h3">Live camera &amp; object detection</h3>
+      <p class="body" style="margin:0;max-width:100%" data-i18n-html="setup.addon.p1">Point Friday at a security camera (IP, USB, etc.) and it watches for people on-device with <b>YOLOv8n</b> (Ultralytics + OpenCV). On a detection it grabs a snapshot with a bounding box, records a ~10-second clip, and sends both to Telegram — nothing leaves your machine.</p>
+      <p class="body" style="margin:14px 0 0;max-width:100%" data-i18n-html="setup.addon.p2">No extra commands: keep the <code style="font-family:var(--mono);font-size:13px;color:var(--accent)">--with-camera</code> flag in the setup prompt (step 03) and the assistant installs and wires it up for you. Drop the flag to skip it.</p>
+      <p style="font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:14px;letter-spacing:.03em" data-i18n="setup.addon.note">Model: YOLOv8n (nano · CPU-friendly) · watches the “person” class · opt-in.</p>
     </div>
   </section>
 
   <section id="agents">
-    <div class="kicker">— 08 —  Bring your own model</div>
-    <h2>Tested on Claude. <b>Adaptable to anything.</b></h2>
-    <p class="body">Friday is built and proven on <b>Claude Code with Anthropic's Fable 5.x and Opus 4.x</b>. That's the path with the most polish today — every cron, MCP plugin, and self-evolving subsystem is verified end-to-end on it.</p>
-    <p class="body">The architecture isn't tied to a single vendor, though. The brain is just an agentic CLI that can use tools, schedule jobs, and read a system prompt. With small adjustments to <code style="font-family:var(--mono);font-size:13px;color:var(--accent)">CLAUDE.md</code> and the cron prompts, the same setup runs on:</p>
+    <div class="kicker" data-i18n="agents.kicker">— 08 —  Bring your own model</div>
+    <h2 data-i18n-html="agents.h2">Tested on Claude. <b>Adaptable to anything.</b></h2>
+    <p class="body" data-i18n-html="agents.p1">Friday is built and proven on <b>Claude Code with Anthropic's Fable 5.x and Opus 4.x</b>. That's the path with the most polish today — every cron, MCP plugin, and self-evolving subsystem is verified end-to-end on it.</p>
+    <p class="body" data-i18n-html="agents.p2">The architecture isn't tied to a single vendor, though. The brain is just an agentic CLI that can use tools, schedule jobs, and read a system prompt. With small adjustments to <code style="font-family:var(--mono);font-size:13px;color:var(--accent)">CLAUDE.md</code> and the cron prompts, the same setup runs on:</p>
 
     <div class="diagram" style="margin-top:48px">
-      <div class="row on"><span class="k">Anthropic</span><span class="arrow">→</span><span><b>Claude Code</b> · Fable 5.x / Opus 4.x — the tested path</span></div>
-      <div class="row"><span class="k">OpenAI</span><span class="arrow">→</span><span><b>Codex</b> CLI · GPT-5.x family</span></div>
-      <div class="row"><span class="k">Google</span><span class="arrow">→</span><span><b>Gemini CLI</b> · Gemini 3.x family</span></div>
-      <div class="row"><span class="k">Open</span><span class="arrow">→</span><span><b>OpenCode</b> with local models (Qwen, GLM, Llama) or any cloud provider</span></div>
+      <div class="row on"><span class="k">Anthropic</span><span class="arrow">→</span><span data-i18n-html="agents.d1"><b>Claude Code</b> · Fable 5.x / Opus 4.x — the tested path</span></div>
+      <div class="row"><span class="k">OpenAI</span><span class="arrow">→</span><span data-i18n-html="agents.d2"><b>Codex</b> CLI · GPT-5.x family</span></div>
+      <div class="row"><span class="k">Google</span><span class="arrow">→</span><span data-i18n-html="agents.d3"><b>Gemini CLI</b> · Gemini 3.x family</span></div>
+      <div class="row"><span class="k">Open</span><span class="arrow">→</span><span data-i18n-html="agents.d4"><b>OpenCode</b> with local models (Qwen, GLM, Llama) or any cloud provider</span></div>
     </div>
 
-    <p class="body" style="margin-top:32px">Every agent has its own quirks — tool-use schemas, scheduling primitives, MCP support — so adapting is a real exercise, not a one-line swap. The blueprint and the lessons are here; the port is up to you.</p>
+    <p class="body" style="margin-top:32px" data-i18n-html="agents.p3">Every agent has its own quirks — tool-use schemas, scheduling primitives, MCP support — so adapting is a real exercise, not a one-line swap. The blueprint and the lessons are here; the port is up to you.</p>
   </section>
 
   <section id="support">
-    <div class="kicker">— 09 —  If it's useful</div>
-    <h2>Star the repo. <b>Keep it alive.</b></h2>
-    <p class="body">Friday is a personal project kept public so others can learn from it or fork it. If it saved you time, star the repo — it's the lightest signal that this kind of work is worth continuing.</p>
-    <a class="star-cta" href="https://github.com/missingus3r/friday-showcase" target="_blank" rel="noopener"><span class="star">★</span> Star on GitHub</a>
+    <div class="kicker" data-i18n="support.kicker">— 09 —  If it's useful</div>
+    <h2 data-i18n-html="support.h2">Star the repo. <b>Keep it alive.</b></h2>
+    <p class="body" data-i18n="support.body">Friday is a personal project kept public so others can learn from it or fork it. If it saved you time, star the repo — it's the lightest signal that this kind of work is worth continuing.</p>
+    <a class="star-cta" href="https://github.com/missingus3r/friday-showcase" target="_blank" rel="noopener" data-i18n-html="support.cta"><span class="star">★</span> Star on GitHub</a>
   </section>
 
   <footer>
-    <div class="tag">Named after the last A.I. assistant Tony Stark built before hanging up the suit. This one doesn't have a suit either — just a terminal.</div>
+    <div class="tag" data-i18n="footer.tag">Named after the last A.I. assistant Tony Stark built before hanging up the suit. This one doesn't have a suit either — just a terminal.</div>
     <div class="links">
       <a href="https://github.com/missingus3r" target="_blank" rel="noopener">GitHub ↗</a>
       <a href="https://www.linkedin.com/in/bruno-silveira-730107a7/" target="_blank" rel="noopener">LinkedIn ↗</a>
@@ -1129,6 +1208,129 @@ function bindModal(btnId, scrimId, modalId, closeId){
 bindModal('openModal','scrim','modal','closeModal');
 bindModal('openHarness','scrimH','modalH','closeHarness');
 document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ document.querySelectorAll('.modal.on, .modal-scrim.on').forEach(el=>el.classList.remove('on')); document.body.classList.remove('modal-open'); } });
+
+// ---- i18n (EN / ES / PT) ----
+(function(){
+  var I18N = {
+    es: {
+      'nav.what':'Qué','nav.how':'Cómo','nav.different':'Distinto','nav.compare':'Comparar','nav.pieces':'Piezas','nav.idea':'Idea','nav.setup':'Setup','nav.agents':'Agentes','nav.star':'Estrella',
+      'theme.light':'Claro','theme.dark':'Oscuro',
+      'hero.eyebrow':'Friday, un asistente de IA 24/7',
+      'hero.h1':'Un asistente personal que <b>se reescribe a sí mismo.</b>',
+      'hero.lede':'Friday corre en tu propia computadora y te habla por Telegram. Recuerda cosas, te escribe primero y se encarga de lo chico — para que vos no tengas que hacerlo.',
+      'hero.m1':'Corre en<b>Una laptop</b>','hero.m2':'Habla por<b>Telegram</b>','hero.m3':'Cuesta<b>Nada, solo tu suscripción a Claude Code</b>','hero.m4':'Duerme<b>Nunca</b>',
+      'what.kicker':'— 01 —  Qué es','what.h2':'Un amigo tranquilo <b>en tu bolsillo.</b>',
+      'what.p1':'Le hablás a Friday como le escribirías a un amigo. Audios, links, preguntas, fotos. Lee las noticias que te importan, anota cosas, hace mandados en segundo plano y te responde cuando algo importa.',
+      'what.p2':'Sin sitio web. Sin app. Sin cuenta. Una sola terminal en tu propia máquina — cuando cerrás la tapa, sigue trabajando.',
+      'how.kicker':'— 02 —  Cómo funciona','how.h2':'Un cerebro. <b>Muchas herramientas.</b>',
+      'how.p1':'Friday es un único modelo (Fable 5.x / Opus 4.x) que puede usar herramientas por sí solo. Le decís cómo comportarse en un archivo de texto plano (CLAUDE.md) y se encarga del resto — charlar, recordar, agendar, actuar.',
+      'how.k0':'Vos','how.t0':'mandás un mensaje por Telegram','how.center':'lee · piensa · actúa','how.k1':'Memoria','how.t1':'recuerda lo que dijiste','how.k2':'Notas','how.t2':'anota cosas en Notion','how.k3':'Voz','how.t3':'habla y escucha','how.k4':'Email','how.t4':'lee, redacta, reenvía','how.t5':'hace commits y push de código','how.k6':'Web','how.t6':'busca y trae info','how.t7':'se despierta según horario',
+      'how.p2':'Esas herramientas se traducen en un puñado de tareas chicas que corre todo el día — solo:',
+      'how.c1t':'Briefings programados','how.c1d':'clima · divisas · noticias','how.c2t':'Vigila nuevos modelos de IA','how.c2d':'huggingface · blogs','how.c3t':'Analiza videos','how.c3d':'youtube · informes','how.c4t':'Tareas auto-reparables','how.c4d':'monitorea · recrea','how.c5t':'Escribe primero','how.c5d':'mensajes proactivos','how.c6t':'Corre en tu máquina','how.c6d':'sin vm en la nube',
+      'how.btn':'<span class="plus">+</span> Detalles técnicos',
+      'unique.kicker':'— 03 —  Qué lo hace distinto','unique.h2':'<b>Aprende</b>. Y <b>escribe primero</b>.',
+      'unique.r1k':'Aprende','unique.r1t':'adquiere nuevas habilidades de lo que le pedís','unique.r2k':'Reflexiona','unique.r2t':'revisa su propio día cada noche, anota qué salió mal','unique.r3k':'Se adapta','unique.r3t':'aprende tus preferencias de las correcciones repetidas','unique.r4k':'Propone','unique.r4t':'sugiere sus propias mejoras — vos aprobás o rechazás','unique.r5k':'Escribe primero','unique.r5t':'te escribe con avisos, recordatorios, seguimientos',
+      'unique.p':'El modelo sigue igual. El asistente evoluciona.','unique.btn':'<span class="plus">+</span> El harness — en profundidad',
+      'cmp.kicker':'— 04 —  Cómo se compara','cmp.h2':'Friday, <b>al lado de los demás.</b>','cmp.body':'Algunos agentes open source persiguen la misma idea. Acá está dónde Friday se alinea — y dónde honestamente no.',
+      'cmp.f1':'Open source','cmp.f2':'Corre 100% local','cmp.f3':'Memoria persistente','cmp.f4':'Habilidades auto-evolutivas','cmp.f5':'Tareas programadas (cron)','cmp.f6':'Mensajería (Telegram / WhatsApp …)','cmp.f7':'Acceso a sistema y herramientas','cmp.f8':'Sub-agentes / multi-agente','cmp.f9':'Agnóstico al modelo','cmp.f10':'Proactivo (escribe primero)','cmp.f11':'Cámara en vivo y detección de objetos',
+      'cmp.note':'✓ sí &nbsp;·&nbsp; ~ parcial / sin confirmar &nbsp;·&nbsp; — no.<br>Compilado de docs públicos, junio 2026. Primo más cercano: <b style="color:var(--ink-2)">Hermes</b> de Nous Research.',
+      'pieces.kicker':'— 05 —  Las piezas','pieces.h2':'Una lista corta de <b>partes honestas.</b>',
+      'pieces.l1':'Cerebro','pieces.l2':'Chat','pieces.l3':'Memoria','pieces.l4':'Conocimiento','pieces.l5':'Voz','pieces.l6':'Agenda','pieces.l7':'Costo total','pieces.cost':'Solo tu suscripción a Claude Code',
+      'idea.kicker':'— 06 —  Una idea tranquila','idea.pull':'El asistente no está montado encima de algo. <b>Es ese algo.</b>','idea.attr':'— la filosofía',
+      'setup.kicker':'— 07 —  Configuralo','setup.h2':'Cuatro pasos. <b>Sin asistentes.</b>',
+      'setup.s1t':'Instalá Claude Code','setup.s1d':'<a href="https://docs.claude.com/en/docs/claude-code/overview" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">Conseguilo en Anthropic ↗</a> — una CLI, macOS / Linux / Windows.',
+      'setup.s2t':'Bajá la guía de setup','setup.s2d':'<a href="https://missingus3r.github.io/friday-showcase/SETUP.md" download="SETUP.md" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">Descargá SETUP.md</a> o <a href="https://github.com/missingus3r/friday-showcase/blob/main/SETUP.md" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">vela en GitHub</a>.',
+      'setup.s3t':'Pasáselo a una sesión nueva','setup.s3d':'Pegá este prompt — recorre las API keys, Telegram, el memory server y los crons por su cuenta.',
+      'setup.s4t':'Arrancá Friday','setup.s4d':'Un comando. Está en vivo.',
+      'setup.addon.tag':'Add-on opcional','setup.addon.h3':'Cámara en vivo y detección de objetos',
+      'setup.addon.p1':'Apuntá Friday a una cámara de seguridad (IP, USB, etc.) y vigila si hay personas on-device con <b>YOLOv8n</b> (Ultralytics + OpenCV). Al detectar, saca una foto con recuadro, graba un clip de ~10 segundos y manda ambos a Telegram — nada sale de tu máquina.',
+      'setup.addon.p2':'Sin comandos extra: dejá el flag <code style="font-family:var(--mono);font-size:13px;color:var(--accent)">--with-camera</code> en el prompt del setup (paso 03) y el asistente lo instala y configura por vos. Sacá el flag para saltearlo.',
+      'setup.addon.note':'Modelo: YOLOv8n (nano · liviano en CPU) · vigila la clase “person” · opt-in.',
+      'agents.kicker':'— 08 —  Traé tu propio modelo','agents.h2':'Probado en Claude. <b>Adaptable a cualquier cosa.</b>',
+      'agents.p1':'Friday está construido y probado en <b>Claude Code con Fable 5.x y Opus 4.x de Anthropic</b>. Es el camino más pulido hoy — cada cron, plugin MCP y subsistema auto-evolutivo está verificado de punta a punta ahí.',
+      'agents.p2':'Pero la arquitectura no está atada a un solo proveedor. El cerebro es solo una CLI agéntica que usa herramientas, agenda tareas y lee un system prompt. Con pequeños ajustes a <code style="font-family:var(--mono);font-size:13px;color:var(--accent)">CLAUDE.md</code> y a los prompts de los crons, el mismo setup corre en:',
+      'agents.d1':'<b>Claude Code</b> · Fable 5.x / Opus 4.x — el camino probado','agents.d2':'<b>Codex</b> CLI · familia GPT-5.x','agents.d3':'<b>Gemini CLI</b> · familia Gemini 3.x','agents.d4':'<b>OpenCode</b> con modelos locales (Qwen, GLM, Llama) o cualquier proveedor cloud',
+      'agents.p3':'Cada agente tiene sus mañas — esquemas de tool-use, primitivas de scheduling, soporte MCP — así que adaptarlo es un ejercicio real, no un cambio de una línea. El blueprint y las lecciones están acá; el port queda en tus manos.',
+      'support.kicker':'— 09 —  Si te sirve','support.h2':'Dale una estrella al repo. <b>Mantenelo vivo.</b>','support.body':'Friday es un proyecto personal que mantengo público para que otros aprendan o lo forkeen. Si te ahorró tiempo, dale una estrella — es la señal más liviana de que este tipo de trabajo vale la pena seguir.','support.cta':'<span class="star">★</span> Estrella en GitHub',
+      'footer.tag':'Llamado así por el último asistente de IA que Tony Stark construyó antes de colgar el traje. Este tampoco tiene traje — solo una terminal.',
+      'tg.today':'Hoy','tg.online':'en línea','tg.message':'Mensaje'
+    },
+    pt: {
+      'nav.what':'O quê','nav.how':'Como','nav.different':'Diferente','nav.compare':'Comparar','nav.pieces':'Peças','nav.idea':'Ideia','nav.setup':'Setup','nav.agents':'Agentes','nav.star':'Estrela',
+      'theme.light':'Claro','theme.dark':'Escuro',
+      'hero.eyebrow':'Friday, um assistente de IA 24/7',
+      'hero.h1':'Um assistente pessoal que <b>se reescreve sozinho.</b>',
+      'hero.lede':'O Friday roda no seu próprio computador e fala com você pelo Telegram. Lembra das coisas, escreve primeiro e cuida do que é pequeno — pra você não precisar.',
+      'hero.m1':'Roda em<b>Um laptop</b>','hero.m2':'Fala via<b>Telegram</b>','hero.m3':'Custa<b>Nada, só sua assinatura do Claude Code</b>','hero.m4':'Dorme<b>Nunca</b>',
+      'what.kicker':'— 01 —  O que é','what.h2':'Um amigo tranquilo <b>no seu bolso.</b>',
+      'what.p1':'Você fala com o Friday como mandaria mensagem pra um amigo. Áudios, links, perguntas, fotos. Ele lê as notícias que te importam, anota coisas, resolve tarefas em segundo plano e responde quando algo importa.',
+      'what.p2':'Sem site. Sem app. Sem conta. Uma só janela de terminal na sua máquina — quando você fecha a tampa, ele continua trabalhando.',
+      'how.kicker':'— 02 —  Como funciona','how.h2':'Um cérebro. <b>Muitas ferramentas.</b>',
+      'how.p1':'O Friday é um único modelo (Fable 5.x / Opus 4.x) que usa ferramentas sozinho. Você diz como ele deve se comportar num arquivo de texto simples (CLAUDE.md) e ele cuida do resto — conversar, lembrar, agendar, agir.',
+      'how.k0':'Você','how.t0':'manda uma mensagem no Telegram','how.center':'lê · pensa · age','how.k1':'Memória','how.t1':'lembra do que você disse','how.k2':'Notas','how.t2':'anota coisas no Notion','how.k3':'Voz','how.t3':'fala e escuta','how.k4':'Email','how.t4':'lê, redige, encaminha','how.t5':'faz commits e push de código','how.k6':'Web','how.t6':'busca e traz info','how.t7':'acorda no horário',
+      'how.p2':'Essas ferramentas viram um punhado de tarefas pequenas que ele roda o dia todo — sozinho:',
+      'how.c1t':'Briefings agendados','how.c1d':'clima · câmbio · notícias','how.c2t':'Monitora novos modelos de IA','how.c2d':'huggingface · blogs','how.c3t':'Analisa vídeos','how.c3d':'youtube · relatórios','how.c4t':'Tarefas auto-reparáveis','how.c4d':'monitora · recria','how.c5t':'Escreve primeiro','how.c5d':'mensagens proativas','how.c6t':'Roda na sua máquina','how.c6d':'sem vm na nuvem',
+      'how.btn':'<span class="plus">+</span> Detalhes técnicos',
+      'unique.kicker':'— 03 —  O que o torna diferente','unique.h2':'Ele <b>aprende</b>. E <b>escreve primeiro</b>.',
+      'unique.r1k':'Aprende','unique.r1t':'adquire novas habilidades do que você pede','unique.r2k':'Reflete','unique.r2t':'revisa o próprio dia toda noite, anota o que deu errado','unique.r3k':'Se adapta','unique.r3t':'aprende suas preferências das correções repetidas','unique.r4k':'Propõe','unique.r4t':'sugere as próprias melhorias — você aprova ou rejeita','unique.r5k':'Escreve primeiro','unique.r5t':'escreve com avisos, lembretes, follow-ups',
+      'unique.p':'O modelo continua o mesmo. O assistente evolui.','unique.btn':'<span class="plus">+</span> O harness — em detalhe',
+      'cmp.kicker':'— 04 —  Como se compara','cmp.h2':'Friday, <b>ao lado dos outros.</b>','cmp.body':'Alguns agentes open source perseguem a mesma ideia. Aqui está onde o Friday se alinha — e onde, honestamente, não.',
+      'cmp.f1':'Open source','cmp.f2':'Roda 100% local','cmp.f3':'Memória persistente','cmp.f4':'Habilidades autoevolutivas','cmp.f5':'Tarefas agendadas (cron)','cmp.f6':'Mensageria (Telegram / WhatsApp …)','cmp.f7':'Acesso ao sistema e ferramentas','cmp.f8':'Subagentes / multiagente','cmp.f9':'Agnóstico ao modelo','cmp.f10':'Proativo (escreve primeiro)','cmp.f11':'Câmera ao vivo e detecção de objetos',
+      'cmp.note':'✓ sim &nbsp;·&nbsp; ~ parcial / não confirmado &nbsp;·&nbsp; — não.<br>Compilado de docs públicos, junho de 2026. Primo mais próximo: <b style="color:var(--ink-2)">Hermes</b> da Nous Research.',
+      'pieces.kicker':'— 05 —  As peças','pieces.h2':'Uma lista curta de <b>partes honestas.</b>',
+      'pieces.l1':'Cérebro','pieces.l2':'Chat','pieces.l3':'Memória','pieces.l4':'Conhecimento','pieces.l5':'Voz','pieces.l6':'Agenda','pieces.l7':'Custo total','pieces.cost':'Só sua assinatura do Claude Code',
+      'idea.kicker':'— 06 —  Uma ideia tranquila','idea.pull':'O assistente não está montado sobre algo. <b>Ele é esse algo.</b>','idea.attr':'— a filosofia',
+      'setup.kicker':'— 07 —  Configure','setup.h2':'Quatro passos. <b>Sem assistentes.</b>',
+      'setup.s1t':'Instale o Claude Code','setup.s1d':'<a href="https://docs.claude.com/en/docs/claude-code/overview" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">Baixe na Anthropic ↗</a> — uma CLI, macOS / Linux / Windows.',
+      'setup.s2t':'Pegue o guia de setup','setup.s2d':'<a href="https://missingus3r.github.io/friday-showcase/SETUP.md" download="SETUP.md" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">Baixe SETUP.md</a> ou <a href="https://github.com/missingus3r/friday-showcase/blob/main/SETUP.md" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">veja no GitHub</a>.',
+      'setup.s3t':'Entregue a uma sessão nova','setup.s3d':'Cole este prompt — ele percorre as chaves, o Telegram, o memory server e os crons sozinho.',
+      'setup.s4t':'Inicie o Friday','setup.s4d':'Um comando. Está no ar.',
+      'setup.addon.tag':'Add-on opcional','setup.addon.h3':'Câmera ao vivo e detecção de objetos',
+      'setup.addon.p1':'Aponte o Friday pra uma câmera de segurança (IP, USB, etc.) e ele vigia pessoas on-device com <b>YOLOv8n</b> (Ultralytics + OpenCV). Ao detectar, tira uma foto com retângulo, grava um clipe de ~10 segundos e manda os dois pro Telegram — nada sai da sua máquina.',
+      'setup.addon.p2':'Sem comandos extras: mantenha a flag <code style="font-family:var(--mono);font-size:13px;color:var(--accent)">--with-camera</code> no prompt do setup (passo 03) e o assistente instala e configura pra você. Remova a flag pra pular.',
+      'setup.addon.note':'Modelo: YOLOv8n (nano · leve em CPU) · vigia a classe “person” · opt-in.',
+      'agents.kicker':'— 08 —  Traga seu próprio modelo','agents.h2':'Testado no Claude. <b>Adaptável a qualquer coisa.</b>',
+      'agents.p1':'O Friday é construído e validado no <b>Claude Code com Fable 5.x e Opus 4.x da Anthropic</b>. É o caminho mais polido hoje — cada cron, plugin MCP e subsistema autoevolutivo é verificado de ponta a ponta nele.',
+      'agents.p2':'Mas a arquitetura não está presa a um único fornecedor. O cérebro é só uma CLI agêntica que usa ferramentas, agenda tarefas e lê um system prompt. Com pequenos ajustes no <code style="font-family:var(--mono);font-size:13px;color:var(--accent)">CLAUDE.md</code> e nos prompts dos crons, o mesmo setup roda em:',
+      'agents.d1':'<b>Claude Code</b> · Fable 5.x / Opus 4.x — o caminho testado','agents.d2':'<b>Codex</b> CLI · família GPT-5.x','agents.d3':'<b>Gemini CLI</b> · família Gemini 3.x','agents.d4':'<b>OpenCode</b> com modelos locais (Qwen, GLM, Llama) ou qualquer provedor na nuvem',
+      'agents.p3':'Cada agente tem suas manias — esquemas de tool-use, primitivas de agendamento, suporte a MCP — então adaptar é um exercício real, não uma troca de uma linha. O blueprint e as lições estão aqui; o port fica por sua conta.',
+      'support.kicker':'— 09 —  Se for útil','support.h2':'Dê uma estrela ao repo. <b>Mantenha-o vivo.</b>','support.body':'O Friday é um projeto pessoal mantido público pra que outros aprendam ou façam fork. Se te poupou tempo, dê uma estrela — é o sinal mais leve de que esse tipo de trabalho vale a pena continuar.','support.cta':'<span class="star">★</span> Estrela no GitHub',
+      'footer.tag':'Nomeado em homenagem ao último assistente de IA que Tony Stark construiu antes de pendurar a armadura. Este também não tem armadura — só um terminal.',
+      'tg.today':'Hoje','tg.online':'online','tg.message':'Mensagem'
+    }
+  };
+  var cache = {};
+  var nodes = [];
+  document.querySelectorAll('[data-i18n],[data-i18n-html]').forEach(function(el){
+    var html = el.hasAttribute('data-i18n-html');
+    var key = el.getAttribute(html ? 'data-i18n-html' : 'data-i18n');
+    cache[key] = html ? el.innerHTML : el.textContent;
+    nodes.push({el:el, key:key, html:html});
+  });
+  function apply(lang){
+    window.__lang = lang;
+    var dict = I18N[lang] || {};
+    nodes.forEach(function(n){
+      var v = (lang === 'en') ? cache[n.key] : (dict[n.key] != null ? dict[n.key] : cache[n.key]);
+      if(v == null) return;
+      if(n.html) n.el.innerHTML = v; else n.el.textContent = v;
+    });
+    document.documentElement.setAttribute('lang', lang);
+    document.querySelectorAll('#langToggle button').forEach(function(b){ b.classList.toggle('on', b.dataset.lang === lang); });
+    if(typeof window.__renderCarousel === 'function') window.__renderCarousel();
+    try{ localStorage.setItem('friday_lang', lang); }catch(e){}
+  }
+  document.querySelectorAll('#langToggle button').forEach(function(b){
+    b.addEventListener('click', function(){ apply(b.dataset.lang); });
+  });
+  var saved;
+  try{ saved = localStorage.getItem('friday_lang'); }catch(e){}
+  if(!saved){
+    var n = (navigator.language || 'en').slice(0,2).toLowerCase();
+    saved = (n === 'es' || n === 'pt') ? n : 'en';
+  }
+  apply(saved);
+})();
 </script>
 </body>
 </html>
