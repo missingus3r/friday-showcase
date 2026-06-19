@@ -186,6 +186,22 @@ try{
   .stack .row b{font-weight:500;color:var(--ink)}
   .stack .row span{font-family:var(--mono);font-size:12px;color:var(--ink-3)}
 
+  /* Comparison table */
+  .compare-wrap{margin:52px auto 0;max-width:780px;overflow-x:auto;-webkit-overflow-scrolling:touch;border-top:1px solid var(--line)}
+  .compare{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:13px;text-align:center;min-width:580px}
+  .compare th,.compare td{padding:13px 9px;border-bottom:1px solid var(--line);white-space:nowrap}
+  .compare thead th{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);font-weight:400}
+  .compare th.feat,.compare td.feat{text-align:left;color:var(--ink-2);font-family:var(--sans);font-weight:300;white-space:normal;min-width:168px}
+  .compare tbody tr:hover{background:var(--surface)}
+  .compare .yes{color:var(--ink)}
+  .compare .partial{color:var(--ink-3)}
+  .compare .no{color:var(--ink-3);opacity:.4}
+  .compare th.me{color:var(--accent)}
+  .compare td.me{background:var(--accent-soft)}
+  .compare th.me,.compare td.me{border-left:1px solid var(--accent);border-right:1px solid var(--accent)}
+  .compare td.me .yes{color:var(--accent)}
+  .compare-note{margin:20px auto 0;font-family:var(--mono);font-size:11px;color:var(--ink-3);max-width:600px;letter-spacing:.03em;line-height:1.7}
+
   /* Steps */
   .steps{margin:48px auto 0;max-width:780px;text-align:left}
   .step{display:grid;grid-template-columns:40px 1fr;gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
@@ -322,7 +338,7 @@ try{
   <a href="#what"><span class="num">01</span><span>What</span></a>
   <a href="#how"><span class="num">02</span><span>How</span></a>
   <a href="#unique"><span class="num">03</span><span>Different</span></a>
-  <a href="#does"><span class="num">04</span><span>Does</span></a>
+  <a href="#compare"><span class="num">04</span><span>Compare</span></a>
   <a href="#pieces"><span class="num">05</span><span>Pieces</span></a>
   <a href="#idea"><span class="num">06</span><span>Idea</span></a>
   <a href="#setup"><span class="num">07</span><span>Setup</span></a>
@@ -608,6 +624,15 @@ try{
       <div class="row" data-i="6"><span class="k">Web</span><span class="arrow">→</span><span>searches and fetches</span></div>
       <div class="row" data-i="7"><span class="k">Cron</span><span class="arrow">→</span><span>wakes up on schedule</span></div>
     </div>
+    <p class="body" style="margin-top:48px">Those tools add up to a handful of small jobs it runs all day — on its own:</p>
+    <div class="caps">
+      <div class="cap"><span class="n">01</span><span class="t">Scheduled briefings</span><span class="d">weather · forex · news</span></div>
+      <div class="cap"><span class="n">02</span><span class="t">Watches for new AI models</span><span class="d">huggingface · blogs</span></div>
+      <div class="cap"><span class="n">03</span><span class="t">Analyzes videos</span><span class="d">youtube · reports</span></div>
+      <div class="cap"><span class="n">04</span><span class="t">Self-healing jobs</span><span class="d">monitors · recreates</span></div>
+      <div class="cap"><span class="n">05</span><span class="t">Reaches out first</span><span class="d">proactive check-ins</span></div>
+      <div class="cap"><span class="n">06</span><span class="t">Runs on your machine</span><span class="d">no cloud vm</span></div>
+    </div>
     <button class="open-modal" id="openModal"><span class="plus">+</span> Technical details</button>
   </section>
 
@@ -625,23 +650,37 @@ try{
     <button class="open-modal" id="openHarness"><span class="plus">+</span> The harness — deep dive</button>
   </section>
 
-  <section id="does">
-    <div class="kicker">— 04 —  What it does</div>
-    <h2>Small things, <b>all day long.</b></h2>
-    <div class="caps">
-      <div class="cap"><span class="n">01</span><span class="t">Scheduled briefings</span><span class="d">weather · forex · news</span></div>
-      <div class="cap"><span class="n">02</span><span class="t">Watches for new AI models</span><span class="d">huggingface · blogs</span></div>
-      <div class="cap"><span class="n">03</span><span class="t">Takes notes</span><span class="d">notion · markdown</span></div>
-      <div class="cap"><span class="n">04</span><span class="t">Voice messages</span><span class="d">tts · stt</span></div>
-      <div class="cap"><span class="n">05</span><span class="t">Analyzes videos</span><span class="d">youtube · reports</span></div>
-      <div class="cap"><span class="n">06</span><span class="t">Handles your email</span><span class="d">read · draft · send</span></div>
-      <div class="cap"><span class="n">07</span><span class="t">Git operations</span><span class="d">commit · push · pr</span></div>
-      <div class="cap"><span class="n">08</span><span class="t">Web research</span><span class="d">search · fetch · summarize</span></div>
-      <div class="cap"><span class="n">09</span><span class="t">Self-healing jobs</span><span class="d">monitors · recreates</span></div>
-      <div class="cap"><span class="n">10</span><span class="t">Reaches out first</span><span class="d">proactive check-ins</span></div>
-      <div class="cap"><span class="n">11</span><span class="t">Recalls past talks</span><span class="d">hybrid rag search</span></div>
-      <div class="cap"><span class="n">12</span><span class="t">Runs on your machine</span><span class="d">no cloud vm</span></div>
+  <section id="compare">
+    <div class="kicker">— 04 —  How it compares</div>
+    <h2>Friday, <b>next to the others.</b></h2>
+    <p class="body">A few open agents chase the same idea. Here's where Friday lines up — and where it honestly doesn't.</p>
+    <div class="compare-wrap">
+      <table class="compare">
+        <thead>
+          <tr>
+            <th class="feat"></th>
+            <th class="me">Friday</th>
+            <th>OpenClaw</th>
+            <th>Hermes</th>
+            <th>Khoj</th>
+            <th>Leon</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="feat">Open source</td><td class="me"><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+          <tr><td class="feat">Runs fully local</td><td class="me"><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+          <tr><td class="feat">Persistent memory</td><td class="me"><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="no">—</span></td></tr>
+          <tr><td class="feat">Self-improving skills</td><td class="me"><span class="yes">✓</span></td><td><span class="partial">~</span></td><td><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td></tr>
+          <tr><td class="feat">Scheduled jobs (cron)</td><td class="me"><span class="yes">✓</span></td><td><span class="partial">~</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="no">—</span></td></tr>
+          <tr><td class="feat">Messaging (Telegram / WhatsApp …)</td><td class="me"><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="partial">~</span></td><td><span class="no">—</span></td></tr>
+          <tr><td class="feat">System &amp; tool access</td><td class="me"><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="partial">~</span></td><td><span class="partial">~</span></td></tr>
+          <tr><td class="feat">Sub-agents / multi-agent</td><td class="me"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="partial">~</span></td><td><span class="no">—</span></td></tr>
+          <tr><td class="feat">Model-agnostic</td><td class="me"><span class="partial">~</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="partial">~</span></td></tr>
+          <tr><td class="feat">Proactive (writes first)</td><td class="me"><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="no">—</span></td></tr>
+        </tbody>
+      </table>
     </div>
+    <p class="compare-note">✓ yes &nbsp;·&nbsp; ~ partial / unconfirmed &nbsp;·&nbsp; — no.<br>Compiled from public docs, June 2026. Closest cousin: <b style="color:var(--ink-2)">Hermes</b> by Nous Research.</p>
   </section>
 
   <section id="pieces">
@@ -671,7 +710,13 @@ try{
     <div class="steps">
       <div class="step"><span class="sn">01</span><div><b>Install Claude Code</b><span><a href="https://docs.claude.com/en/docs/claude-code/overview" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">Get it from Anthropic ↗</a> — one CLI, macOS / Linux / Windows.</span></div></div>
       <div class="step"><span class="sn">02</span><div><b>Grab the setup guide</b><span><a href="https://missingus3r.github.io/friday-showcase/SETUP.md" download="SETUP.md" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">Download SETUP.md</a> or <a href="https://github.com/missingus3r/friday-showcase/blob/main/SETUP.md" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">view on GitHub</a>.</span></div></div>
-      <div class="step"><span class="sn">03</span><div><b>Hand it to a fresh session</b><span>It walks through keys, Telegram, and the memory server on its own.</span></div></div>
+      <div class="step"><span class="sn">03</span><div><b>Hand it to a fresh session</b><span>Paste this prompt — it walks through keys, Telegram, the memory server, and the cron jobs on its own.</span>
+        <div class="terminal" id="termPrompt" style="margin-top:16px">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <div><span class="prompt">›</span> <span class="cmd" id="setupPrompt">Read SETUP.md in this repo and set me up as Friday: install the dependencies, ask me for any missing API keys, configure the Telegram plugin, start the memory server, and create the scheduled jobs. Walk me through it step by step.</span></div>
+          <button class="copy" id="copyPrompt">Copy</button>
+        </div>
+      </div></div>
       <div class="step"><span class="sn">04</span><div><b>Start Friday</b><span>One command. It's live.</span>
         <div class="terminal" id="term" style="margin-top:16px">
           <div class="bar"><i></i><i></i><i></i></div>
@@ -997,6 +1042,13 @@ document.getElementById('copyBtn').addEventListener('click',()=>{
   const t = document.getElementById('cmd').textContent;
   navigator.clipboard?.writeText(t);
   const b = document.getElementById('copyBtn');
+  const o = b.textContent; b.textContent='Copied';
+  setTimeout(()=>b.textContent=o,1400);
+});
+document.getElementById('copyPrompt')?.addEventListener('click',()=>{
+  const t = document.getElementById('setupPrompt').textContent;
+  navigator.clipboard?.writeText(t);
+  const b = document.getElementById('copyPrompt');
   const o = b.textContent; b.textContent='Copied';
   setTimeout(()=>b.textContent=o,1400);
 });
