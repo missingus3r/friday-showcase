@@ -82,6 +82,7 @@ The memory server renders all logs, memories, and entities as interactive graph 
 - **World modeling** — a behavioral model of the user (activity, topics, correlations) with confidence + expiry
 - **Self-improvement proposals** — formal proposals with diffs; never applied without approval
 - **Memory API health** — periodic checks with auto-restart and failure notification
+- **Live camera & object detection** *(optional extra)* — turns a USB webcam into a local security cam: YOLOv8n (Ultralytics + OpenCV) detects people on-device, captures a snapshot with a bounding box + a ~10s clip, and alerts via Telegram — nothing leaves the machine
 
 ## Scheduled Jobs
 

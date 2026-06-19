@@ -502,6 +502,25 @@ The system will self-heal its cron jobs, maintain memory across sessions, and op
 
 ---
 
+## Optional: Live Camera & Object Detection
+
+An opt-in extra skill — turn any USB webcam into a local security camera.
+
+- **Model:** YOLOv8n (Ultralytics) — the "nano" variant, fast enough on CPU.
+- **What it does:** detects the `person` class in the webcam feed, draws a bounding box, saves a snapshot, records a ~10-second clip, and sends both to Telegram.
+- **Privacy:** runs entirely on-device — frames never leave the machine.
+
+Install the dependencies and run the watchdog:
+
+```bash
+pip install opencv-python-headless ultralytics
+python3 ~/security-cam/watchdog.py
+```
+
+Captures are written to `~/security-cam/captures/`. Wire a trigger phrase into `CLAUDE.md` (e.g. "turn on the camera") so the assistant can start it in the background on request. Off by default — it only runs when you start it.
+
+---
+
 ## Enjoying Friday?
 
 If you got this running and it's useful, consider giving the repo a star — it helps others discover the project and keeps me motivated to iterate on it.

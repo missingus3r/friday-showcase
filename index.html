@@ -547,6 +547,11 @@ try{
           {who:'fr', html:'Proposal: the briefing keeps surfacing stale AI news. I can restrict it to the last 48h. Apply?', time:'23:31'},
           {who:'me', text:'yes', time:'23:33'},
           {who:'fr', html:"Applied — with a backup. If tomorrow's briefing regresses, I roll it back automatically.", time:'23:33', delay:1200}
+        ]},
+        {cap:'Local vision (security cam)', msgs:[
+          {who:'me', text:'turn on the security camera', time:'22:48'},
+          {who:'fr', html:"Watching 👁️ — USB webcam + <b>YOLOv8n</b> running locally. I'll ping you the moment I spot a person.", time:'22:48', delay:1200},
+          {who:'fr', html:"🚨 <b>Person detected</b> — snapshot with a bounding box + a 10s clip, sent right here. All on-device; nothing leaves your machine.", time:'23:15', delay:1500}
         ]}
       ];
       function bottom(){ chat.scrollTop = chat.scrollHeight; }
@@ -725,6 +730,19 @@ try{
           <button class="copy" id="copyBtn">Copy</button>
         </div>
       </div></div>
+    </div>
+
+    <div style="max-width:640px;margin:56px auto 0;text-align:left;border-top:1px solid var(--line);padding-top:36px">
+      <div class="eyebrow" style="margin-bottom:14px">Optional add-on</div>
+      <h3 style="font-size:20px;font-weight:500;margin:0 0 12px">Live camera &amp; object detection</h3>
+      <p class="body" style="margin:0;max-width:100%">Point Friday at a USB webcam and it watches for people on-device with <b>YOLOv8n</b> (Ultralytics + OpenCV). On a detection it grabs a snapshot with a bounding box, records a ~10-second clip, and sends both to Telegram — nothing leaves your machine.</p>
+      <div class="terminal" id="termCam" style="margin-top:16px">
+        <div class="bar"><i></i><i></i><i></i></div>
+        <div><span class="prompt">›</span> <span class="cmd">pip install opencv-python-headless ultralytics</span></div>
+        <div><span class="prompt">›</span> <span class="cmd">python3 ~/security-cam/watchdog.py</span></div>
+        <button class="copy" id="copyCam">Copy</button>
+      </div>
+      <p style="font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:14px;letter-spacing:.03em">Model: YOLOv8n (nano · CPU-friendly) · watches the “person” class · opt-in, off by default.</p>
     </div>
   </section>
 
@@ -1050,6 +1068,13 @@ document.getElementById('copyPrompt')?.addEventListener('click',()=>{
   const t = document.getElementById('setupPrompt').textContent;
   navigator.clipboard?.writeText(t);
   const b = document.getElementById('copyPrompt');
+  const o = b.textContent; b.textContent='Copied';
+  setTimeout(()=>b.textContent=o,1400);
+});
+document.getElementById('copyCam')?.addEventListener('click',()=>{
+  const t = [...document.querySelectorAll('#termCam .cmd')].map(e=>e.textContent).join('\n');
+  navigator.clipboard?.writeText(t);
+  const b = document.getElementById('copyCam');
   const o = b.textContent; b.textContent='Copied';
   setTimeout(()=>b.textContent=o,1400);
 });
