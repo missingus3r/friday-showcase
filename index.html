@@ -720,7 +720,7 @@ try{
       <div class="step"><span class="sn">03</span><div><b>Hand it to a fresh session</b><span>Paste this prompt — it walks through keys, Telegram, the memory server, and the cron jobs on its own.</span>
         <div class="terminal" id="termPrompt" style="margin-top:16px">
           <div class="bar"><i></i><i></i><i></i></div>
-          <div><span class="prompt">›</span> <span class="cmd" id="setupPrompt">Read SETUP.md in this repo and set me up as Friday: install the dependencies, ask me for any missing API keys, configure the Telegram plugin, start the memory server, and create the scheduled jobs. Walk me through it step by step.</span></div>
+          <div><span class="prompt">›</span> <span class="cmd" id="setupPrompt">Read SETUP.md in this repo and set me up as Friday --with-camera: install the dependencies, ask me for any missing API keys, configure the Telegram plugin, start the memory server, create the scheduled jobs, and set up the optional live camera (IP/USB security camera + YOLOv8n object detection). Walk me through it step by step. Remove --with-camera and the camera step to skip it.</span></div>
           <button class="copy" id="copyPrompt">Copy</button>
         </div>
       </div></div>
@@ -736,14 +736,9 @@ try{
     <div style="max-width:640px;margin:56px auto 0;text-align:left;border-top:1px solid var(--line);padding-top:36px">
       <div class="eyebrow" style="margin-bottom:14px">Optional add-on</div>
       <h3 style="font-size:20px;font-weight:500;margin:0 0 12px">Live camera &amp; object detection</h3>
-      <p class="body" style="margin:0;max-width:100%">Point Friday at a USB webcam and it watches for people on-device with <b>YOLOv8n</b> (Ultralytics + OpenCV). On a detection it grabs a snapshot with a bounding box, records a ~10-second clip, and sends both to Telegram — nothing leaves your machine.</p>
-      <div class="terminal" id="termCam" style="margin-top:16px">
-        <div class="bar"><i></i><i></i><i></i></div>
-        <div><span class="prompt">›</span> <span class="cmd">pip install opencv-python-headless ultralytics</span></div>
-        <div><span class="prompt">›</span> <span class="cmd">python3 ~/security-cam/watchdog.py</span></div>
-        <button class="copy" id="copyCam">Copy</button>
-      </div>
-      <p style="font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:14px;letter-spacing:.03em">Model: YOLOv8n (nano · CPU-friendly) · watches the “person” class · opt-in, off by default.</p>
+      <p class="body" style="margin:0;max-width:100%">Point Friday at a security camera (IP, USB, etc.) and it watches for people on-device with <b>YOLOv8n</b> (Ultralytics + OpenCV). On a detection it grabs a snapshot with a bounding box, records a ~10-second clip, and sends both to Telegram — nothing leaves your machine.</p>
+      <p class="body" style="margin:14px 0 0;max-width:100%">No extra commands: keep the <code style="font-family:var(--mono);font-size:13px;color:var(--accent)">--with-camera</code> flag in the setup prompt (step 03) and the assistant installs and wires it up for you. Drop the flag to skip it.</p>
+      <p style="font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:14px;letter-spacing:.03em">Model: YOLOv8n (nano · CPU-friendly) · watches the “person” class · opt-in.</p>
     </div>
   </section>
 
@@ -1072,13 +1067,7 @@ document.getElementById('copyPrompt')?.addEventListener('click',()=>{
   const o = b.textContent; b.textContent='Copied';
   setTimeout(()=>b.textContent=o,1400);
 });
-document.getElementById('copyCam')?.addEventListener('click',()=>{
-  const t = [...document.querySelectorAll('#termCam .cmd')].map(e=>e.textContent).join('\n');
-  navigator.clipboard?.writeText(t);
-  const b = document.getElementById('copyCam');
-  const o = b.textContent; b.textContent='Copied';
-  setTimeout(()=>b.textContent=o,1400);
-});
+// camera install runs from the setup-prompt --with-camera flag, no copy button needed
 
 // ---- Tweaks ----
 const root = document.documentElement;

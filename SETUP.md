@@ -504,7 +504,7 @@ The system will self-heal its cron jobs, maintain memory across sessions, and op
 
 ## Optional: Live Camera & Object Detection
 
-An opt-in extra skill — turn any USB webcam into a local security camera.
+An opt-in extra skill — turn a security camera (IP, USB, etc.) into a local, on-device person detector. **Triggered by the `--with-camera` flag in the setup prompt:** when the assistant sees it, run this section; otherwise skip it.
 
 - **Model:** YOLOv8n (Ultralytics) — the "nano" variant, fast enough on CPU.
 - **What it does:** detects the `person` class in the webcam feed, draws a bounding box, saves a snapshot, records a ~10-second clip, and sends both to Telegram.
