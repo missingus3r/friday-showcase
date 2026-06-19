@@ -860,17 +860,17 @@ try{
 <div class="modal-scrim" id="scrim"></div>
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal-head">
-    <h3 id="modalTitle"><span class="pulse"></span> Technical details</h3>
-    <button class="close" id="closeModal">Close ✕</button>
+    <h3 id="modalTitle" data-i18n-html="m1.title"><span class="pulse"></span> Technical details</h3>
+    <button class="close" id="closeModal" data-i18n="modal.close">Close ✕</button>
   </div>
   <div class="modal-body">
 
-    <h4>— What it really is</h4>
-    <p>A <b>self-evolving AI assistant</b> that runs 24/7 on a standard Windows, Linux, or macOS machine. It communicates via Telegram, runs scheduled tasks autonomously, manages files and projects, and maintains persistent memory across sessions.</p>
-    <p>It also <b>learns from its own behavior</b>: acquires new skills, reflects on daily performance, infers user preferences from repeated corrections, and proposes its own improvements. Powered entirely by Claude Code on the $100/month Max Plan — no custom AI backend, no fine-tuned models, no orchestration framework. The only custom code is a lightweight Flask server for persistent memory and the self-evolving subsystems.</p>
+    <h4 data-i18n="m1.hA">— What it really is</h4>
+    <p data-i18n-html="m1.pA1">A <b>self-evolving AI assistant</b> that runs 24/7 on a standard Windows, Linux, or macOS machine. It communicates via Telegram, runs scheduled tasks autonomously, manages files and projects, and maintains persistent memory across sessions.</p>
+    <p data-i18n-html="m1.pA2">It also <b>learns from its own behavior</b>: acquires new skills, reflects on daily performance, infers user preferences from repeated corrections, and proposes its own improvements. Powered entirely by Claude Code on the $100/month Max Plan — no custom AI backend, no fine-tuned models, no orchestration framework. The only custom code is a lightweight Flask server for persistent memory and the self-evolving subsystems.</p>
 
-    <h4>— How it works</h4>
-    <p>Claude Code sits at the center, connecting to external services through MCP (Model Context Protocol) plugins and shell tools. A <b>CLAUDE.md</b> file acts as the system prompt, defining behavior, available tools, and cron schedules.</p>
+    <h4 data-i18n="m1.hB">— How it works</h4>
+    <p data-i18n-html="m1.pB1">Claude Code sits at the center, connecting to external services through MCP (Model Context Protocol) plugins and shell tools. A <b>CLAUDE.md</b> file acts as the system prompt, defining behavior, available tools, and cron schedules.</p>
 <pre>User (Telegram) ---> Claude Code (with MCP plugins)
     |
     |--> Memory API       ---> SQLite (conversations, memories, embeddings)
@@ -884,97 +884,97 @@ try{
     |--> Local tools      ---> Shell, scripts, system utilities</pre>
     <figure>
       <img src="img/arch.png" alt="Architecture diagram">
-      <figcaption>Architecture diagram — visual map of all system components and their connections: services, data stores, cron jobs, APIs, and projects. Nodes are draggable, positions persist server-side.</figcaption>
+      <figcaption data-i18n="m1.figA">Architecture diagram — visual map of all system components and their connections: services, data stores, cron jobs, APIs, and projects. Nodes are draggable, positions persist server-side.</figcaption>
     </figure>
 
-    <h4>— Why no agent framework</h4>
-    <p>Agent frameworks add custom runtimes, orchestration code, deployment pipelines, and often their own API costs. Claude Code already <b>is</b> the runtime. It has native tool use, MCP plugin support, cron scheduling, sub-agent spawning, file I/O, git, and shell access built in. There is no glue code between the LLM and the tools.</p>
-    <p><i>One plan, one CLI, one model — and let the model do what it was designed to do.</i></p>
+    <h4 data-i18n="m1.hC">— Why no agent framework</h4>
+    <p data-i18n-html="m1.pC1">Agent frameworks add custom runtimes, orchestration code, deployment pipelines, and often their own API costs. Claude Code already <b>is</b> the runtime. It has native tool use, MCP plugin support, cron scheduling, sub-agent spawning, file I/O, git, and shell access built in. There is no glue code between the LLM and the tools.</p>
+    <p data-i18n-html="m1.pC2"><i>One plan, one CLI, one model — and let the model do what it was designed to do.</i></p>
 
-    <h4>— The stack</h4>
+    <h4 data-i18n="m1.hD">— The stack</h4>
     <table class="stack-t">
-      <tr><td>Brain</td><td>Claude Code CLI (Fable 5.x / Opus 4.x, 1M context)</td></tr>
-      <tr><td>Interface</td><td>Telegram (via MCP plugin)</td></tr>
-      <tr><td>Memory</td><td>Flask + SQLite + embedding-based RAG</td></tr>
-      <tr><td>Knowledge</td><td>Notion (via MCP plugin)</td></tr>
-      <tr><td>Voice</td><td>ElevenLabs TTS / STT</td></tr>
-      <tr><td>Scheduling</td><td>Claude Code built-in cron system</td></tr>
-      <tr><td>Cost</td><td>$100 / month (Anthropic Max Plan)</td></tr>
+      <tr><td data-i18n="m1.stkL1">Brain</td><td>Claude Code CLI (Fable 5.x / Opus 4.x, 1M context)</td></tr>
+      <tr><td data-i18n="m1.stkL2">Interface</td><td data-i18n="m1.stkR2">Telegram (via MCP plugin)</td></tr>
+      <tr><td data-i18n="m1.stkL3">Memory</td><td data-i18n="m1.stkR3">Flask + SQLite + embedding-based RAG</td></tr>
+      <tr><td data-i18n="m1.stkL4">Knowledge</td><td data-i18n="m1.stkR4">Notion (via MCP plugin)</td></tr>
+      <tr><td data-i18n="m1.stkL5">Voice</td><td>ElevenLabs TTS / STT</td></tr>
+      <tr><td data-i18n="m1.stkL6">Scheduling</td><td data-i18n="m1.stkR6">Claude Code built-in cron system</td></tr>
+      <tr><td data-i18n="m1.stkL7">Cost</td><td data-i18n="m1.stkR7">$100 / month (Anthropic Max Plan)</td></tr>
     </table>
 
-    <h4>— Full capability list</h4>
+    <h4 data-i18n="m1.hE">— Full capability list</h4>
     <ul>
-      <li><b>Scheduled briefings</b> — weather (Open-Meteo), forex/crypto (DolarAPI, ExchangeRate), AI news, movies (YTS)</li>
-      <li><b>Autonomous monitoring</b> — scan 60+ orgs on HuggingFace, blogs, and aggregators for new AI model releases</li>
-      <li><b>Note-taking</b> — save links, text, and structured data to Notion and local markdown</li>
-      <li><b>Voice messages</b> — transcribe audio (ElevenLabs Scribe STT), respond with synthesized speech (ElevenLabs TTS)</li>
-      <li><b>Video analysis</b> — download, transcribe (YouTube subs / ElevenLabs), generate structured reports via Groq / OpenRouter</li>
-      <li><b>Email handling</b> — check, draft, send, and forward emails via AgentMail MCP</li>
-      <li><b>Git operations</b> — commit, push, create PRs, manage repositories via GitHub API + git CLI</li>
-      <li><b>Web research</b> — search, fetch, summarize, and report back</li>
-      <li><b>Self-healing crons</b> — monitors its own scheduled jobs and recreates any that expire</li>
-      <li><b>Proactive messaging</b> — initiates conversations based on memory and context, not just reactive</li>
-      <li><b>Skill acquisition</b> — extracts reusable patterns from completed tasks and stores them with trigger patterns</li>
-      <li><b>Daily self-reflection</b> — nightly cron reviews logs to identify mistakes, successes, emerging patterns</li>
-      <li><b>Preference learning</b> — analyzes feedback history to infer rules from repeated corrections</li>
-      <li><b>World modeling</b> — builds a behavioral model of the user with confidence scores and expiration dates</li>
-      <li><b>Self-improvement proposals</b> — creates formal proposals with diffs; never applies changes without approval</li>
-      <li><b>Memory API health monitoring</b> — periodic health checks with automatic restart on failure</li>
+      <li data-i18n-html="m1.capL1"><b>Scheduled briefings</b> — weather (Open-Meteo), forex/crypto (DolarAPI, ExchangeRate), AI news, movies (YTS)</li>
+      <li data-i18n-html="m1.capL2"><b>Autonomous monitoring</b> — scan 60+ orgs on HuggingFace, blogs, and aggregators for new AI model releases</li>
+      <li data-i18n-html="m1.capL3"><b>Note-taking</b> — save links, text, and structured data to Notion and local markdown</li>
+      <li data-i18n-html="m1.capL4"><b>Voice messages</b> — transcribe audio (ElevenLabs Scribe STT), respond with synthesized speech (ElevenLabs TTS)</li>
+      <li data-i18n-html="m1.capL5"><b>Video analysis</b> — download, transcribe (YouTube subs / ElevenLabs), generate structured reports via Groq / OpenRouter</li>
+      <li data-i18n-html="m1.capL6"><b>Email handling</b> — check, draft, send, and forward emails via AgentMail MCP</li>
+      <li data-i18n-html="m1.capL7"><b>Git operations</b> — commit, push, create PRs, manage repositories via GitHub API + git CLI</li>
+      <li data-i18n-html="m1.capL8"><b>Web research</b> — search, fetch, summarize, and report back</li>
+      <li data-i18n-html="m1.capL9"><b>Self-healing crons</b> — monitors its own scheduled jobs and recreates any that expire</li>
+      <li data-i18n-html="m1.capL10"><b>Proactive messaging</b> — initiates conversations based on memory and context, not just reactive</li>
+      <li data-i18n-html="m1.capL11"><b>Skill acquisition</b> — extracts reusable patterns from completed tasks and stores them with trigger patterns</li>
+      <li data-i18n-html="m1.capL12"><b>Daily self-reflection</b> — nightly cron reviews logs to identify mistakes, successes, emerging patterns</li>
+      <li data-i18n-html="m1.capL13"><b>Preference learning</b> — analyzes feedback history to infer rules from repeated corrections</li>
+      <li data-i18n-html="m1.capL14"><b>World modeling</b> — builds a behavioral model of the user with confidence scores and expiration dates</li>
+      <li data-i18n-html="m1.capL15"><b>Self-improvement proposals</b> — creates formal proposals with diffs; never applies changes without approval</li>
+      <li data-i18n-html="m1.capL16"><b>Memory API health monitoring</b> — periodic health checks with automatic restart on failure</li>
     </ul>
 
-    <h4>— Scheduled jobs</h4>
-    <p>A handful of autonomous cron jobs keep the system alive and learning. Over time the assistant <b>consolidated its own schedule</b> — collapsing 25 sprawling jobs into 8 grouped ones. Exact times are arbitrary, so adapt them to your day; what matters is the split between the <b>essential</b> jobs (the framework itself) and the <b>project-specific</b> ones you'd swap for your own.</p>
+    <h4 data-i18n="m1.hF">— Scheduled jobs</h4>
+    <p data-i18n-html="m1.pF1">A handful of autonomous cron jobs keep the system alive and learning. Over time the assistant <b>consolidated its own schedule</b> — collapsing 25 sprawling jobs into 8 grouped ones. Exact times are arbitrary, so adapt them to your day; what matters is the split between the <b>essential</b> jobs (the framework itself) and the <b>project-specific</b> ones you'd swap for your own.</p>
     <table class="cron-t">
-      <tr><td>Heartbeat + self-heal</td><td>health check, verify every cron is alive and recreate any that expired (7-day lifetime), watch for a "deaf" Telegram poller</td></tr>
-      <tr><td>Daily briefing</td><td>weather, markets, news, project changes — sent unprompted</td></tr>
-      <tr><td>Harness daily</td><td>reflection, metrics, goal prioritizer, predictions resolver, memory decay, skill promotion, preference learning, auto-audit</td></tr>
-      <tr><td>Overnight swarm</td><td>parallel sub-agents (productivity, memory, news, improvements) synthesized into one digest</td></tr>
-      <tr><td>Experiments runner</td><td>A/B variants via sandbox dry-runs</td></tr>
-      <tr><td>Weekly summarization</td><td>compress old logs without deleting originals</td></tr>
+      <tr><td data-i18n="m1.cronL1">Heartbeat + self-heal</td><td data-i18n="m1.cronR1">health check, verify every cron is alive and recreate any that expired (7-day lifetime), watch for a "deaf" Telegram poller</td></tr>
+      <tr><td data-i18n="m1.cronL2">Daily briefing</td><td data-i18n="m1.cronR2">weather, markets, news, project changes — sent unprompted</td></tr>
+      <tr><td data-i18n="m1.cronL3">Harness daily</td><td data-i18n="m1.cronR3">reflection, metrics, goal prioritizer, predictions resolver, memory decay, skill promotion, preference learning, auto-audit</td></tr>
+      <tr><td data-i18n="m1.cronL4">Overnight swarm</td><td data-i18n="m1.cronR4">parallel sub-agents (productivity, memory, news, improvements) synthesized into one digest</td></tr>
+      <tr><td data-i18n="m1.cronL5">Experiments runner</td><td data-i18n="m1.cronR5">A/B variants via sandbox dry-runs</td></tr>
+      <tr><td data-i18n="m1.cronL6">Weekly summarization</td><td data-i18n="m1.cronR6">compress old logs without deleting originals</td></tr>
     </table>
-    <p style="opacity:.7;font-size:.92em"><b>Project-specific (examples — swap for your own):</b> AI-model release monitor, dataset scrapers, monthly usage reports. These aren't part of the core framework — they're whatever <i>you</i> want running 24/7.</p>
+    <p style="opacity:.7;font-size:.92em" data-i18n-html="m1.pF2"><b>Project-specific (examples — swap for your own):</b> AI-model release monitor, dataset scrapers, monthly usage reports. These aren't part of the core framework — they're whatever <i>you</i> want running 24/7.</p>
 
-    <h4>— Memory server</h4>
-    <p>A single Flask + SQLite server handles conversation logging, long-term memory, entity tracking, key-value storage, and RAG with vector embeddings. Embeddings are stored as BLOBs in the same SQLite file — no external vector database.</p>
+    <h4 data-i18n="m1.hG">— Memory server</h4>
+    <p data-i18n-html="m1.pG1">A single Flask + SQLite server handles conversation logging, long-term memory, entity tracking, key-value storage, and RAG with vector embeddings. Embeddings are stored as BLOBs in the same SQLite file — no external vector database.</p>
     <ul>
-      <li><b>Conversation logging</b> — every message stored with timestamp, role, channel, auto-classified importance (0.0–1.0)</li>
-      <li><b>Importance scoring</b> — dynamic keyword-score pairs stored in the database; hit counts tracked automatically</li>
-      <li><b>Long-term memory</b> — typed entries (user, feedback, project, reference) with free-text search</li>
-      <li><b>Semantic search</b> — cosine similarity over 3072-dim embedding vectors</li>
-      <li><b>Hybrid search</b> — FTS5 keyword + semantic combined via Reciprocal Rank Fusion, weighted by importance</li>
-      <li><b>Weekly summarization</b> — compresses old logs without deleting originals</li>
-      <li><b>Web visualization</b> — <code>/graph</code> serves Graph, Logs, Architecture, and RAG tabs (D3.js force-directed)</li>
-      <li><b>Disaster recovery</b> — <code>/backup/export</code> and <code>/backup/import</code> swap whole-DB snapshots over HTTP</li>
+      <li data-i18n-html="m1.memL1"><b>Conversation logging</b> — every message stored with timestamp, role, channel, auto-classified importance (0.0–1.0)</li>
+      <li data-i18n-html="m1.memL2"><b>Importance scoring</b> — dynamic keyword-score pairs stored in the database; hit counts tracked automatically</li>
+      <li data-i18n-html="m1.memL3"><b>Long-term memory</b> — typed entries (user, feedback, project, reference) with free-text search</li>
+      <li data-i18n-html="m1.memL4"><b>Semantic search</b> — cosine similarity over 3072-dim embedding vectors</li>
+      <li data-i18n-html="m1.memL5"><b>Hybrid search</b> — FTS5 keyword + semantic combined via Reciprocal Rank Fusion, weighted by importance</li>
+      <li data-i18n-html="m1.memL6"><b>Weekly summarization</b> — compresses old logs without deleting originals</li>
+      <li data-i18n-html="m1.memL7"><b>Web visualization</b> — <code>/graph</code> serves Graph, Logs, Architecture, and RAG tabs (D3.js force-directed)</li>
+      <li data-i18n-html="m1.memL8"><b>Disaster recovery</b> — <code>/backup/export</code> and <code>/backup/import</code> swap whole-DB snapshots over HTTP</li>
     </ul>
     <figure>
       <img src="img/graph.png" alt="Memory Graph visualization">
-      <figcaption>Memory graph — D3.js force-directed visualization showing conversations, memories, and entities as interactive nodes. Drag, zoom, click to explore.</figcaption>
+      <figcaption data-i18n="m1.figB">Memory graph — D3.js force-directed visualization showing conversations, memories, and entities as interactive nodes. Drag, zoom, click to explore.</figcaption>
     </figure>
 
-    <h4>— Self-evolving harness</h4>
-    <p>A thin, additive cognition layer makes the assistant improve over time — in the spirit of <a href="https://www.anthropic.com/institute/recursive-self-improvement" target="_blank">When AI builds itself ↗</a> (Anthropic). Five subsystems do the learning:</p>
+    <h4 data-i18n="m1.hH">— Self-evolving harness</h4>
+    <p data-i18n-html="m1.pH1">A thin, additive cognition layer makes the assistant improve over time — in the spirit of <a href="https://www.anthropic.com/institute/recursive-self-improvement" target="_blank">When AI builds itself ↗</a> (Anthropic). Five subsystems do the learning:</p>
     <ul>
-      <li><b>Skill acquisition</b> — extracts patterns from solved tasks; saves them as reusable skills with trigger patterns and step-by-step procedures</li>
-      <li><b>Daily self-reflection</b> — nightly cron asks <i>what went well, what went wrong, what patterns emerge</i>; conclusions feed future behavior</li>
-      <li><b>Preference learning</b> — analyzes feedback history for repeated patterns, infers rules automatically</li>
-      <li><b>World model</b> — builds a model of user behavior over time (activity, topics, correlations) with confidence + expiration</li>
-      <li><b>Self-improvement proposals</b> — formal proposals with diff preview; user approves or rejects each via Telegram</li>
+      <li data-i18n-html="m1.harL1"><b>Skill acquisition</b> — extracts patterns from solved tasks; saves them as reusable skills with trigger patterns and step-by-step procedures</li>
+      <li data-i18n-html="m1.harL2"><b>Daily self-reflection</b> — nightly cron asks <i>what went well, what went wrong, what patterns emerge</i>; conclusions feed future behavior</li>
+      <li data-i18n-html="m1.harL3"><b>Preference learning</b> — analyzes feedback history for repeated patterns, infers rules automatically</li>
+      <li data-i18n-html="m1.harL4"><b>World model</b> — builds a model of user behavior over time (activity, topics, correlations) with confidence + expiration</li>
+      <li data-i18n-html="m1.harL5"><b>Self-improvement proposals</b> — formal proposals with diff preview; user approves or rejects each via Telegram</li>
     </ul>
-    <p>All of this runs on the same memory server with no additional infrastructure. Visible in the Memory Graph's <b>Brain</b> tab.</p>
+    <p data-i18n-html="m1.pH2">All of this runs on the same memory server with no additional infrastructure. Visible in the Memory Graph's <b>Brain</b> tab.</p>
     <figure>
       <img src="img/brain.jpg" alt="Brain Dashboard">
-      <figcaption>Brain tab — learned skills, active preferences, daily reflections, world model insights, and pending self-improvement proposals, all on the same memory server.</figcaption>
+      <figcaption data-i18n="m1.figC">Brain tab — learned skills, active preferences, daily reflections, world model insights, and pending self-improvement proposals, all on the same memory server.</figcaption>
     </figure>
-    <p><b>The cognition harness:</b> a full additive layer — goal engine, hierarchical plans, three-layer memory, causal world model, verifier/sandbox, experiment engine, skill compiler, and a metrics framework. 13 tables, dozens of endpoints — all additive, nothing dropped.</p>
-    <p>The loops are closed end-to-end: calibration auto-adjusts confidence on each new prediction; approved proposals apply their own diff with backup + rollback; the sandbox auto-promotes an action after consecutive clean dry-runs; skills ratchet draft → beta → stable on their own; memory decay expires stale beliefs. A <code>/harness/health</code> endpoint and a <b>Loop Health</b> panel surface any core table that has gone quiet too long. Recall is hybrid (keyword + semantic + importance), and the assistant coordinates with a second bot over a local bus.</p>
+    <p data-i18n-html="m1.pH3"><b>The cognition harness:</b> a full additive layer — goal engine, hierarchical plans, three-layer memory, causal world model, verifier/sandbox, experiment engine, skill compiler, and a metrics framework. 13 tables, dozens of endpoints — all additive, nothing dropped.</p>
+    <p data-i18n-html="m1.pH4">The loops are closed end-to-end: calibration auto-adjusts confidence on each new prediction; approved proposals apply their own diff with backup + rollback; the sandbox auto-promotes an action after consecutive clean dry-runs; skills ratchet draft → beta → stable on their own; memory decay expires stale beliefs. A <code>/harness/health</code> endpoint and a <b>Loop Health</b> panel surface any core table that has gone quiet too long. Recall is hybrid (keyword + semantic + importance), and the assistant coordinates with a second bot over a local bus.</p>
 
-    <h4>— The $100 question</h4>
-    <p>The entire system runs on a single <b>$100/month Anthropic Max Plan</b>. No cloud VMs running inference. No LangChain, no AutoGPT, no agent framework. Just Claude Code on a Linux machine with MCP plugins.</p>
-    <p>The key insight: Claude Code is not just a coding assistant — it is a general-purpose autonomous agent runtime. Give it tools, instructions, and a schedule, and it becomes a full 24/7 assistant.</p>
+    <h4 data-i18n="m1.hI">— The $100 question</h4>
+    <p data-i18n-html="m1.pI1">The entire system runs on a single <b>$100/month Anthropic Max Plan</b>. No cloud VMs running inference. No LangChain, no AutoGPT, no agent framework. Just Claude Code on a Linux machine with MCP plugins.</p>
+    <p data-i18n="m1.pI2">The key insight: Claude Code is not just a coding assistant — it is a general-purpose autonomous agent runtime. Give it tools, instructions, and a schedule, and it becomes a full 24/7 assistant.</p>
 
-    <h4>— Start command</h4>
+    <h4 data-i18n="m1.hJ">— Start command</h4>
 <pre>claude --channels plugin:telegram@claude-plugins-official --dangerously-skip-permissions</pre>
-    <p>Claude Code reads your CLAUDE.md, connects to Telegram, creates all cron jobs, and starts running autonomously.</p>
+    <p data-i18n="m1.pJ1">Claude Code reads your CLAUDE.md, connects to Telegram, creates all cron jobs, and starts running autonomously.</p>
 
     <p style="margin-top:32px"><a href="https://github.com/missingus3r/friday-showcase" target="_blank">GitHub ↗</a></p>
   </div>
@@ -984,95 +984,95 @@ try{
 <div class="modal-scrim" id="scrimH"></div>
 <div class="modal" id="modalH" role="dialog" aria-modal="true">
   <div class="modal-head">
-    <h3><span class="pulse"></span> The self-evolving harness</h3>
-    <button class="close" id="closeHarness">Close ✕</button>
+    <h3 data-i18n-html="m2.title"><span class="pulse"></span> The self-evolving harness</h3>
+    <button class="close" id="closeHarness" data-i18n="modal.close">Close ✕</button>
   </div>
   <div class="modal-body">
-    <h4>— Why this layer exists</h4>
-    <p>Before the harness, Friday could already talk, remember, schedule, and reflect — but all of that was <b>reactive</b>. The system waited for a message, did what it was told, and went quiet. There was no persistent goal. No plan tree. No separation between <i>I think this</i> and <i>I verified this</i>. No A/B tests. No metrics proving improvement.</p>
-    <p>The harness is a thin, entirely additive cognition layer that gives Friday the scaffolding to <b>act as if it were trying to get better</b> — and the receipts to check whether it is.</p>
+    <h4 data-i18n="m2.hA">— Why this layer exists</h4>
+    <p data-i18n-html="m2.pA1">Before the harness, Friday could already talk, remember, schedule, and reflect — but all of that was <b>reactive</b>. The system waited for a message, did what it was told, and went quiet. There was no persistent goal. No plan tree. No separation between <i>I think this</i> and <i>I verified this</i>. No A/B tests. No metrics proving improvement.</p>
+    <p data-i18n-html="m2.pA2">The harness is a thin, entirely additive cognition layer that gives Friday the scaffolding to <b>act as if it were trying to get better</b> — and the receipts to check whether it is.</p>
 <pre>goal → hypothesis → plan → execution → verification → reward → model update</pre>
 
-    <h4>— The blueprint (8 subsystems)</h4>
+    <h4 data-i18n="m2.hB">— The blueprint (8 subsystems)</h4>
     <table class="stack-t">
-      <tr><td>Goal engine</td><td>persistent intentions with utility, deadline, subgoals</td></tr>
-      <tr><td>Planner</td><td>hierarchical plan trees: goal → action → tool → rollback</td></tr>
-      <tr><td>Self-knowledge</td><td>capabilities + 6-rung autonomy ladder</td></tr>
-      <tr><td>Three-layer memory</td><td>episodic / semantic / procedural + provenance + decay</td></tr>
-      <tr><td>Causal world model</td><td>entities, relations, events, testable predictions</td></tr>
-      <tr><td>Safety</td><td>verifier + sandbox (dry-run before live)</td></tr>
-      <tr><td>Learning</td><td>experiments (A/B) + skill compiler (draft → beta → stable)</td></tr>
-      <tr><td>Metrics</td><td>11 KPIs measuring actual improvement</td></tr>
+      <tr><td data-i18n="m2.bpL1">Goal engine</td><td data-i18n="m2.bpR1">persistent intentions with utility, deadline, subgoals</td></tr>
+      <tr><td data-i18n="m2.bpL2">Planner</td><td data-i18n="m2.bpR2">hierarchical plan trees: goal → action → tool → rollback</td></tr>
+      <tr><td data-i18n="m2.bpL3">Self-knowledge</td><td data-i18n="m2.bpR3">capabilities + 6-rung autonomy ladder</td></tr>
+      <tr><td data-i18n="m2.bpL4">Three-layer memory</td><td data-i18n="m2.bpR4">episodic / semantic / procedural + provenance + decay</td></tr>
+      <tr><td data-i18n="m2.bpL5">Causal world model</td><td data-i18n="m2.bpR5">entities, relations, events, testable predictions</td></tr>
+      <tr><td data-i18n="m2.bpL6">Safety</td><td data-i18n="m2.bpR6">verifier + sandbox (dry-run before live)</td></tr>
+      <tr><td data-i18n="m2.bpL7">Learning</td><td data-i18n="m2.bpR7">experiments (A/B) + skill compiler (draft → beta → stable)</td></tr>
+      <tr><td data-i18n="m2.bpL8">Metrics</td><td data-i18n="m2.bpR8">11 KPIs measuring actual improvement</td></tr>
     </table>
-    <p>13 new tables, ~60 new endpoints. Every change is additive — no existing table was dropped, no endpoint broken.</p>
+    <p data-i18n="m2.pB1">13 new tables, ~60 new endpoints. Every change is additive — no existing table was dropped, no endpoint broken.</p>
 
-    <h4>— Goal engine &amp; plan trees</h4>
-    <p>Each non-trivial task becomes a first-class row with utility, deadline, constraints, success criteria, subgoals, risk tier, and autonomy level. <code>GET /goal/next</code> ranks by <i>utility × urgency × (1 − progress)</i>. A daily cron flags anything past deadline or stalled &gt;5 days.</p>
-    <p>Plans are executable trees, not text. Each node carries <b>node_type</b>, <b>tool</b>, <b>expected_result</b>, <b>exit_condition</b>, and <b>rollback</b>.</p>
+    <h4 data-i18n="m2.hC">— Goal engine &amp; plan trees</h4>
+    <p data-i18n-html="m2.pC1">Each non-trivial task becomes a first-class row with utility, deadline, constraints, success criteria, subgoals, risk tier, and autonomy level. <code>GET /goal/next</code> ranks by <i>utility × urgency × (1 − progress)</i>. A daily cron flags anything past deadline or stalled &gt;5 days.</p>
+    <p data-i18n-html="m2.pC2">Plans are executable trees, not text. Each node carries <b>node_type</b>, <b>tool</b>, <b>expected_result</b>, <b>exit_condition</b>, and <b>rollback</b>.</p>
 
-    <h4>— Three-layer memory</h4>
+    <h4 data-i18n="m2.hD">— Three-layer memory</h4>
     <ul>
-      <li><b>Episodic</b> — what happened, when, with what outcome</li>
-      <li><b>Semantic</b> — stable facts, concepts, relations</li>
-      <li><b>Procedural</b> — how to do things; skills with preconditions, success rate, maturity</li>
+      <li data-i18n-html="m2.tlmL1"><b>Episodic</b> — what happened, when, with what outcome</li>
+      <li data-i18n-html="m2.tlmL2"><b>Semantic</b> — stable facts, concepts, relations</li>
+      <li data-i18n-html="m2.tlmL3"><b>Procedural</b> — how to do things; skills with preconditions, success rate, maturity</li>
     </ul>
-    <p>Every belief records <b>provenance</b>. A weekly decay job halves confidence on anything unverified. Verifying a row resets the clock.</p>
+    <p data-i18n-html="m2.pD1">Every belief records <b>provenance</b>. A weekly decay job halves confidence on anything unverified. Verifying a row resets the clock.</p>
 
-    <h4>— Causal world model</h4>
+    <h4 data-i18n="m2.hE">— Causal world model</h4>
     <ul>
-      <li><b>wm_entities</b> — the <i>state</i> of a thing</li>
-      <li><b>wm_relations</b> — subject-predicate-object facts with evidence</li>
-      <li><b>wm_events</b> — discrete events with causes[] and effects[]</li>
-      <li><b>wm_predictions</b> — testable future claims; on resolution a <b>calibration gap</b> is computed</li>
+      <li data-i18n-html="m2.cwmL1"><b>wm_entities</b> — the <i>state</i> of a thing</li>
+      <li data-i18n-html="m2.cwmL2"><b>wm_relations</b> — subject-predicate-object facts with evidence</li>
+      <li data-i18n-html="m2.cwmL3"><b>wm_events</b> — discrete events with causes[] and effects[]</li>
+      <li data-i18n-html="m2.cwmL4"><b>wm_predictions</b> — testable future claims; on resolution a <b>calibration gap</b> is computed</li>
     </ul>
 
-    <h4>— Self-knowledge &amp; autonomy ladder</h4>
-    <p>The <code>capabilities</code> table gives Friday a live self-portrait: confidence (Bayesian blend), success/failure counts, cost and time averages, autonomy_max. On top sits a 6-rung autonomy ladder:</p>
+    <h4 data-i18n="m2.hF">— Self-knowledge &amp; autonomy ladder</h4>
+    <p data-i18n-html="m2.pF1">The <code>capabilities</code> table gives Friday a live self-portrait: confidence (Bayesian blend), success/failure counts, cost and time averages, autonomy_max. On top sits a 6-rung autonomy ladder:</p>
     <table class="cron-t">
-      <tr><td>L0</td><td>Suggest only</td><td>—</td><td>propose but don't act</td></tr>
-      <tr><td>L1</td><td>Sandbox</td><td>—</td><td>dry-run only</td></tr>
-      <tr><td>L2</td><td>Low-risk act</td><td>—</td><td>reversible actions</td></tr>
-      <tr><td>L3</td><td>Bounded act</td><td>—</td><td>with stop conditions</td></tr>
-      <tr><td>L4</td><td>Long chain</td><td>—</td><td>with checkpoints</td></tr>
-      <tr><td>L5</td><td>Self-modify</td><td>—</td><td>rollback required</td></tr>
+      <tr><td>L0</td><td data-i18n="m2.ladN1">Suggest only</td><td>—</td><td data-i18n="m2.ladD1">propose but don't act</td></tr>
+      <tr><td>L1</td><td data-i18n="m2.ladN2">Sandbox</td><td>—</td><td data-i18n="m2.ladD2">dry-run only</td></tr>
+      <tr><td>L2</td><td data-i18n="m2.ladN3">Low-risk act</td><td>—</td><td data-i18n="m2.ladD3">reversible actions</td></tr>
+      <tr><td>L3</td><td data-i18n="m2.ladN4">Bounded act</td><td>—</td><td data-i18n="m2.ladD4">with stop conditions</td></tr>
+      <tr><td>L4</td><td data-i18n="m2.ladN5">Long chain</td><td>—</td><td data-i18n="m2.ladD5">with checkpoints</td></tr>
+      <tr><td>L5</td><td data-i18n="m2.ladN6">Self-modify</td><td>—</td><td data-i18n="m2.ladD6">rollback required</td></tr>
     </table>
-    <p><code>POST /autonomy/check</code> gates every risky action. No unrecorded jump of autonomy.</p>
+    <p data-i18n-html="m2.pF2"><code>POST /autonomy/check</code> gates every risky action. No unrecorded jump of autonomy.</p>
     <figure>
       <img src="img/harness/brain.png" alt="Brain dashboard showing Overview, Goals &amp; Plans, and three-layer Memory sections">
-      <figcaption>Brain — the single audit surface for everything the harness touches. Sub-nav pills scroll to each subsystem: Overview, Goals &amp; Plans, Memory, World Model, Self-knowledge, Safety, Learning, Metrics.</figcaption>
+      <figcaption data-i18n-html="m2.figD">Brain — the single audit surface for everything the harness touches. Sub-nav pills scroll to each subsystem: Overview, Goals &amp; Plans, Memory, World Model, Self-knowledge, Safety, Learning, Metrics.</figcaption>
     </figure>
 
-    <h4>— Verifier &amp; sandbox</h4>
-    <p>Every important claim is logged with a <b>check_type</b> (factual, consistency, hallucination, evidence). Every irreversible action (email, code push, spending) must first run as dry-run with a verdict before graduating to live.</p>
-    <p><i>Without evidence, don't act. Without verification, don't learn from that action as if it were correct.</i></p>
+    <h4 data-i18n="m2.hG">— Verifier &amp; sandbox</h4>
+    <p data-i18n-html="m2.pG1">Every important claim is logged with a <b>check_type</b> (factual, consistency, hallucination, evidence). Every irreversible action (email, code push, spending) must first run as dry-run with a verdict before graduating to live.</p>
+    <p data-i18n-html="m2.pG2"><i>Without evidence, don't act. Without verification, don't learn from that action as if it were correct.</i></p>
 
-    <h4>— Experiments &amp; skill compiler</h4>
-    <p>The experiment engine measures cause and effect with guardrails — conclusions are only drawn if <b>delta &gt; threshold</b> AND <b>samples &gt; threshold</b>. Otherwise: inconclusive.</p>
-    <p>Skills have maturity gates: <b>draft → beta</b> (one recorded run), <b>beta → stable</b> (≥ 3 runs, ≥ 66% success), <b>stable → deprecated</b> (&lt; 50% over last 10). A nightly cron applies the rules automatically.</p>
+    <h4 data-i18n="m2.hH">— Experiments &amp; skill compiler</h4>
+    <p data-i18n-html="m2.pH1">The experiment engine measures cause and effect with guardrails — conclusions are only drawn if <b>delta &gt; threshold</b> AND <b>samples &gt; threshold</b>. Otherwise: inconclusive.</p>
+    <p data-i18n-html="m2.pH2">Skills have maturity gates: <b>draft → beta</b> (one recorded run), <b>beta → stable</b> (≥ 3 runs, ≥ 66% success), <b>stable → deprecated</b> (&lt; 50% over last 10). A nightly cron applies the rules automatically.</p>
 
-    <h4>— 11 KPIs that prove improvement</h4>
+    <h4 data-i18n="m2.hI">— 11 KPIs that prove improvement</h4>
     <ul>
-      <li><b>tasks_solved_no_correction_pct</b> — did the user accept the first answer?</li>
-      <li><b>hallucination_rate</b> — self-reported "I was wrong" rate</li>
-      <li><b>time_to_complete_goal_sec</b> — goal creation to completion</li>
-      <li><b>skill_reuse_rate</b> — are compiled skills being picked up?</li>
-      <li><b>skill_success_rate</b> — average success across stable skills</li>
-      <li><b>calibration_gap</b> — |confidence − outcome| on resolved predictions</li>
-      <li><b>actions_reverted_pct</b> — live actions that needed a rollback</li>
-      <li><b>cost_per_useful_task</b> — $ per accepted task</li>
-      <li><b>goals_completed_per_week</b> — throughput of closed goals</li>
-      <li><b>approved_improvements_effective_pct</b> — did proposals actually move a KPI?</li>
-      <li><b>world_model_precision</b> — average capability confidence</li>
+      <li data-i18n-html="m2.kpiL1"><b>tasks_solved_no_correction_pct</b> — did the user accept the first answer?</li>
+      <li data-i18n-html="m2.kpiL2"><b>hallucination_rate</b> — self-reported "I was wrong" rate</li>
+      <li data-i18n-html="m2.kpiL3"><b>time_to_complete_goal_sec</b> — goal creation to completion</li>
+      <li data-i18n-html="m2.kpiL4"><b>skill_reuse_rate</b> — are compiled skills being picked up?</li>
+      <li data-i18n-html="m2.kpiL5"><b>skill_success_rate</b> — average success across stable skills</li>
+      <li data-i18n-html="m2.kpiL6"><b>calibration_gap</b> — |confidence − outcome| on resolved predictions</li>
+      <li data-i18n-html="m2.kpiL7"><b>actions_reverted_pct</b> — live actions that needed a rollback</li>
+      <li data-i18n-html="m2.kpiL8"><b>cost_per_useful_task</b> — $ per accepted task</li>
+      <li data-i18n-html="m2.kpiL9"><b>goals_completed_per_week</b> — throughput of closed goals</li>
+      <li data-i18n-html="m2.kpiL10"><b>approved_improvements_effective_pct</b> — did proposals actually move a KPI?</li>
+      <li data-i18n-html="m2.kpiL11"><b>world_model_precision</b> — average capability confidence</li>
     </ul>
-    <p>A daily cron computes values. <code>/metric/summary</code> returns latest + 7-day min / avg / max.</p>
+    <p data-i18n-html="m2.pI1">A daily cron computes values. <code>/metric/summary</code> returns latest + 7-day min / avg / max.</p>
 
     <figure>
       <img src="img/harness/crons.png" alt="Crons dashboard showing runtime-active crons with live countdowns and persisted prompts all synced">
-      <figcaption>Crons — left: runtime jobs with live countdowns; right: persisted prompts from <code>~/.claude/cron-prompts.md</code>. Each disk prompt shows <code>sincronizado</code> if the runtime has it, <code>⚠ no corriendo</code> otherwise — the signal to recreate.</figcaption>
+      <figcaption data-i18n-html="m2.figE">Crons — left: runtime jobs with live countdowns; right: persisted prompts from <code>~/.claude/cron-prompts.md</code>. Each disk prompt shows <code>sincronizado</code> if the runtime has it, <code>⚠ no corriendo</code> otherwise — the signal to recreate.</figcaption>
     </figure>
 
-    <h4>— Golden rule</h4>
-    <p><b>No unrecorded autonomy.</b> Every operational decision — a goal created, a plan executed, an action sandboxed, a prediction resolved, a skill promoted — leaves a row. The dashboard is where a human audits whether the system is <i>earning</i> its autonomy, one row at a time.</p>
+    <h4 data-i18n="m2.hJ">— Golden rule</h4>
+    <p data-i18n-html="m2.pJ1"><b>No unrecorded autonomy.</b> Every operational decision — a goal created, a plan executed, an action sandboxed, a prediction resolved, a skill promoted — leaves a row. The dashboard is where a human audits whether the system is <i>earning</i> its autonomy, one row at a time.</p>
 
     <p style="margin-top:32px"><a href="https://github.com/missingus3r/memory-graph" target="_blank">memory-graph repo ↗</a></p>
   </div>
@@ -1299,6 +1299,260 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ document.querySe
       'tg.today':'Hoje','tg.online':'online','tg.message':'Mensagem'
     }
   };
+  Object.assign(I18N.es, {
+    'modal.close':'Cerrar ✕',
+    'm1.title':'<span class="pulse"></span> Detalles técnicos',
+    'm1.hA':'— Qué es realmente',
+    'm1.pA1':'Un <b>asistente de IA auto-evolutivo</b> que corre 24/7 en una máquina común con Windows, Linux o macOS. Se comunica por Telegram, ejecuta tareas programadas de forma autónoma, gestiona archivos y proyectos, y mantiene memoria persistente entre sesiones.',
+    'm1.pA2':'Además <b>aprende de su propio comportamiento</b>: adquiere nuevas habilidades, reflexiona sobre su desempeño diario, infiere preferencias del usuario a partir de correcciones repetidas y propone sus propias mejoras. Funciona enteramente con Claude Code en el plan Max de $100/mes — sin backend de IA propio, sin modelos fine-tuneados, sin framework de orquestación. El único código propio es un servidor Flask liviano para la memoria persistente y los subsistemas auto-evolutivos.',
+    'm1.hB':'— Cómo funciona',
+    'm1.pB1':'Claude Code está en el centro, conectándose a servicios externos mediante plugins MCP (Model Context Protocol) y herramientas de shell. Un archivo <b>CLAUDE.md</b> hace de system prompt, definiendo comportamiento, herramientas disponibles y horarios de cron.',
+    'm1.figA':'Diagrama de arquitectura — mapa visual de todos los componentes del sistema y sus conexiones: servicios, almacenes de datos, crons, APIs y proyectos. Los nodos se arrastran, las posiciones persisten del lado del servidor.',
+    'm1.hC':'— Por qué sin framework de agentes',
+    'm1.pC1':'Los frameworks de agentes agregan runtimes propios, código de orquestación, pipelines de deploy y, a menudo, sus propios costos de API. Claude Code ya <b>es</b> el runtime. Trae tool use nativo, soporte de plugins MCP, scheduling con cron, spawn de sub-agentes, I/O de archivos, git y acceso a shell incorporados. No hay código pegamento entre el LLM y las herramientas.',
+    'm1.pC2':'<i>Un plan, una CLI, un modelo — y dejá que el modelo haga lo que fue diseñado para hacer.</i>',
+    'm1.hD':'— El stack',
+    'm1.stkL1':'Cerebro','m1.stkL2':'Interfaz','m1.stkR2':'Telegram (vía plugin MCP)','m1.stkL3':'Memoria','m1.stkR3':'Flask + SQLite + RAG basado en embeddings','m1.stkL4':'Conocimiento','m1.stkR4':'Notion (vía plugin MCP)','m1.stkL5':'Voz','m1.stkL6':'Scheduling','m1.stkR6':'sistema de cron integrado de Claude Code','m1.stkL7':'Costo','m1.stkR7':'$100 / mes (Anthropic Max Plan)',
+    'm1.hE':'— Lista completa de capacidades',
+    'm1.capL1':'<b>Briefings programados</b> — clima (Open-Meteo), divisas/cripto (DolarAPI, ExchangeRate), noticias de IA, películas (YTS)',
+    'm1.capL2':'<b>Monitoreo autónomo</b> — escanea 60+ orgs en HuggingFace, blogs y agregadores en busca de nuevos modelos de IA',
+    'm1.capL3':'<b>Toma de notas</b> — guarda links, texto y datos estructurados en Notion y markdown local',
+    'm1.capL4':'<b>Mensajes de voz</b> — transcribe audio (ElevenLabs Scribe STT), responde con voz sintetizada (ElevenLabs TTS)',
+    'm1.capL5':'<b>Análisis de video</b> — descarga, transcribe (subtítulos de YouTube / ElevenLabs), genera informes estructurados vía Groq / OpenRouter',
+    'm1.capL6':'<b>Gestión de email</b> — revisa, redacta, envía y reenvía correos vía AgentMail MCP',
+    'm1.capL7':'<b>Operaciones git</b> — commit, push, crea PRs, gestiona repositorios vía GitHub API + git CLI',
+    'm1.capL8':'<b>Investigación web</b> — busca, trae, resume y reporta',
+    'm1.capL9':'<b>Crons auto-reparables</b> — monitorea sus propias tareas programadas y recrea las que expiran',
+    'm1.capL10':'<b>Mensajería proactiva</b> — inicia conversaciones según memoria y contexto, no solo reactivo',
+    'm1.capL11':'<b>Adquisición de habilidades</b> — extrae patrones reutilizables de tareas completadas y los guarda con patrones de disparo',
+    'm1.capL12':'<b>Auto-reflexión diaria</b> — un cron nocturno revisa los logs para identificar errores, aciertos y patrones emergentes',
+    'm1.capL13':'<b>Aprendizaje de preferencias</b> — analiza el historial de feedback para inferir reglas de las correcciones repetidas',
+    'm1.capL14':'<b>Modelado del mundo</b> — construye un modelo de comportamiento del usuario con puntajes de confianza y fechas de expiración',
+    'm1.capL15':'<b>Propuestas de auto-mejora</b> — crea propuestas formales con diffs; nunca aplica cambios sin aprobación',
+    'm1.capL16':'<b>Monitoreo de salud de la API de memoria</b> — chequeos periódicos con reinicio automático ante fallas',
+    'm1.hF':'— Tareas programadas',
+    'm1.pF1':'Un puñado de crons autónomos mantienen el sistema vivo y aprendiendo. Con el tiempo el asistente <b>consolidó su propia agenda</b> — colapsando 25 tareas dispersas en 8 agrupadas. Los horarios exactos son arbitrarios, así que adaptalos a tu día; lo que importa es la división entre las tareas <b>esenciales</b> (el framework en sí) y las <b>específicas del proyecto</b> que cambiarías por las tuyas.',
+    'm1.cronL1':'Heartbeat + auto-reparación','m1.cronR1':'chequeo de salud, verifica que cada cron esté vivo y recrea los que expiraron (vida de 7 días), vigila un poller de Telegram "sordo"',
+    'm1.cronL2':'Briefing diario','m1.cronR2':'clima, mercados, noticias, cambios de proyectos — enviado sin que lo pidas',
+    'm1.cronL3':'Harness diario','m1.cronR3':'reflexión, métricas, priorizador de goals, resolución de predicciones, decay de memoria, promoción de skills, aprendizaje de preferencias, auto-auditoría',
+    'm1.cronL4':'Swarm nocturno','m1.cronR4':'sub-agentes en paralelo (productividad, memoria, noticias, mejoras) sintetizados en un solo digest',
+    'm1.cronL5':'Runner de experimentos','m1.cronR5':'variantes A/B vía dry-runs en sandbox',
+    'm1.cronL6':'Resumen semanal','m1.cronR6':'comprime logs viejos sin borrar los originales',
+    'm1.pF2':'<b>Específicas del proyecto (ejemplos — cambialas por las tuyas):</b> monitor de releases de modelos de IA, scrapers de datasets, reportes mensuales de uso. No son parte del framework central — son lo que <i>vos</i> quieras corriendo 24/7.',
+    'm1.hG':'— Servidor de memoria',
+    'm1.pG1':'Un único servidor Flask + SQLite maneja el logging de conversaciones, la memoria de largo plazo, el tracking de entidades, el almacenamiento clave-valor y RAG con embeddings vectoriales. Los embeddings se guardan como BLOBs en el mismo archivo SQLite — sin base de datos vectorial externa.',
+    'm1.memL1':'<b>Logging de conversaciones</b> — cada mensaje guardado con timestamp, rol, canal e importancia auto-clasificada (0.0–1.0)',
+    'm1.memL2':'<b>Puntaje de importancia</b> — pares dinámicos keyword-puntaje guardados en la base; los hits se trackean automáticamente',
+    'm1.memL3':'<b>Memoria de largo plazo</b> — entradas tipadas (user, feedback, project, reference) con búsqueda de texto libre',
+    'm1.memL4':'<b>Búsqueda semántica</b> — similitud coseno sobre vectores de embeddings de 3072 dimensiones',
+    'm1.memL5':'<b>Búsqueda híbrida</b> — keyword FTS5 + semántica combinadas vía Reciprocal Rank Fusion, ponderadas por importancia',
+    'm1.memL6':'<b>Resumen semanal</b> — comprime logs viejos sin borrar los originales',
+    'm1.memL7':'<b>Visualización web</b> — <code>/graph</code> sirve las pestañas Graph, Logs, Architecture y RAG (D3.js force-directed)',
+    'm1.memL8':'<b>Recuperación ante desastres</b> — <code>/backup/export</code> y <code>/backup/import</code> intercambian snapshots de toda la DB por HTTP',
+    'm1.figB':'Grafo de memoria — visualización force-directed con D3.js que muestra conversaciones, memorias y entidades como nodos interactivos. Arrastrá, hacé zoom, clic para explorar.',
+    'm1.hH':'— Harness auto-evolutivo',
+    'm1.pH1':'Una capa de cognición fina y aditiva hace que el asistente mejore con el tiempo — en el espíritu de <a href="https://www.anthropic.com/institute/recursive-self-improvement" target="_blank">When AI builds itself ↗</a> (Anthropic). Cinco subsistemas hacen el aprendizaje:',
+    'm1.harL1':'<b>Adquisición de habilidades</b> — extrae patrones de tareas resueltas; los guarda como skills reutilizables con patrones de disparo y procedimientos paso a paso',
+    'm1.harL2':'<b>Auto-reflexión diaria</b> — un cron nocturno pregunta <i>qué salió bien, qué salió mal, qué patrones emergen</i>; las conclusiones alimentan el comportamiento futuro',
+    'm1.harL3':'<b>Aprendizaje de preferencias</b> — analiza el historial de feedback en busca de patrones repetidos e infiere reglas automáticamente',
+    'm1.harL4':'<b>Modelo del mundo</b> — construye un modelo del comportamiento del usuario en el tiempo (actividad, temas, correlaciones) con confianza + expiración',
+    'm1.harL5':'<b>Propuestas de auto-mejora</b> — propuestas formales con preview del diff; el usuario aprueba o rechaza cada una por Telegram',
+    'm1.pH2':'Todo esto corre en el mismo servidor de memoria sin infraestructura adicional. Visible en la pestaña <b>Brain</b> del Memory Graph.',
+    'm1.figC':'Pestaña Brain — habilidades aprendidas, preferencias activas, reflexiones diarias, insights del modelo del mundo y propuestas de auto-mejora pendientes, todo en el mismo servidor de memoria.',
+    'm1.pH3':'<b>El harness de cognición:</b> una capa aditiva completa — motor de goals, planes jerárquicos, memoria de tres capas, modelo causal del mundo, verificador/sandbox, motor de experimentos, compilador de skills y un framework de métricas. 13 tablas, decenas de endpoints — todo aditivo, nada eliminado.',
+    'm1.pH4':'Los loops están cerrados de punta a punta: la calibración auto-ajusta la confianza en cada nueva predicción; las propuestas aprobadas aplican su propio diff con backup + rollback; el sandbox auto-promueve una acción tras dry-runs limpios consecutivos; las skills avanzan draft → beta → stable solas; el decay de memoria expira creencias viejas. Un endpoint <code>/harness/health</code> y un panel <b>Loop Health</b> exponen cualquier tabla central que llevó demasiado tiempo en silencio. La recuperación es híbrida (keyword + semántica + importancia), y el asistente coordina con un segundo bot por un bus local.',
+    'm1.hI':'— La pregunta de los $100',
+    'm1.pI1':'Todo el sistema corre en un único <b>plan Max de Anthropic de $100/mes</b>. Sin VMs en la nube corriendo inferencia. Sin LangChain, sin AutoGPT, sin framework de agentes. Solo Claude Code en una máquina Linux con plugins MCP.',
+    'm1.pI2':'La idea clave: Claude Code no es solo un asistente de código — es un runtime de agente autónomo de propósito general. Dale herramientas, instrucciones y una agenda, y se convierte en un asistente 24/7 completo.',
+    'm1.hJ':'— Comando de arranque',
+    'm1.pJ1':'Claude Code lee tu CLAUDE.md, se conecta a Telegram, crea todos los crons y arranca a correr de forma autónoma.',
+    'm2.title':'<span class="pulse"></span> El harness auto-evolutivo',
+    'm2.hA':'— Por qué existe esta capa',
+    'm2.pA1':'Antes del harness, Friday ya podía hablar, recordar, agendar y reflexionar — pero todo eso era <b>reactivo</b>. El sistema esperaba un mensaje, hacía lo que le decían y se quedaba en silencio. No había goal persistente. Ni árbol de planes. Ni separación entre <i>creo esto</i> y <i>verifiqué esto</i>. Sin tests A/B. Sin métricas que probaran la mejora.',
+    'm2.pA2':'El harness es una capa de cognición fina y totalmente aditiva que le da a Friday el andamiaje para <b>actuar como si estuviera tratando de mejorar</b> — y los comprobantes para chequear si lo logra.',
+    'm2.hB':'— El blueprint (8 subsistemas)',
+    'm2.bpL1':'Motor de goals','m2.bpR1':'intenciones persistentes con utilidad, deadline, subgoals',
+    'm2.bpL2':'Planner','m2.bpR2':'árboles de planes jerárquicos: goal → acción → herramienta → rollback',
+    'm2.bpL3':'Auto-conocimiento','m2.bpR3':'capacidades + escalera de autonomía de 6 niveles',
+    'm2.bpL4':'Memoria de tres capas','m2.bpR4':'episódica / semántica / procedural + procedencia + decay',
+    'm2.bpL5':'Modelo causal del mundo','m2.bpR5':'entidades, relaciones, eventos, predicciones testeables',
+    'm2.bpL6':'Seguridad','m2.bpR6':'verificador + sandbox (dry-run antes de live)',
+    'm2.bpL7':'Aprendizaje','m2.bpR7':'experimentos (A/B) + compilador de skills (draft → beta → stable)',
+    'm2.bpL8':'Métricas','m2.bpR8':'11 KPIs que miden la mejora real',
+    'm2.pB1':'13 tablas nuevas, ~60 endpoints nuevos. Cada cambio es aditivo — ninguna tabla existente fue eliminada, ningún endpoint roto.',
+    'm2.hC':'— Motor de goals y árboles de planes',
+    'm2.pC1':'Cada tarea no trivial se vuelve una fila de primera clase con utilidad, deadline, restricciones, criterios de éxito, subgoals, nivel de riesgo y nivel de autonomía. <code>GET /goal/next</code> ordena por <i>utilidad × urgencia × (1 − progreso)</i>. Un cron diario marca lo que pasó su deadline o lleva estancado &gt;5 días.',
+    'm2.pC2':'Los planes son árboles ejecutables, no texto. Cada nodo lleva <b>node_type</b>, <b>tool</b>, <b>expected_result</b>, <b>exit_condition</b> y <b>rollback</b>.',
+    'm2.hD':'— Memoria de tres capas',
+    'm2.tlmL1':'<b>Episódica</b> — qué pasó, cuándo, con qué resultado',
+    'm2.tlmL2':'<b>Semántica</b> — hechos estables, conceptos, relaciones',
+    'm2.tlmL3':'<b>Procedural</b> — cómo hacer las cosas; skills con precondiciones, tasa de éxito, madurez',
+    'm2.pD1':'Cada creencia registra su <b>procedencia</b>. Un job semanal de decay reduce a la mitad la confianza de todo lo no verificado. Verificar una fila reinicia el reloj.',
+    'm2.hE':'— Modelo causal del mundo',
+    'm2.cwmL1':'<b>wm_entities</b> — el <i>estado</i> de una cosa',
+    'm2.cwmL2':'<b>wm_relations</b> — hechos sujeto-predicado-objeto con evidencia',
+    'm2.cwmL3':'<b>wm_events</b> — eventos discretos con causes[] y effects[]',
+    'm2.cwmL4':'<b>wm_predictions</b> — afirmaciones testeables a futuro; al resolverse se computa un <b>calibration gap</b>',
+    'm2.hF':'— Auto-conocimiento y escalera de autonomía',
+    'm2.pF1':'La tabla <code>capabilities</code> le da a Friday un autorretrato vivo: confianza (mezcla bayesiana), conteos de éxito/falla, promedios de costo y tiempo, autonomy_max. Encima va una escalera de autonomía de 6 niveles:',
+    'm2.ladN1':'Solo sugerir','m2.ladD1':'proponer pero no actuar',
+    'm2.ladN2':'Sandbox','m2.ladD2':'solo dry-run',
+    'm2.ladN3':'Acción de bajo riesgo','m2.ladD3':'acciones reversibles',
+    'm2.ladN4':'Acción acotada','m2.ladD4':'con condiciones de parada',
+    'm2.ladN5':'Cadena larga','m2.ladD5':'con checkpoints',
+    'm2.ladN6':'Auto-modificación','m2.ladD6':'rollback requerido',
+    'm2.pF2':'<code>POST /autonomy/check</code> filtra cada acción riesgosa. Ningún salto de autonomía sin registro.',
+    'm2.figD':'Brain — la única superficie de auditoría para todo lo que el harness toca. Las pastillas de sub-navegación scrollean a cada subsistema: Overview, Goals &amp; Plans, Memory, World Model, Self-knowledge, Safety, Learning, Metrics.',
+    'm2.hG':'— Verificador y sandbox',
+    'm2.pG1':'Cada afirmación importante se registra con un <b>check_type</b> (factual, consistencia, alucinación, evidencia). Cada acción irreversible (email, push de código, gastos) debe primero correr como dry-run con un veredicto antes de pasar a live.',
+    'm2.pG2':'<i>Sin evidencia, no actúes. Sin verificación, no aprendas de esa acción como si fuera correcta.</i>',
+    'm2.hH':'— Experimentos y compilador de skills',
+    'm2.pH1':'El motor de experimentos mide causa y efecto con guardrails — solo se sacan conclusiones si <b>delta &gt; umbral</b> Y <b>muestras &gt; umbral</b>. Si no: inconcluso.',
+    'm2.pH2':'Las skills tienen gates de madurez: <b>draft → beta</b> (una corrida registrada), <b>beta → stable</b> (≥ 3 corridas, ≥ 66% de éxito), <b>stable → deprecated</b> (&lt; 50% en las últimas 10). Un cron nocturno aplica las reglas automáticamente.',
+    'm2.hI':'— 11 KPIs que prueban la mejora',
+    'm2.kpiL1':'<b>tasks_solved_no_correction_pct</b> — ¿el usuario aceptó la primera respuesta?',
+    'm2.kpiL2':'<b>hallucination_rate</b> — tasa auto-reportada de "me equivoqué"',
+    'm2.kpiL3':'<b>time_to_complete_goal_sec</b> — de la creación del goal a su finalización',
+    'm2.kpiL4':'<b>skill_reuse_rate</b> — ¿se están usando las skills compiladas?',
+    'm2.kpiL5':'<b>skill_success_rate</b> — éxito promedio en las skills estables',
+    'm2.kpiL6':'<b>calibration_gap</b> — |confianza − resultado| en predicciones resueltas',
+    'm2.kpiL7':'<b>actions_reverted_pct</b> — acciones en live que necesitaron rollback',
+    'm2.kpiL8':'<b>cost_per_useful_task</b> — $ por tarea aceptada',
+    'm2.kpiL9':'<b>goals_completed_per_week</b> — throughput de goals cerrados',
+    'm2.kpiL10':'<b>approved_improvements_effective_pct</b> — ¿las propuestas movieron de verdad un KPI?',
+    'm2.kpiL11':'<b>world_model_precision</b> — confianza promedio de las capacidades',
+    'm2.pI1':'Un cron diario computa los valores. <code>/metric/summary</code> devuelve el último + mín / prom / máx de 7 días.',
+    'm2.figE':'Crons — izquierda: tareas en runtime con cuentas regresivas en vivo; derecha: prompts persistidos de <code>~/.claude/cron-prompts.md</code>. Cada prompt en disco muestra <code>sincronizado</code> si el runtime lo tiene, <code>⚠ no corriendo</code> si no — la señal para recrear.',
+    'm2.hJ':'— Regla de oro',
+    'm2.pJ1':'<b>Ninguna autonomía sin registro.</b> Cada decisión operativa — un goal creado, un plan ejecutado, una acción en sandbox, una predicción resuelta, una skill promovida — deja una fila. El dashboard es donde un humano audita si el sistema se está <i>ganando</i> su autonomía, una fila a la vez.'
+  });
+  Object.assign(I18N.pt, {
+    'modal.close':'Fechar ✕',
+    'm1.title':'<span class="pulse"></span> Detalhes técnicos',
+    'm1.hA':'— O que é de verdade',
+    'm1.pA1':'Um <b>assistente de IA autoevolutivo</b> que roda 24/7 numa máquina comum com Windows, Linux ou macOS. Ele se comunica pelo Telegram, executa tarefas agendadas de forma autônoma, gerencia arquivos e projetos e mantém memória persistente entre sessões.',
+    'm1.pA2':'Ele também <b>aprende com o próprio comportamento</b>: adquire novas habilidades, reflete sobre o desempenho diário, infere preferências do usuário a partir de correções repetidas e propõe as próprias melhorias. Funciona inteiramente com Claude Code no plano Max de $100/mês — sem backend de IA próprio, sem modelos fine-tunados, sem framework de orquestração. O único código próprio é um servidor Flask leve para a memória persistente e os subsistemas autoevolutivos.',
+    'm1.hB':'— Como funciona',
+    'm1.pB1':'O Claude Code fica no centro, conectando-se a serviços externos por meio de plugins MCP (Model Context Protocol) e ferramentas de shell. Um arquivo <b>CLAUDE.md</b> funciona como system prompt, definindo comportamento, ferramentas disponíveis e horários de cron.',
+    'm1.figA':'Diagrama de arquitetura — mapa visual de todos os componentes do sistema e suas conexões: serviços, armazenamentos de dados, crons, APIs e projetos. Os nós são arrastáveis, as posições persistem no servidor.',
+    'm1.hC':'— Por que sem framework de agentes',
+    'm1.pC1':'Frameworks de agentes adicionam runtimes próprios, código de orquestração, pipelines de deploy e, muitas vezes, seus próprios custos de API. O Claude Code já <b>é</b> o runtime. Tem tool use nativo, suporte a plugins MCP, agendamento com cron, spawn de subagentes, I/O de arquivos, git e acesso ao shell embutidos. Não há código de cola entre o LLM e as ferramentas.',
+    'm1.pC2':'<i>Um plano, uma CLI, um modelo — e deixe o modelo fazer o que foi projetado para fazer.</i>',
+    'm1.hD':'— A stack',
+    'm1.stkL1':'Cérebro','m1.stkL2':'Interface','m1.stkR2':'Telegram (via plugin MCP)','m1.stkL3':'Memória','m1.stkR3':'Flask + SQLite + RAG baseado em embeddings','m1.stkL4':'Conhecimento','m1.stkR4':'Notion (via plugin MCP)','m1.stkL5':'Voz','m1.stkL6':'Agendamento','m1.stkR6':'sistema de cron integrado do Claude Code','m1.stkL7':'Custo','m1.stkR7':'$100 / mês (Anthropic Max Plan)',
+    'm1.hE':'— Lista completa de capacidades',
+    'm1.capL1':'<b>Briefings agendados</b> — clima (Open-Meteo), câmbio/cripto (DolarAPI, ExchangeRate), notícias de IA, filmes (YTS)',
+    'm1.capL2':'<b>Monitoramento autônomo</b> — varre 60+ orgs no HuggingFace, blogs e agregadores em busca de novos modelos de IA',
+    'm1.capL3':'<b>Anotações</b> — salva links, texto e dados estruturados no Notion e markdown local',
+    'm1.capL4':'<b>Mensagens de voz</b> — transcreve áudio (ElevenLabs Scribe STT), responde com voz sintetizada (ElevenLabs TTS)',
+    'm1.capL5':'<b>Análise de vídeo</b> — baixa, transcreve (legendas do YouTube / ElevenLabs), gera relatórios estruturados via Groq / OpenRouter',
+    'm1.capL6':'<b>Gestão de email</b> — verifica, redige, envia e encaminha emails via AgentMail MCP',
+    'm1.capL7':'<b>Operações git</b> — commit, push, cria PRs, gerencia repositórios via GitHub API + git CLI',
+    'm1.capL8':'<b>Pesquisa na web</b> — busca, traz, resume e reporta',
+    'm1.capL9':'<b>Crons auto-reparáveis</b> — monitora as próprias tarefas agendadas e recria as que expiram',
+    'm1.capL10':'<b>Mensageria proativa</b> — inicia conversas com base em memória e contexto, não só reativo',
+    'm1.capL11':'<b>Aquisição de habilidades</b> — extrai padrões reutilizáveis de tarefas concluídas e os guarda com padrões de disparo',
+    'm1.capL12':'<b>Autorreflexão diária</b> — um cron noturno revisa os logs para identificar erros, acertos e padrões emergentes',
+    'm1.capL13':'<b>Aprendizado de preferências</b> — analisa o histórico de feedback para inferir regras das correções repetidas',
+    'm1.capL14':'<b>Modelagem do mundo</b> — constrói um modelo de comportamento do usuário com pontuações de confiança e datas de expiração',
+    'm1.capL15':'<b>Propostas de automelhoria</b> — cria propostas formais com diffs; nunca aplica mudanças sem aprovação',
+    'm1.capL16':'<b>Monitoramento de saúde da API de memória</b> — verificações periódicas com reinício automático em caso de falha',
+    'm1.hF':'— Tarefas agendadas',
+    'm1.pF1':'Um punhado de crons autônomos mantêm o sistema vivo e aprendendo. Com o tempo o assistente <b>consolidou a própria agenda</b> — reduzindo 25 tarefas espalhadas a 8 agrupadas. Os horários exatos são arbitrários, então adapte-os ao seu dia; o que importa é a divisão entre as tarefas <b>essenciais</b> (o framework em si) e as <b>específicas do projeto</b> que você trocaria pelas suas.',
+    'm1.cronL1':'Heartbeat + auto-reparo','m1.cronR1':'verificação de saúde, confere que cada cron está vivo e recria os que expiraram (vida de 7 dias), vigia um poller de Telegram "surdo"',
+    'm1.cronL2':'Briefing diário','m1.cronR2':'clima, mercados, notícias, mudanças de projetos — enviado sem você pedir',
+    'm1.cronL3':'Harness diário','m1.cronR3':'reflexão, métricas, priorizador de goals, resolução de previsões, decay de memória, promoção de skills, aprendizado de preferências, auto-auditoria',
+    'm1.cronL4':'Swarm noturno','m1.cronR4':'subagentes em paralelo (produtividade, memória, notícias, melhorias) sintetizados num único digest',
+    'm1.cronL5':'Runner de experimentos','m1.cronR5':'variantes A/B via dry-runs no sandbox',
+    'm1.cronL6':'Resumo semanal','m1.cronR6':'comprime logs antigos sem apagar os originais',
+    'm1.pF2':'<b>Específicas do projeto (exemplos — troque pelas suas):</b> monitor de releases de modelos de IA, scrapers de datasets, relatórios mensais de uso. Não fazem parte do framework central — são o que <i>você</i> quiser rodando 24/7.',
+    'm1.hG':'— Servidor de memória',
+    'm1.pG1':'Um único servidor Flask + SQLite cuida do logging de conversas, da memória de longo prazo, do tracking de entidades, do armazenamento chave-valor e do RAG com embeddings vetoriais. Os embeddings são guardados como BLOBs no mesmo arquivo SQLite — sem banco de dados vetorial externo.',
+    'm1.memL1':'<b>Logging de conversas</b> — cada mensagem guardada com timestamp, papel, canal e importância autoclassificada (0.0–1.0)',
+    'm1.memL2':'<b>Pontuação de importância</b> — pares dinâmicos keyword-pontuação guardados no banco; os hits são rastreados automaticamente',
+    'm1.memL3':'<b>Memória de longo prazo</b> — entradas tipadas (user, feedback, project, reference) com busca de texto livre',
+    'm1.memL4':'<b>Busca semântica</b> — similaridade de cosseno sobre vetores de embeddings de 3072 dimensões',
+    'm1.memL5':'<b>Busca híbrida</b> — keyword FTS5 + semântica combinadas via Reciprocal Rank Fusion, ponderadas por importância',
+    'm1.memL6':'<b>Resumo semanal</b> — comprime logs antigos sem apagar os originais',
+    'm1.memL7':'<b>Visualização web</b> — <code>/graph</code> serve as abas Graph, Logs, Architecture e RAG (D3.js force-directed)',
+    'm1.memL8':'<b>Recuperação de desastres</b> — <code>/backup/export</code> e <code>/backup/import</code> trocam snapshots de todo o banco por HTTP',
+    'm1.figB':'Grafo de memória — visualização force-directed com D3.js mostrando conversas, memórias e entidades como nós interativos. Arraste, dê zoom, clique para explorar.',
+    'm1.hH':'— Harness autoevolutivo',
+    'm1.pH1':'Uma camada de cognição fina e aditiva faz o assistente melhorar com o tempo — no espírito de <a href="https://www.anthropic.com/institute/recursive-self-improvement" target="_blank">When AI builds itself ↗</a> (Anthropic). Cinco subsistemas fazem o aprendizado:',
+    'm1.harL1':'<b>Aquisição de habilidades</b> — extrai padrões de tarefas resolvidas; salva como skills reutilizáveis com padrões de disparo e procedimentos passo a passo',
+    'm1.harL2':'<b>Autorreflexão diária</b> — um cron noturno pergunta <i>o que deu certo, o que deu errado, que padrões emergem</i>; as conclusões alimentam o comportamento futuro',
+    'm1.harL3':'<b>Aprendizado de preferências</b> — analisa o histórico de feedback em busca de padrões repetidos e infere regras automaticamente',
+    'm1.harL4':'<b>Modelo do mundo</b> — constrói um modelo do comportamento do usuário ao longo do tempo (atividade, temas, correlações) com confiança + expiração',
+    'm1.harL5':'<b>Propostas de automelhoria</b> — propostas formais com preview do diff; o usuário aprova ou rejeita cada uma pelo Telegram',
+    'm1.pH2':'Tudo isso roda no mesmo servidor de memória sem infraestrutura adicional. Visível na aba <b>Brain</b> do Memory Graph.',
+    'm1.figC':'Aba Brain — habilidades aprendidas, preferências ativas, reflexões diárias, insights do modelo do mundo e propostas de automelhoria pendentes, tudo no mesmo servidor de memória.',
+    'm1.pH3':'<b>O harness de cognição:</b> uma camada aditiva completa — motor de goals, planos hierárquicos, memória de três camadas, modelo causal do mundo, verificador/sandbox, motor de experimentos, compilador de skills e um framework de métricas. 13 tabelas, dezenas de endpoints — tudo aditivo, nada removido.',
+    'm1.pH4':'Os loops estão fechados de ponta a ponta: a calibração auto-ajusta a confiança a cada nova previsão; as propostas aprovadas aplicam o próprio diff com backup + rollback; o sandbox auto-promove uma ação após dry-runs limpos consecutivos; as skills avançam draft → beta → stable sozinhas; o decay de memória expira crenças velhas. Um endpoint <code>/harness/health</code> e um painel <b>Loop Health</b> expõem qualquer tabela central que ficou tempo demais em silêncio. A recuperação é híbrida (keyword + semântica + importância), e o assistente coordena com um segundo bot por um barramento local.',
+    'm1.hI':'— A pergunta dos $100',
+    'm1.pI1':'Todo o sistema roda num único <b>plano Max da Anthropic de $100/mês</b>. Sem VMs na nuvem rodando inferência. Sem LangChain, sem AutoGPT, sem framework de agentes. Só Claude Code numa máquina Linux com plugins MCP.',
+    'm1.pI2':'A ideia-chave: o Claude Code não é só um assistente de código — é um runtime de agente autônomo de propósito geral. Dê a ele ferramentas, instruções e uma agenda, e ele vira um assistente 24/7 completo.',
+    'm1.hJ':'— Comando de início',
+    'm1.pJ1':'O Claude Code lê seu CLAUDE.md, conecta ao Telegram, cria todos os crons e começa a rodar de forma autônoma.',
+    'm2.title':'<span class="pulse"></span> O harness autoevolutivo',
+    'm2.hA':'— Por que esta camada existe',
+    'm2.pA1':'Antes do harness, o Friday já podia falar, lembrar, agendar e refletir — mas tudo isso era <b>reativo</b>. O sistema esperava uma mensagem, fazia o que mandavam e ficava em silêncio. Não havia goal persistente. Nem árvore de planos. Nem separação entre <i>eu acho isso</i> e <i>eu verifiquei isso</i>. Sem testes A/B. Sem métricas provando melhoria.',
+    'm2.pA2':'O harness é uma camada de cognição fina e totalmente aditiva que dá ao Friday a estrutura para <b>agir como se estivesse tentando melhorar</b> — e os comprovantes para checar se está.',
+    'm2.hB':'— O blueprint (8 subsistemas)',
+    'm2.bpL1':'Motor de goals','m2.bpR1':'intenções persistentes com utilidade, deadline, subgoals',
+    'm2.bpL2':'Planner','m2.bpR2':'árvores de planos hierárquicas: goal → ação → ferramenta → rollback',
+    'm2.bpL3':'Autoconhecimento','m2.bpR3':'capacidades + escada de autonomia de 6 níveis',
+    'm2.bpL4':'Memória de três camadas','m2.bpR4':'episódica / semântica / procedural + proveniência + decay',
+    'm2.bpL5':'Modelo causal do mundo','m2.bpR5':'entidades, relações, eventos, previsões testáveis',
+    'm2.bpL6':'Segurança','m2.bpR6':'verificador + sandbox (dry-run antes do live)',
+    'm2.bpL7':'Aprendizado','m2.bpR7':'experimentos (A/B) + compilador de skills (draft → beta → stable)',
+    'm2.bpL8':'Métricas','m2.bpR8':'11 KPIs que medem a melhoria real',
+    'm2.pB1':'13 tabelas novas, ~60 endpoints novos. Cada mudança é aditiva — nenhuma tabela existente foi removida, nenhum endpoint quebrado.',
+    'm2.hC':'— Motor de goals e árvores de planos',
+    'm2.pC1':'Cada tarefa não trivial vira uma linha de primeira classe com utilidade, deadline, restrições, critérios de sucesso, subgoals, nível de risco e nível de autonomia. <code>GET /goal/next</code> ordena por <i>utilidade × urgência × (1 − progresso)</i>. Um cron diário sinaliza tudo que passou do deadline ou está parado há &gt;5 dias.',
+    'm2.pC2':'Os planos são árvores executáveis, não texto. Cada nó carrega <b>node_type</b>, <b>tool</b>, <b>expected_result</b>, <b>exit_condition</b> e <b>rollback</b>.',
+    'm2.hD':'— Memória de três camadas',
+    'm2.tlmL1':'<b>Episódica</b> — o que aconteceu, quando, com que resultado',
+    'm2.tlmL2':'<b>Semântica</b> — fatos estáveis, conceitos, relações',
+    'm2.tlmL3':'<b>Procedural</b> — como fazer as coisas; skills com pré-condições, taxa de sucesso, maturidade',
+    'm2.pD1':'Cada crença registra sua <b>proveniência</b>. Um job semanal de decay reduz pela metade a confiança de tudo que não foi verificado. Verificar uma linha reinicia o relógio.',
+    'm2.hE':'— Modelo causal do mundo',
+    'm2.cwmL1':'<b>wm_entities</b> — o <i>estado</i> de uma coisa',
+    'm2.cwmL2':'<b>wm_relations</b> — fatos sujeito-predicado-objeto com evidência',
+    'm2.cwmL3':'<b>wm_events</b> — eventos discretos com causes[] e effects[]',
+    'm2.cwmL4':'<b>wm_predictions</b> — afirmações testáveis sobre o futuro; ao resolver, calcula-se um <b>calibration gap</b>',
+    'm2.hF':'— Autoconhecimento e escada de autonomia',
+    'm2.pF1':'A tabela <code>capabilities</code> dá ao Friday um autorretrato ao vivo: confiança (mistura bayesiana), contagens de sucesso/falha, médias de custo e tempo, autonomy_max. Por cima fica uma escada de autonomia de 6 níveis:',
+    'm2.ladN1':'Apenas sugerir','m2.ladD1':'propor mas não agir',
+    'm2.ladN2':'Sandbox','m2.ladD2':'apenas dry-run',
+    'm2.ladN3':'Ação de baixo risco','m2.ladD3':'ações reversíveis',
+    'm2.ladN4':'Ação delimitada','m2.ladD4':'com condições de parada',
+    'm2.ladN5':'Cadeia longa','m2.ladD5':'com checkpoints',
+    'm2.ladN6':'Automodificação','m2.ladD6':'rollback obrigatório',
+    'm2.pF2':'<code>POST /autonomy/check</code> filtra cada ação arriscada. Nenhum salto de autonomia sem registro.',
+    'm2.figD':'Brain — a única superfície de auditoria para tudo que o harness toca. As pílulas de subnavegação rolam até cada subsistema: Overview, Goals &amp; Plans, Memory, World Model, Self-knowledge, Safety, Learning, Metrics.',
+    'm2.hG':'— Verificador e sandbox',
+    'm2.pG1':'Cada afirmação importante é registrada com um <b>check_type</b> (factual, consistência, alucinação, evidência). Cada ação irreversível (email, push de código, gastos) deve primeiro rodar como dry-run com um veredito antes de passar para live.',
+    'm2.pG2':'<i>Sem evidência, não aja. Sem verificação, não aprenda com essa ação como se estivesse correta.</i>',
+    'm2.hH':'— Experimentos e compilador de skills',
+    'm2.pH1':'O motor de experimentos mede causa e efeito com guardrails — só se tiram conclusões se <b>delta &gt; limiar</b> E <b>amostras &gt; limiar</b>. Caso contrário: inconclusivo.',
+    'm2.pH2':'As skills têm gates de maturidade: <b>draft → beta</b> (uma execução registrada), <b>beta → stable</b> (≥ 3 execuções, ≥ 66% de sucesso), <b>stable → deprecated</b> (&lt; 50% nas últimas 10). Um cron noturno aplica as regras automaticamente.',
+    'm2.hI':'— 11 KPIs que provam a melhoria',
+    'm2.kpiL1':'<b>tasks_solved_no_correction_pct</b> — o usuário aceitou a primeira resposta?',
+    'm2.kpiL2':'<b>hallucination_rate</b> — taxa autorrelatada de "eu errei"',
+    'm2.kpiL3':'<b>time_to_complete_goal_sec</b> — da criação do goal até a conclusão',
+    'm2.kpiL4':'<b>skill_reuse_rate</b> — as skills compiladas estão sendo usadas?',
+    'm2.kpiL5':'<b>skill_success_rate</b> — sucesso médio nas skills estáveis',
+    'm2.kpiL6':'<b>calibration_gap</b> — |confiança − resultado| em previsões resolvidas',
+    'm2.kpiL7':'<b>actions_reverted_pct</b> — ações em live que precisaram de rollback',
+    'm2.kpiL8':'<b>cost_per_useful_task</b> — $ por tarefa aceita',
+    'm2.kpiL9':'<b>goals_completed_per_week</b> — throughput de goals fechados',
+    'm2.kpiL10':'<b>approved_improvements_effective_pct</b> — as propostas realmente moveram um KPI?',
+    'm2.kpiL11':'<b>world_model_precision</b> — confiança média das capacidades',
+    'm2.pI1':'Um cron diário calcula os valores. <code>/metric/summary</code> retorna o último + mín / méd / máx de 7 dias.',
+    'm2.figE':'Crons — esquerda: tarefas em runtime com contagens regressivas ao vivo; direita: prompts persistidos de <code>~/.claude/cron-prompts.md</code>. Cada prompt em disco mostra <code>sincronizado</code> se o runtime o tem, <code>⚠ no corriendo</code> caso contrário — o sinal para recriar.',
+    'm2.hJ':'— Regra de ouro',
+    'm2.pJ1':'<b>Nenhuma autonomia sem registro.</b> Cada decisão operacional — um goal criado, um plano executado, uma ação em sandbox, uma previsão resolvida, uma skill promovida — deixa uma linha. O dashboard é onde um humano audita se o sistema está <i>conquistando</i> sua autonomia, uma linha por vez.'
+  });
   var cache = {};
   var nodes = [];
   document.querySelectorAll('[data-i18n],[data-i18n-html]').forEach(function(el){
