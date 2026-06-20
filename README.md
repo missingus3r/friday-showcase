@@ -4,6 +4,8 @@ An always-on personal AI system using only Claude Code CLI ($100/month) and Tele
 
 **Live page:** [missingus3r.github.io/friday-showcase](https://missingus3r.github.io/friday-showcase/)
 
+![Friday — a personal assistant that rewrites itself, with a live self-evolution log](img/showcase-hero.png)
+
 ---
 
 ## What Is This?
@@ -53,6 +55,13 @@ Claude Code already *is* the runtime — native tool use, MCP plugins, cron sche
 | Cost | $100/month (Anthropic Max Plan) |
 
 ## Screenshots
+
+### Live Page
+![Talk to Friday like you'd text a friend — scheduling and memory over Telegram](img/showcase-telegram.png)
+*You talk to Friday the way you'd text a friend — voice notes, links, questions, photos. One terminal window on your own machine.*
+
+![It learns, reflects, adapts, proposes, and writes first — the model stays the same, the assistant evolves](img/showcase-evolve.png)
+*Self-evolving behaviour: it acquires skills, reflects nightly, learns preferences from repeated corrections, and proposes its own improvements.*
 
 ### Memory Graph
 ![Memory Graph](img/graph.png)
