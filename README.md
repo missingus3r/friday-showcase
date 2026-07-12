@@ -38,7 +38,15 @@ Claude Code already *is* the runtime — native tool use, MCP plugins, cron sche
 
 ![GitHub stars](https://img.shields.io/github/stars/missingus3r/friday-showcase?style=social)
 
-[![Star History Chart](https://api.star-history.com/svg?repos=missingus3r/friday-showcase&type=Date&theme=dark)](https://www.star-history.com/?repos=missingus3r%2Ffriday-showcase&type=date&legend=top-left)
+## Star History
+
+<a href="https://www.star-history.com/?repos=missingus3r%2Ffriday-showcase&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=missingus3r/friday-showcase&type=date&theme=dark&legend=top-left&sealed_token=VmRIJ_CwrasR8XVs5-phwO0O4629aa-QTWibWNmlOBwwAjjZlLSnfSLv52pEE1Q1Oy5ZBElnnVWDR5luQC8_oO4B--7K1z2SBhdnA0KuEVfe1O6M6V91QQCPFFDLI3bQ0H-3hnpnjEe_Cihuqhq7AfmV6t3wc2Sr11-7JGipakQb9nxPzLCO-lrwQSx2" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=missingus3r/friday-showcase&type=date&legend=top-left&sealed_token=VmRIJ_CwrasR8XVs5-phwO0O4629aa-QTWibWNmlOBwwAjjZlLSnfSLv52pEE1Q1Oy5ZBElnnVWDR5luQC8_oO4B--7K1z2SBhdnA0KuEVfe1O6M6V91QQCPFFDLI3bQ0H-3hnpnjEe_Cihuqhq7AfmV6t3wc2Sr11-7JGipakQb9nxPzLCO-lrwQSx2" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=missingus3r/friday-showcase&type=date&legend=top-left&sealed_token=VmRIJ_CwrasR8XVs5-phwO0O4629aa-QTWibWNmlOBwwAjjZlLSnfSLv52pEE1Q1Oy5ZBElnnVWDR5luQC8_oO4B--7K1z2SBhdnA0KuEVfe1O6M6V91QQCPFFDLI3bQ0H-3hnpnjEe_Cihuqhq7AfmV6t3wc2Sr11-7JGipakQb9nxPzLCO-lrwQSx2" />
+ </picture>
+</a>
 
 ## The Stack
 
