@@ -178,30 +178,36 @@ It all runs on the same memory server, visible in the Memory Graph's **Brain** t
 
 ## How Friday Compares
 
-Two strong open-source assistants live in the same space: [Clawdbot](https://clawd.bot/) (renamed **OpenClaw** in January 2026, by Peter Steinberger — [repo](https://github.com/openclaw/openclaw)) and [Hermes Agent](https://hermes-agent.nousresearch.com/) (Nous Research — [repo](https://github.com/NousResearch/hermes-agent)). Both are excellent projects. The difference is architectural: they ship a runtime you install and maintain; Friday uses Claude Code *as* the runtime and spends its complexity budget on cognition instead.
+The same table as the [live page](https://missingus3r.github.io/friday-showcase/#compare), against four open agents in the same space: [Clawdbot](https://clawd.bot/) (renamed **OpenClaw** in January 2026, by Peter Steinberger — [repo](https://github.com/openclaw/openclaw)), [Hermes Agent](https://hermes-agent.nousresearch.com/) (Nous Research — [repo](https://github.com/NousResearch/hermes-agent)), [Khoj](https://khoj.dev/) and [Leon](https://github.com/leon-ai/leon). All are good projects. The difference is architectural: they ship a runtime you install and maintain; Friday uses Claude Code *as* the runtime and spends its complexity budget on cognition instead.
 
-| Capability | Friday | Clawdbot / OpenClaw | Hermes Agent |
-|---|:---:|:---:|:---:|
-| No runtime to install or maintain (the agent CLI *is* the runtime) | ✅ | ❌ | ❌ |
-| Custom code ≈ one Python file (memory server, self-generated) | ✅ | ❌ | ❌ |
-| Flat-subscription cost — no per-token billing | ✅ | ❌ | ❌ |
-| Persistent memory across sessions | ✅ | ✅ | ✅ |
-| Hybrid RAG (FTS5 + vector embeddings + RRF) in plain SQLite | ✅ | ❌ | ❌ |
-| Skill acquisition from solved tasks | ✅ | ✅ | ✅ |
-| Skill maturity gates (draft → beta → stable on measured success rate) | ✅ | ❌ | ❌ |
-| Goal engine + hierarchical plan trees | ✅ | ❌ | ❌ |
-| Testable predictions with calibration tracking | ✅ | ❌ | ❌ |
-| A/B experiments on its own behavior | ✅ | ❌ | ❌ |
-| Self-improvement proposals with human approval + rollback | ✅ | ❌ | ❌ |
-| Self-metrics (11 KPIs) + loop-health monitoring | ✅ | ❌ | ❌ |
-| Audit dashboards for autonomous actions (Brain / Crons tabs) | ✅ | ❌ | ❌ |
-| Chat-native interface (lives in your messaging app) | ✅ | ✅ | ✅ |
-| Multi-provider model access (OpenAI, Gemini, OpenRouter, local…) | ✅ | ✅ | ✅ |
-| Self-hosted on your own hardware (Windows / Linux / macOS / VM) | ✅ | ✅ | ✅ |
-| Community skill marketplace | ❌ | ✅ | ✅ |
-| **Total** | **16** | **7** | **7** |
+| Capability | Friday | OpenClaw | Hermes | Khoj | Leon |
+|---|:---:|:---:|:---:|:---:|:---:|
+| Open source | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Runs fully local | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Persistent memory | ✓ | ✓ | ✓ | ✓ | — |
+| Self-improving skills | ✓ | ~ | ✓ | — | — |
+| Scheduled jobs (cron) | ✓ | ~ | ✓ | ✓ | — |
+| Messaging (Telegram / WhatsApp …) | ✓ | ✓ | ✓ | ~ | — |
+| System & tool access | ✓ | ✓ | ✓ | ~ | ~ |
+| Sub-agents / multi-agent | ✓ | — | ✓ | ~ | — |
+| Model-agnostic | ✓ | ✓ | ✓ | ✓ | ~ |
+| Proactive (writes first) | ✓ | ✓ | ✓ | ✓ | — |
+| Live camera & object detection | ✓ | — | — | — | — |
+| No runtime to install or maintain (the agent CLI *is* the runtime) | ✓ | — | — | — | — |
+| Custom code ≈ one Python file | ✓ | — | — | — | — |
+| Flat-subscription cost (no per-token billing) | ✓ | ~ | ~ | ~ | ~ |
+| Hybrid RAG (FTS5 + embeddings + RRF) | ✓ | ~ | ~ | ✓ | — |
+| Skill maturity gates (measured success rate) | ✓ | — | — | — | — |
+| Goal engine + plan trees | ✓ | — | — | — | — |
+| Testable predictions + calibration | ✓ | — | — | — | — |
+| A/B experiments on its own behavior | ✓ | — | — | — | — |
+| Self-improvement proposals (human-approved) | ✓ | — | — | — | — |
+| Self-metrics (11 KPIs) + loop health | ✓ | — | — | — | — |
+| Audit dashboards (Brain / Crons) | ✓ | — | — | — | — |
+| Community skill marketplace | — | ✓ | ✓ | — | ~ |
+| **Total ✓** | **22** | **8** | **11** | **7** | **2** |
 
-> The marketplace row is theirs, fairly — Friday builds its skill library from its own solved tasks instead of a community catalog. Everything else is either architectural (no runtime, one file, flat cost) or cognitive (goals, predictions, experiments, proposals, metrics) — the part Friday optimizes for.
+> ✓ yes · ~ partial / unconfirmed · — no. Compiled from public docs, August 2026. The marketplace row is theirs, fairly — Friday builds its skill library from its own solved tasks instead of a community catalog.
 
 ## The $100 Question
 
