@@ -38,33 +38,6 @@ Claude Code already *is* the runtime — native tool use, MCP plugins, cron sche
 
 ![GitHub stars](https://img.shields.io/github/stars/missingus3r/friday-showcase?style=social)
 
-## How Friday Compares
-
-Two strong open-source assistants live in the same space: [Clawdbot](https://clawd.bot/) (renamed **OpenClaw** in January 2026, by Peter Steinberger — [repo](https://github.com/openclaw/openclaw)) and [Hermes Agent](https://hermes-agent.nousresearch.com/) (Nous Research — [repo](https://github.com/NousResearch/hermes-agent)). Both are excellent projects. The difference is architectural: they ship a runtime you install and maintain; Friday uses Claude Code *as* the runtime and spends its complexity budget on cognition instead.
-
-| Capability | Friday | Clawdbot / OpenClaw | Hermes Agent |
-|---|:---:|:---:|:---:|
-| No runtime to install or maintain (the agent CLI *is* the runtime) | ✅ | ❌ | ❌ |
-| Custom code ≈ one Python file (memory server, self-generated) | ✅ | ❌ | ❌ |
-| Flat-subscription cost — no per-token billing | ✅ | ❌ | ❌ |
-| Persistent memory across sessions | ✅ | ✅ | ✅ |
-| Hybrid RAG (FTS5 + vector embeddings + RRF) in plain SQLite | ✅ | ❌ | ❌ |
-| Skill acquisition from solved tasks | ✅ | ✅ | ✅ |
-| Skill maturity gates (draft → beta → stable on measured success rate) | ✅ | ❌ | ❌ |
-| Goal engine + hierarchical plan trees | ✅ | ❌ | ❌ |
-| Testable predictions with calibration tracking | ✅ | ❌ | ❌ |
-| A/B experiments on its own behavior | ✅ | ❌ | ❌ |
-| Self-improvement proposals with human approval + rollback | ✅ | ❌ | ❌ |
-| Self-metrics (11 KPIs) + loop-health monitoring | ✅ | ❌ | ❌ |
-| Audit dashboards for autonomous actions (Brain / Crons tabs) | ✅ | ❌ | ❌ |
-| Multi-channel chat (WhatsApp, iMessage, Discord, Slack…) | ❌ | ✅ | ✅ |
-| Model-agnostic (GPT, Gemini, local LLMs via Ollama…) | ❌ | ✅ | ✅ |
-| Community skill marketplace | ❌ | ✅ | ✅ |
-| Enterprise deploy backends (Docker, SSH, serverless) | ❌ | ❌ | ✅ |
-| **Total** | **13** | **5** | **6** |
-
-> The last four rows are theirs on purpose — if you need multi-channel chat, model freedom, or enterprise deployment, use them. Friday's bet is different: one model, one subscription, near-zero custom code, and the deepest self-evolving loop it can audit.
-
 ## The Stack
 
 | Component | Technology |
@@ -202,6 +175,33 @@ It all runs on the same memory server, visible in the Memory Graph's **Brain** t
 > The system gets better every day not because the model changes, but because it builds a growing library of skills, preferences, and patterns on top of it. The model stays the same; the assistant evolves.
 
 > **Golden rule (in `CLAUDE.md`):** no unrecorded autonomy. Every goal, plan node, sandboxed action, resolved prediction, and promoted skill leaves a row — the dashboards are where a human audits whether the system is earning its autonomy.
+
+## How Friday Compares
+
+Two strong open-source assistants live in the same space: [Clawdbot](https://clawd.bot/) (renamed **OpenClaw** in January 2026, by Peter Steinberger — [repo](https://github.com/openclaw/openclaw)) and [Hermes Agent](https://hermes-agent.nousresearch.com/) (Nous Research — [repo](https://github.com/NousResearch/hermes-agent)). Both are excellent projects. The difference is architectural: they ship a runtime you install and maintain; Friday uses Claude Code *as* the runtime and spends its complexity budget on cognition instead.
+
+| Capability | Friday | Clawdbot / OpenClaw | Hermes Agent |
+|---|:---:|:---:|:---:|
+| No runtime to install or maintain (the agent CLI *is* the runtime) | ✅ | ❌ | ❌ |
+| Custom code ≈ one Python file (memory server, self-generated) | ✅ | ❌ | ❌ |
+| Flat-subscription cost — no per-token billing | ✅ | ❌ | ❌ |
+| Persistent memory across sessions | ✅ | ✅ | ✅ |
+| Hybrid RAG (FTS5 + vector embeddings + RRF) in plain SQLite | ✅ | ❌ | ❌ |
+| Skill acquisition from solved tasks | ✅ | ✅ | ✅ |
+| Skill maturity gates (draft → beta → stable on measured success rate) | ✅ | ❌ | ❌ |
+| Goal engine + hierarchical plan trees | ✅ | ❌ | ❌ |
+| Testable predictions with calibration tracking | ✅ | ❌ | ❌ |
+| A/B experiments on its own behavior | ✅ | ❌ | ❌ |
+| Self-improvement proposals with human approval + rollback | ✅ | ❌ | ❌ |
+| Self-metrics (11 KPIs) + loop-health monitoring | ✅ | ❌ | ❌ |
+| Audit dashboards for autonomous actions (Brain / Crons tabs) | ✅ | ❌ | ❌ |
+| Chat-native interface (lives in your messaging app) | ✅ | ✅ | ✅ |
+| Multi-provider model access (OpenAI, Gemini, OpenRouter, local…) | ✅ | ✅ | ✅ |
+| Self-hosted on your own hardware (Windows / Linux / macOS / VM) | ✅ | ✅ | ✅ |
+| Community skill marketplace | ❌ | ✅ | ✅ |
+| **Total** | **16** | **7** | **7** |
+
+> The marketplace row is theirs, fairly — Friday builds its skill library from its own solved tasks instead of a community catalog. Everything else is either architectural (no runtime, one file, flat cost) or cognitive (goals, predictions, experiments, proposals, metrics) — the part Friday optimizes for.
 
 ## The $100 Question
 
