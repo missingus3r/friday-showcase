@@ -67,7 +67,7 @@
         "Self-evolving cognition harness with goals, plans, memory, world model, verifier, sandbox, experiments, skill compiler, metrics",
         "Telegram-native chat interface via MCP plugin",
         "Persistent memory with hybrid RAG search (FTS5 + vector embeddings)",
-        "18 autonomous cron jobs with self-healing watchdog",
+        "7 grouped autonomous cron jobs with self-healing",
         "Voice messages (TTS/STT via ElevenLabs)",
         "Email handling (AgentMail)",
         "Notion knowledge base integration",
@@ -878,7 +878,7 @@ try{
     |--> Knowledge Base   ---> Notes, wiki, structured data (Notion MCP)
     |--> GitHub           ---> Repos (push, commit, PR)
     |--> Voice API        ---> TTS / STT (ElevenLabs)
-    |--> Email (MCP)      ---> Send, receive, forward (AgentMail)
+    |--> Email (REST API) ---> Send, receive, forward (AgentMail)
     |--> Web Search/Fetch ---> News, research, data
     |--> Cron system      ---> Recurring autonomous jobs
     |--> Local tools      ---> Shell, scripts, system utilities</pre>
@@ -909,7 +909,7 @@ try{
       <li data-i18n-html="m1.capL3"><b>Note-taking</b> — save links, text, and structured data to Notion and local markdown</li>
       <li data-i18n-html="m1.capL4"><b>Voice messages</b> — transcribe audio (ElevenLabs Scribe STT), respond with synthesized speech (ElevenLabs TTS)</li>
       <li data-i18n-html="m1.capL5"><b>Video analysis</b> — download, transcribe (YouTube subs / ElevenLabs), generate structured reports via Groq / OpenRouter</li>
-      <li data-i18n-html="m1.capL6"><b>Email handling</b> — check, draft, send, and forward emails via AgentMail MCP</li>
+      <li data-i18n-html="m1.capL6"><b>Email handling</b> — check, draft, send, and forward emails via the AgentMail REST API</li>
       <li data-i18n-html="m1.capL7"><b>Git operations</b> — commit, push, create PRs, manage repositories via GitHub API + git CLI</li>
       <li data-i18n-html="m1.capL8"><b>Web research</b> — search, fetch, summarize, and report back</li>
       <li data-i18n-html="m1.capL9"><b>Self-healing crons</b> — monitors its own scheduled jobs and recreates any that expire</li>
@@ -923,9 +923,9 @@ try{
     </ul>
 
     <h4 data-i18n="m1.hF">— Scheduled jobs</h4>
-    <p data-i18n-html="m1.pF1">A handful of autonomous cron jobs keep the system alive and learning. Over time the assistant <b>consolidated its own schedule</b> — collapsing 25 sprawling jobs into 8 grouped ones. Exact times are arbitrary, so adapt them to your day; what matters is the split between the <b>essential</b> jobs (the framework itself) and the <b>project-specific</b> ones you'd swap for your own.</p>
+    <p data-i18n-html="m1.pF1">A handful of autonomous cron jobs keep the system alive and learning. Over time the assistant <b>consolidated its own schedule</b> — collapsing 25 sprawling jobs into 7 grouped ones. Exact times are arbitrary, so adapt them to your day; what matters is the split between the <b>essential</b> jobs (the framework itself) and the <b>project-specific</b> ones you'd swap for your own.</p>
     <table class="cron-t">
-      <tr><td data-i18n="m1.cronL1">Heartbeat + self-heal</td><td data-i18n="m1.cronR1">health check, verify every cron is alive and recreate any that expired (7-day lifetime), watch for a "deaf" Telegram poller</td></tr>
+      <tr><td data-i18n="m1.cronL1">Heartbeat + self-heal</td><td data-i18n="m1.cronR1">health check, verify every cron is alive and recreate any that expired (7-day lifetime)</td></tr>
       <tr><td data-i18n="m1.cronL2">Daily briefing</td><td data-i18n="m1.cronR2">weather, markets, news, project changes — sent unprompted</td></tr>
       <tr><td data-i18n="m1.cronL3">Harness daily</td><td data-i18n="m1.cronR3">reflection, metrics, goal prioritizer, predictions resolver, memory decay, skill promotion, preference learning, auto-audit</td></tr>
       <tr><td data-i18n="m1.cronL4">Overnight swarm</td><td data-i18n="m1.cronR4">parallel sub-agents (productivity, memory, news, improvements) synthesized into one digest</td></tr>
@@ -966,7 +966,7 @@ try{
       <figcaption data-i18n="m1.figC">Brain tab — learned skills, active preferences, daily reflections, world model insights, and pending self-improvement proposals, all on the same memory server.</figcaption>
     </figure>
     <p data-i18n-html="m1.pH3"><b>The cognition harness:</b> a full additive layer — goal engine, hierarchical plans, three-layer memory, causal world model, verifier/sandbox, experiment engine, skill compiler, and a metrics framework. 13 tables, dozens of endpoints — all additive, nothing dropped.</p>
-    <p data-i18n-html="m1.pH4">The loops are closed end-to-end: calibration auto-adjusts confidence on each new prediction; approved proposals apply their own diff with backup + rollback; the sandbox auto-promotes an action after consecutive clean dry-runs; skills ratchet draft → beta → stable on their own; memory decay expires stale beliefs. A <code>/harness/health</code> endpoint and a <b>Loop Health</b> panel surface any core table that has gone quiet too long. Recall is hybrid (keyword + semantic + importance), and the assistant coordinates with a second bot over a local bus.</p>
+    <p data-i18n-html="m1.pH4">The loops are closed end-to-end: calibration auto-adjusts confidence on each new prediction; approved proposals apply their own diff with backup + rollback; the sandbox auto-promotes an action after consecutive clean dry-runs; skills ratchet draft → beta → stable on their own; memory decay expires stale beliefs. A <code>/harness/health</code> endpoint and a <b>Loop Health</b> panel surface any core table that has gone quiet too long. Recall is hybrid (keyword + semantic + importance).</p>
 
     <h4 data-i18n="m1.hI">— The $100 question</h4>
     <p data-i18n-html="m1.pI1">The entire system runs on a single <b>$100/month Anthropic Max Plan</b>. No cloud VMs running inference. No LangChain, no AutoGPT, no agent framework. Just Claude Code on a Linux machine with MCP plugins.</p>
@@ -1319,7 +1319,7 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ document.querySe
     'm1.capL3':'<b>Toma de notas</b> — guarda links, texto y datos estructurados en Notion y markdown local',
     'm1.capL4':'<b>Mensajes de voz</b> — transcribe audio (ElevenLabs Scribe STT), responde con voz sintetizada (ElevenLabs TTS)',
     'm1.capL5':'<b>Análisis de video</b> — descarga, transcribe (subtítulos de YouTube / ElevenLabs), genera informes estructurados vía Groq / OpenRouter',
-    'm1.capL6':'<b>Gestión de email</b> — revisa, redacta, envía y reenvía correos vía AgentMail MCP',
+    'm1.capL6':'<b>Gestión de email</b> — revisa, redacta, envía y reenvía correos vía la API REST de AgentMail',
     'm1.capL7':'<b>Operaciones git</b> — commit, push, crea PRs, gestiona repositorios vía GitHub API + git CLI',
     'm1.capL8':'<b>Investigación web</b> — busca, trae, resume y reporta',
     'm1.capL9':'<b>Crons auto-reparables</b> — monitorea sus propias tareas programadas y recrea las que expiran',
@@ -1331,8 +1331,8 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ document.querySe
     'm1.capL15':'<b>Propuestas de auto-mejora</b> — crea propuestas formales con diffs; nunca aplica cambios sin aprobación',
     'm1.capL16':'<b>Monitoreo de salud de la API de memoria</b> — chequeos periódicos con reinicio automático ante fallas',
     'm1.hF':'— Tareas programadas',
-    'm1.pF1':'Un puñado de crons autónomos mantienen el sistema vivo y aprendiendo. Con el tiempo el asistente <b>consolidó su propia agenda</b> — colapsando 25 tareas dispersas en 8 agrupadas. Los horarios exactos son arbitrarios, así que adaptalos a tu día; lo que importa es la división entre las tareas <b>esenciales</b> (el framework en sí) y las <b>específicas del proyecto</b> que cambiarías por las tuyas.',
-    'm1.cronL1':'Heartbeat + auto-reparación','m1.cronR1':'chequeo de salud, verifica que cada cron esté vivo y recrea los que expiraron (vida de 7 días), vigila un poller de Telegram "sordo"',
+    'm1.pF1':'Un puñado de crons autónomos mantienen el sistema vivo y aprendiendo. Con el tiempo el asistente <b>consolidó su propia agenda</b> — colapsando 25 tareas dispersas en 7 agrupadas. Los horarios exactos son arbitrarios, así que adaptalos a tu día; lo que importa es la división entre las tareas <b>esenciales</b> (el framework en sí) y las <b>específicas del proyecto</b> que cambiarías por las tuyas.',
+    'm1.cronL1':'Heartbeat + auto-reparación','m1.cronR1':'chequeo de salud, verifica que cada cron esté vivo y recrea los que expiraron (vida de 7 días)',
     'm1.cronL2':'Briefing diario','m1.cronR2':'clima, mercados, noticias, cambios de proyectos — enviado sin que lo pidas',
     'm1.cronL3':'Harness diario','m1.cronR3':'reflexión, métricas, priorizador de goals, resolución de predicciones, decay de memoria, promoción de skills, aprendizaje de preferencias, auto-auditoría',
     'm1.cronL4':'Swarm nocturno','m1.cronR4':'sub-agentes en paralelo (productividad, memoria, noticias, mejoras) sintetizados en un solo digest',
@@ -1360,7 +1360,7 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ document.querySe
     'm1.pH2':'Todo esto corre en el mismo servidor de memoria sin infraestructura adicional. Visible en la pestaña <b>Brain</b> del Memory Graph.',
     'm1.figC':'Pestaña Brain — habilidades aprendidas, preferencias activas, reflexiones diarias, insights del modelo del mundo y propuestas de auto-mejora pendientes, todo en el mismo servidor de memoria.',
     'm1.pH3':'<b>El harness de cognición:</b> una capa aditiva completa — motor de goals, planes jerárquicos, memoria de tres capas, modelo causal del mundo, verificador/sandbox, motor de experimentos, compilador de skills y un framework de métricas. 13 tablas, decenas de endpoints — todo aditivo, nada eliminado.',
-    'm1.pH4':'Los loops están cerrados de punta a punta: la calibración auto-ajusta la confianza en cada nueva predicción; las propuestas aprobadas aplican su propio diff con backup + rollback; el sandbox auto-promueve una acción tras dry-runs limpios consecutivos; las skills avanzan draft → beta → stable solas; el decay de memoria expira creencias viejas. Un endpoint <code>/harness/health</code> y un panel <b>Loop Health</b> exponen cualquier tabla central que llevó demasiado tiempo en silencio. La recuperación es híbrida (keyword + semántica + importancia), y el asistente coordina con un segundo bot por un bus local.',
+    'm1.pH4':'Los loops están cerrados de punta a punta: la calibración auto-ajusta la confianza en cada nueva predicción; las propuestas aprobadas aplican su propio diff con backup + rollback; el sandbox auto-promueve una acción tras dry-runs limpios consecutivos; las skills avanzan draft → beta → stable solas; el decay de memoria expira creencias viejas. Un endpoint <code>/harness/health</code> y un panel <b>Loop Health</b> exponen cualquier tabla central que llevó demasiado tiempo en silencio. La recuperación es híbrida (keyword + semántica + importancia).',
     'm1.hI':'— La pregunta de los $100',
     'm1.pI1':'Todo el sistema corre en un único <b>plan Max de Anthropic de $100/mes</b>. Sin VMs en la nube corriendo inferencia. Sin LangChain, sin AutoGPT, sin framework de agentes. Solo Claude Code en una máquina Linux con plugins MCP.',
     'm1.pI2':'La idea clave: Claude Code no es solo un asistente de código — es un runtime de agente autónomo de propósito general. Dale herramientas, instrucciones y una agenda, y se convierte en un asistente 24/7 completo.',
@@ -1446,7 +1446,7 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ document.querySe
     'm1.capL3':'<b>Anotações</b> — salva links, texto e dados estruturados no Notion e markdown local',
     'm1.capL4':'<b>Mensagens de voz</b> — transcreve áudio (ElevenLabs Scribe STT), responde com voz sintetizada (ElevenLabs TTS)',
     'm1.capL5':'<b>Análise de vídeo</b> — baixa, transcreve (legendas do YouTube / ElevenLabs), gera relatórios estruturados via Groq / OpenRouter',
-    'm1.capL6':'<b>Gestão de email</b> — verifica, redige, envia e encaminha emails via AgentMail MCP',
+    'm1.capL6':'<b>Gestão de email</b> — verifica, redige, envia e encaminha emails via a API REST do AgentMail',
     'm1.capL7':'<b>Operações git</b> — commit, push, cria PRs, gerencia repositórios via GitHub API + git CLI',
     'm1.capL8':'<b>Pesquisa na web</b> — busca, traz, resume e reporta',
     'm1.capL9':'<b>Crons auto-reparáveis</b> — monitora as próprias tarefas agendadas e recria as que expiram',
@@ -1458,8 +1458,8 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ document.querySe
     'm1.capL15':'<b>Propostas de automelhoria</b> — cria propostas formais com diffs; nunca aplica mudanças sem aprovação',
     'm1.capL16':'<b>Monitoramento de saúde da API de memória</b> — verificações periódicas com reinício automático em caso de falha',
     'm1.hF':'— Tarefas agendadas',
-    'm1.pF1':'Um punhado de crons autônomos mantêm o sistema vivo e aprendendo. Com o tempo o assistente <b>consolidou a própria agenda</b> — reduzindo 25 tarefas espalhadas a 8 agrupadas. Os horários exatos são arbitrários, então adapte-os ao seu dia; o que importa é a divisão entre as tarefas <b>essenciais</b> (o framework em si) e as <b>específicas do projeto</b> que você trocaria pelas suas.',
-    'm1.cronL1':'Heartbeat + auto-reparo','m1.cronR1':'verificação de saúde, confere que cada cron está vivo e recria os que expiraram (vida de 7 dias), vigia um poller de Telegram "surdo"',
+    'm1.pF1':'Um punhado de crons autônomos mantêm o sistema vivo e aprendendo. Com o tempo o assistente <b>consolidou a própria agenda</b> — reduzindo 25 tarefas espalhadas a 7 agrupadas. Os horários exatos são arbitrários, então adapte-os ao seu dia; o que importa é a divisão entre as tarefas <b>essenciais</b> (o framework em si) e as <b>específicas do projeto</b> que você trocaria pelas suas.',
+    'm1.cronL1':'Heartbeat + auto-reparo','m1.cronR1':'verificação de saúde, confere que cada cron está vivo e recria os que expiraram (vida de 7 dias)',
     'm1.cronL2':'Briefing diário','m1.cronR2':'clima, mercados, notícias, mudanças de projetos — enviado sem você pedir',
     'm1.cronL3':'Harness diário','m1.cronR3':'reflexão, métricas, priorizador de goals, resolução de previsões, decay de memória, promoção de skills, aprendizado de preferências, auto-auditoria',
     'm1.cronL4':'Swarm noturno','m1.cronR4':'subagentes em paralelo (produtividade, memória, notícias, melhorias) sintetizados num único digest',
@@ -1487,7 +1487,7 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ document.querySe
     'm1.pH2':'Tudo isso roda no mesmo servidor de memória sem infraestrutura adicional. Visível na aba <b>Brain</b> do Memory Graph.',
     'm1.figC':'Aba Brain — habilidades aprendidas, preferências ativas, reflexões diárias, insights do modelo do mundo e propostas de automelhoria pendentes, tudo no mesmo servidor de memória.',
     'm1.pH3':'<b>O harness de cognição:</b> uma camada aditiva completa — motor de goals, planos hierárquicos, memória de três camadas, modelo causal do mundo, verificador/sandbox, motor de experimentos, compilador de skills e um framework de métricas. 13 tabelas, dezenas de endpoints — tudo aditivo, nada removido.',
-    'm1.pH4':'Os loops estão fechados de ponta a ponta: a calibração auto-ajusta a confiança a cada nova previsão; as propostas aprovadas aplicam o próprio diff com backup + rollback; o sandbox auto-promove uma ação após dry-runs limpos consecutivos; as skills avançam draft → beta → stable sozinhas; o decay de memória expira crenças velhas. Um endpoint <code>/harness/health</code> e um painel <b>Loop Health</b> expõem qualquer tabela central que ficou tempo demais em silêncio. A recuperação é híbrida (keyword + semântica + importância), e o assistente coordena com um segundo bot por um barramento local.',
+    'm1.pH4':'Os loops estão fechados de ponta a ponta: a calibração auto-ajusta a confiança a cada nova previsão; as propostas aprovadas aplicam o próprio diff com backup + rollback; o sandbox auto-promove uma ação após dry-runs limpos consecutivos; as skills avançam draft → beta → stable sozinhas; o decay de memória expira crenças velhas. Um endpoint <code>/harness/health</code> e um painel <b>Loop Health</b> expõem qualquer tabela central que ficou tempo demais em silêncio. A recuperação é híbrida (keyword + semântica + importância).',
     'm1.hI':'— A pergunta dos $100',
     'm1.pI1':'Todo o sistema roda num único <b>plano Max da Anthropic de $100/mês</b>. Sem VMs na nuvem rodando inferência. Sem LangChain, sem AutoGPT, sem framework de agentes. Só Claude Code numa máquina Linux com plugins MCP.',
     'm1.pI2':'A ideia-chave: o Claude Code não é só um assistente de código — é um runtime de agente autônomo de propósito geral. Dê a ele ferramentas, instruções e uma agenda, e ele vira um assistente 24/7 completo.',

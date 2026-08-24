@@ -13,9 +13,9 @@ Claude Code (Anthropic's agentic CLI) sits at the center, connecting to external
 ## What makes it different
 
 - **Self-evolving** — extracts reusable patterns from solved tasks (skills), reflects on its own performance nightly, infers user preferences from repeated corrections, builds a behavioral world model, and proposes formal self-improvements with diff previews.
-- **Cognition harness (v2)** — additive layer with goal engine, hierarchical plan trees, three-layer memory (episodic / semantic / procedural), causal world model, verifier + sandbox, experiment engine, skill compiler, and 11-KPI metrics framework. 13 SQLite tables and dozens of endpoints, all additive. Later passes (v2.13 → v2.20) closed the loops end-to-end: auto-calibration, self-applying proposals with rollback, sandbox auto-promotion, hybrid recall, and a `/harness/health` loop monitor.
+- **Cognition harness (v2)** — additive layer with goal engine, hierarchical plan trees, three-layer memory (episodic / semantic / procedural), causal world model, verifier + sandbox, experiment engine, skill compiler, and 11-KPI metrics framework. 13 SQLite tables and dozens of endpoints, all additive. Later passes (v2.13 → v2.22) closed the loops end-to-end: auto-calibration, self-applying proposals with rollback, sandbox auto-promotion, hybrid recall, and a `/harness/health` loop monitor.
 - **Writes first** — proactive check-ins, reminders, follow-ups based on memory and context. Not just reactive.
-- **Self-healing** — a heartbeat cron monitors every scheduled job and recreates any that expire (7-day lifetime), and detects a "deaf" Telegram poller.
+- **Self-healing** — a heartbeat cron monitors every scheduled job and recreates any that expire (7-day lifetime).
 
 ## Tested model
 
@@ -39,9 +39,9 @@ The architecture is not tied to a single vendor — the brain is just an agentic
 - **Scheduling** — Claude Code built-in cron system
 - **Cost** — Just your existing Claude Code subscription
 
-## 18 autonomous cron jobs
+## 7 grouped autonomous cron jobs
 
-Email check, cron watchdog, daily briefing, heartbeat, monthly usage, reflection, preference learning, AI model monitor, memory API health, weekly summarization, goal prioritizer, memory decay, daily metrics, predictions resolver, skill promotion, experiments runner, world model grower, auto-audit, telegram plugin watchdog.
+Daily briefing; 6-hour group (cron watchdog + experiments runner); hourly group (email check + heartbeat + memory API health); harness daily 2×/day (reflection, world-model grower, goal prioritizer, daily metrics, predictions resolver, memory decay, skill promotion, preference learning, auto-audit); research daily (AI-model monitor + data scrapers); overnight swarm; weekly summarization. Consolidated over time from 25 sprawling jobs.
 
 ## Links
 

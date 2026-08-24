@@ -22,7 +22,7 @@ User (Telegram) ---> Claude Code (with MCP plugins)
     |--> Knowledge Base    ---> Notes, wiki, structured data (Notion MCP)
     |--> GitHub            ---> Repos (push, commit, PR)
     |--> Voice API         ---> Text-to-speech / Speech-to-text (ElevenLabs)
-    |--> Email (MCP)       ---> Send, receive, forward (AgentMail)
+    |--> Email (REST API)  ---> Send, receive, forward (AgentMail)
     |--> Web Search/Fetch  ---> News, research, data
     |--> Cron system       ---> Recurring autonomous jobs
     |--> Local tools       ---> Shell, scripts, system utilities
@@ -37,16 +37,6 @@ Claude Code already *is* the runtime — native tool use, MCP plugins, cron sche
 > One plan, one CLI, one model: stay within a single subscription, respect the provider's ToS, and let the model do what it was designed to do.
 
 ![GitHub stars](https://img.shields.io/github/stars/missingus3r/friday-showcase?style=social)
-
-## Star History
-
-<a href="https://www.star-history.com/?repos=missingus3r%2Ffriday-showcase&type=date&legend=top-left">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=missingus3r/friday-showcase&type=date&theme=dark&legend=top-left&sealed_token=VmRIJ_CwrasR8XVs5-phwO0O4629aa-QTWibWNmlOBwwAjjZlLSnfSLv52pEE1Q1Oy5ZBElnnVWDR5luQC8_oO4B--7K1z2SBhdnA0KuEVfe1O6M6V91QQCPFFDLI3bQ0H-3hnpnjEe_Cihuqhq7AfmV6t3wc2Sr11-7JGipakQb9nxPzLCO-lrwQSx2" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=missingus3r/friday-showcase&type=date&legend=top-left&sealed_token=VmRIJ_CwrasR8XVs5-phwO0O4629aa-QTWibWNmlOBwwAjjZlLSnfSLv52pEE1Q1Oy5ZBElnnVWDR5luQC8_oO4B--7K1z2SBhdnA0KuEVfe1O6M6V91QQCPFFDLI3bQ0H-3hnpnjEe_Cihuqhq7AfmV6t3wc2Sr11-7JGipakQb9nxPzLCO-lrwQSx2" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=missingus3r/friday-showcase&type=date&legend=top-left&sealed_token=VmRIJ_CwrasR8XVs5-phwO0O4629aa-QTWibWNmlOBwwAjjZlLSnfSLv52pEE1Q1Oy5ZBElnnVWDR5luQC8_oO4B--7K1z2SBhdnA0KuEVfe1O6M6V91QQCPFFDLI3bQ0H-3hnpnjEe_Cihuqhq7AfmV6t3wc2Sr11-7JGipakQb9nxPzLCO-lrwQSx2" />
- </picture>
-</a>
 
 ## The Stack
 
@@ -88,7 +78,7 @@ The memory server renders all logs, memories, and entities as interactive graph 
 - **Notes & knowledge** — saves links, text, and structured data to Notion (MCP) and local markdown
 - **Voice messages** — transcribes audio in (ElevenLabs Scribe STT), replies with synthesized speech (ElevenLabs TTS)
 - **Video analysis** — downloads, transcribes (YouTube subs / ElevenLabs), and reports via LLM (Groq / OpenRouter)
-- **Email** — check, draft, send, forward (AgentMail MCP)
+- **Email** — check, draft, send, forward (AgentMail REST API)
 - **Git** — commit, push, PRs, repo management (GitHub API + git CLI)
 - **Web research** — search, fetch, summarize, report back (WebSearch + WebFetch)
 - **Self-healing crons** — monitors its own jobs and recreates any that expire
@@ -103,13 +93,13 @@ The memory server renders all logs, memories, and entities as interactive graph 
 
 ## Scheduled Jobs
 
-A handful of autonomous cron jobs keep the system alive and learning. Over time the assistant **consolidated its own schedule** — collapsing 25 sprawling jobs into 8 grouped ones. Exact times are arbitrary, so adapt them to your routine; what matters is the split between the **essential** jobs (the framework itself) and the **project-specific** ones you swap for your own.
+A handful of autonomous cron jobs keep the system alive and learning. Over time the assistant **consolidated its own schedule** — collapsing 25 sprawling jobs into 7 grouped ones (25 → 8 → 7, retiring jobs whose purpose expired). Exact times are arbitrary, so adapt them to your routine; what matters is the split between the **essential** jobs (the framework itself) and the **project-specific** ones you swap for your own.
 
 **Essential — the framework:**
 
 | Job | Purpose |
 |-----|---------|
-| Heartbeat + self-heal | Health check, verify every cron is alive and recreate any that expired (7-day TTL), watch for a "deaf" Telegram poller (Bot API up but no local listener) |
+| Heartbeat + self-heal | Health check, verify every cron is alive and recreate any that expired (7-day TTL) |
 | Daily briefing | Weather, currencies, AI news, project changes — sent unprompted |
 | Harness daily | Reflection, metrics, goal prioritizer, predictions resolver, memory decay, skill promotion, preference learning, auto-audit |
 | Overnight swarm | Parallel sub-agents (productivity, memory, news, improvements) synthesized into one digest |

@@ -334,23 +334,22 @@ You have a persistent memory HTTP API running on `http://127.0.0.1:7777`.
 At the start of each session, perform these steps automatically:
 
 1. **Check memory API health**: `curl -s http://127.0.0.1:7777/health` — if the API is down, start it automatically and wait 2 seconds before verifying again.
-2. **Create the 8 grouped cron jobs** (see below). The heartbeat and briefing crons verify every job is alive and recreate any that are missing — and refresh them before the 7-day lifetime runs out.
+2. **Create the 7 grouped cron jobs** (see below). The heartbeat and briefing crons verify every job is alive and recreate any that are missing — and refresh them before the 7-day lifetime runs out.
 3. **Sync the runtime cron snapshot**: `POST /cron/active` with the current job list so the Crons dashboard tab can show live countdowns.
 
 ### The cron jobs
 
-Schedules are suggestions — adapt them to your routine. What matters is the split between the **essential** jobs (the framework itself) and the **project-specific** ones you swap for your own. They're grouped so a handful of jobs cover everything (over time the assistant consolidated 25 sprawling jobs into these 8):
+Schedules are suggestions — adapt them to your routine. What matters is the split between the **essential** jobs (the framework itself) and the **project-specific** ones you swap for your own. They're grouped so a handful of jobs cover everything (over time the assistant consolidated 25 sprawling jobs into these 7):
 
 | Group | Runs | What it does |
 |-------|------|-------------|
-| 1 · Briefing + disk index | Daily (morning) | Weather, currencies, AI news, project changes — sent unprompted; then snapshot disk/index changes |
+| 1 · Briefing | Daily (morning) | Weather, currencies, AI news, project changes — sent unprompted |
 | 2 · 6-hour group | Every 6h | Cron watchdog (no job near its 7-day expiry) + experiments runner (A/B variants via `/sandbox` dry-runs, auto-conclude at `min_samples`) |
 | 3 · Hourly group | Every hour | Email check (notify on new mail) + heartbeat (health, verify all jobs active & recreate missing, one 50/50 social check-in per day, silent 00:00–08:00) |
 | 4 · Harness daily | 2×/day | The whole cognition pass in one run: reflection, world-model grower, goal prioritizer, daily metrics, predictions resolver, memory decay, skill promotion, preference learning, auto-audit |
 | 5 · Research daily *(project-specific)* | Daily | AI-model release monitor + AGI forecast aggregate (agi.goodheartlabs.com: Metaculus + Manifold + Kalshi) + your own data jobs. Swap these for whatever you track. |
 | 6 · Overnight swarm | Daily (night) | Parallel sub-agents (productivity, memory, news, improvements) synthesized into one digest |
-| 7 · Telegram watchdog + mentions | Every ~10 min | Detect Bot-API-down or a "deaf" local poller (API up but no listener); poll a local bus for mentions from other bots |
-| 8 · Weekly summarization | Weekly | Compress old conversation logs into summaries (originals preserved) |
+| 7 · Weekly summarization | Weekly | Compress old conversation logs into summaries (originals preserved) |
 
 Persist the prompts to `~/.claude/cron-prompts.md` so they survive session restarts. On each new session, the startup steps recreate the jobs from this file (and refresh any that have hit their 7-day expiry).
 
@@ -481,10 +480,10 @@ claude --channels plugin:telegram@claude-plugins-official --dangerously-skip-per
 When Claude Code restarts with the Telegram plugin:
 1. Read `~/.claude/CLAUDE.md` — this is your instruction set
 2. Check memory API health — start the server if it's down
-3. Create the 8 grouped cron jobs (briefing + disk index; 6-hour group; hourly group; harness daily; research daily; overnight swarm; telegram watchdog + mentions; weekly summarization)
+3. Create the 7 grouped cron jobs (briefing; 6-hour group; hourly group; harness daily; research daily; overnight swarm; weekly summarization)
 4. Sync the runtime snapshot: POST /cron/active with the jobs so the Crons dashboard can show live countdowns
 5. Send a welcome message to the user via Telegram:
-   > "System online. All 8 crons active. Memory API connected. Harness ready. Send me a message anytime."
+   > "System online. All 7 crons active. Memory API connected. Harness ready. Send me a message anytime."
 6. Begin listening for Telegram messages
 
 ---
