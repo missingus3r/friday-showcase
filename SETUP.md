@@ -322,6 +322,9 @@ You have a persistent memory HTTP API running on `http://127.0.0.1:7777`.
   curl -s -X POST http://127.0.0.1:7777/conversation/log -H "Content-Type: application/json" -d "$(jq -n --arg role "user" --arg content "message here" --arg channel "telegram" '{role: $role, content: $content, channel: $channel}')"
   ```
 
+### Message-loss Detection (message_id reconciler)
+Telegram message ids are shared by both sides of a private chat and strictly sequential. Keep a small state file (e.g. `~/.claude/telegram-msgid-state.json`) with the last seen id, and update it on EVERY inbound message AND every reply you send (each reply returns its id — never batch these updates). When a new message arrives with `id > last_seen + 1` and your own replies don't account for the gap, you lost messages. Two caveats learned the hard way: (1) a full photo album that fails to deliver consumes one id per photo — a 9-id gap can be one album; (2) not every gap is a loss (users delete messages, which also consumes ids) — so ask once, calmly, and only count confirmed losses. If you also installed the Telethon ledger (optional section below), don't ask at all: recover the missing messages from the ledger automatically.
+
 ### Long-term Memory
 - **Store**: `POST /memory` with `{name, type, content, description}`
 - **Recall**: `GET /memory/recall?topic=...`
