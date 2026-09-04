@@ -215,6 +215,10 @@ The whole system runs on a single **$100/month Anthropic Max Plan**. No cloud in
 
 > Claude Code isn't only a coding assistant — it's a general-purpose autonomous agent runtime. Give it tools, instructions, and a schedule and it becomes a full 24/7 assistant. One $100 plan buys (almost) unlimited access to a top model with native tool use and long context. That's enough.
 
+## Known Issue: Lost Telegram Messages (and the fix)
+
+The Bot API plugin can occasionally drop incoming messages without any error — photo albums are the most common casualty. The setup guide includes an optional **Telethon ledger**: a passive listener on your own account that records the full chat to a local file, so the assistant detects gaps and **auto-recovers the lost messages** instead of asking you to resend. See "Optional: Telethon Message Ledger" in [SETUP.md](SETUP.md).
+
 ## Set It Up Yourself
 
 Download [SETUP.md](SETUP.md) and hand it to a fresh Claude Code session — it walks through every step autonomously (Telegram config, memory server, API keys, CLAUDE.md). You just approve as it goes.

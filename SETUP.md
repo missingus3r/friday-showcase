@@ -520,6 +520,56 @@ Captures are written to `~/security-cam/captures/`. Wire a trigger phrase into `
 
 ---
 
+## Optional: Telethon Message Ledger (fixes lost Telegram messages)
+
+A known issue with Bot API polling: under certain conditions the Telegram plugin can silently drop incoming messages — most often **entire photo albums**, occasionally single messages. The message consumes a `message_id` on Telegram's side but never reaches the assistant, so the sender doesn't notice anything failed. The fix is a **passive ledger**: a tiny listener logged in with *your own user account* (MTProto via [Telethon](https://github.com/LonamiWebs/Telethon)) that records every message in your chat with the bot to a local JSONL file. It never competes with the bot's polling (different protocol, different session), and it lets the assistant *recover* lost messages instead of asking you to resend.
+
+**1. Get API credentials** at [my.telegram.org](https://my.telegram.org) → API development tools (the URL field accepts any link). Save them:
+
+```bash
+# append to ~/.claude/.env
+TELETHON_API_ID=<your_api_id>
+TELETHON_API_HASH=<your_api_hash>
+```
+
+**2. Install and create the listener** (`~/.claude/scripts/telegram-ledger.py`):
+
+```bash
+pip install telethon
+```
+
+The script should: connect with `TelegramClient("~/.claude/telethon-ledger", API_ID, API_HASH)`, filter `events.NewMessage(chats=BOT_ID)` — `BOT_ID` is the numeric prefix of your bot token — and append each message to `~/.claude/telegram-ledger.jsonl` as `{ts, msg_id, dir: "out"|"in", kind, grouped_id, text}`. Add three CLI subcommands for the one-time login: `request-code <phone>` (calls `send_code_request`, saves the `phone_code_hash`), `sign-in <code>`, and `password <2fa-password>` (needed if two-step verification is on).
+
+**3. Log in once.** Two gotchas the agent should warn the user about:
+- Telegram **invalidates login codes sent as plain text through Telegram chats**. If the user relays the code via the bot chat, ask them to disguise it (e.g. `1-2-3-4-5`) and strip the separators before `sign-in`.
+- If the account has two-step verification, the `sign-in` call raises `SessionPasswordNeededError` — follow up with the `password` subcommand.
+
+**4. Run it as a service** so it survives reboots:
+
+```ini
+# ~/.config/systemd/user/telegram-ledger.service
+[Unit]
+Description=Telegram Ledger — passive MTProto listener
+After=network-online.target
+
+[Service]
+EnvironmentFile=%h/.claude/.env
+ExecStart=/usr/bin/python3 %h/.claude/scripts/telegram-ledger.py run
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target
+```
+
+```bash
+systemctl --user daemon-reload && systemctl --user enable --now telegram-ledger.service
+```
+
+**5. Teach the assistant to use it.** Add to `CLAUDE.md`: track the last seen Bot-API `message_id`; when a new message arrives with a gap in the sequence, don't ask the user to resend — search the ledger for `dir:"out"` entries in the gap's time window whose text never arrived, process them as if they had been delivered, and tell the user "recovered from ledger: …". **Important:** MTProto message ids use a different numbering than the Bot API — match by timestamp + text + direction, never by id.
+
+---
+
 ## Enjoying Friday?
 
 If you got this running and it's useful, consider giving the repo a star — it helps others discover the project and keeps me motivated to iterate on it.
