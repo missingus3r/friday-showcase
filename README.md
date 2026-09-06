@@ -60,6 +60,7 @@ Claude Code already *is* the runtime — native tool use, MCP plugins, cron sche
 | Communication | Telegram MCP plugin |
 | Memory | Flask + SQLite + Embeddings (RAG) |
 | Knowledge | Notion MCP |
+| Code graph | [graphify](https://github.com/Graphify-Labs/graphify) — knowledge graph of codebases and docs (Claude Code skill) |
 | Voice | ElevenLabs API (TTS/STT) |
 | Scheduling | Claude Code built-in cron system |
 | Cost | $100/month (Anthropic Max Plan) |

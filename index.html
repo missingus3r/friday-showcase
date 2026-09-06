@@ -925,6 +925,7 @@ try{
       <tr><td data-i18n="m1.stkL2">Interface</td><td data-i18n="m1.stkR2">Telegram (via MCP plugin)</td></tr>
       <tr><td data-i18n="m1.stkL3">Memory</td><td data-i18n="m1.stkR3">Flask + SQLite + embedding-based RAG</td></tr>
       <tr><td data-i18n="m1.stkL4">Knowledge</td><td data-i18n="m1.stkR4">Notion (via MCP plugin)</td></tr>
+      <tr><td data-i18n="m1.stkL8">Code graph</td><td data-i18n="m1.stkR8">graphify (knowledge graph of code and docs, Claude Code skill)</td></tr>
       <tr><td data-i18n="m1.stkL5">Voice</td><td>ElevenLabs TTS / STT</td></tr>
       <tr><td data-i18n="m1.stkL6">Scheduling</td><td data-i18n="m1.stkR6">Claude Code built-in cron system</td></tr>
       <tr><td data-i18n="m1.stkL7">Cost</td><td data-i18n="m1.stkR7">$100 / month (Anthropic Max Plan)</td></tr>
@@ -1340,7 +1341,7 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ document.querySe
     'm1.pC1':'Los frameworks de agentes agregan runtimes propios, código de orquestación, pipelines de deploy y, a menudo, sus propios costos de API. Claude Code ya <b>es</b> el runtime. Trae tool use nativo, soporte de plugins MCP, scheduling con cron, spawn de sub-agentes, I/O de archivos, git y acceso a shell incorporados. No hay código pegamento entre el LLM y las herramientas.',
     'm1.pC2':'<i>Un plan, una CLI, un modelo — y dejá que el modelo haga lo que fue diseñado para hacer.</i>',
     'm1.hD':'— El stack',
-    'm1.stkL1':'Cerebro','m1.stkL2':'Interfaz','m1.stkR2':'Telegram (vía plugin MCP)','m1.stkL3':'Memoria','m1.stkR3':'Flask + SQLite + RAG basado en embeddings','m1.stkL4':'Conocimiento','m1.stkR4':'Notion (vía plugin MCP)','m1.stkL5':'Voz','m1.stkL6':'Scheduling','m1.stkR6':'sistema de cron integrado de Claude Code','m1.stkL7':'Costo','m1.stkR7':'$100 / mes (Anthropic Max Plan)',
+    'm1.stkL1':'Cerebro','m1.stkL2':'Interfaz','m1.stkR2':'Telegram (vía plugin MCP)','m1.stkL3':'Memoria','m1.stkR3':'Flask + SQLite + RAG basado en embeddings','m1.stkL4':'Conocimiento','m1.stkR4':'Notion (vía plugin MCP)','m1.stkL5':'Voz','m1.stkL6':'Scheduling','m1.stkR6':'sistema de cron integrado de Claude Code','m1.stkL7':'Costo','m1.stkR7':'$100 / mes (Anthropic Max Plan)','m1.stkL8':'Grafo de código','m1.stkR8':'graphify (grafo de conocimiento de código y docs, skill de Claude Code)',
     'm1.hE':'— Lista completa de capacidades',
     'm1.capL1':'<b>Briefings programados</b> — clima (Open-Meteo), divisas/cripto (DolarAPI, ExchangeRate), noticias de IA, películas (YTS)',
     'm1.capL2':'<b>Monitoreo autónomo</b> — escanea 60+ orgs en HuggingFace, blogs y agregadores en busca de nuevos modelos de IA',
@@ -1467,7 +1468,7 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ document.querySe
     'm1.pC1':'Frameworks de agentes adicionam runtimes próprios, código de orquestração, pipelines de deploy e, muitas vezes, seus próprios custos de API. O Claude Code já <b>é</b> o runtime. Tem tool use nativo, suporte a plugins MCP, agendamento com cron, spawn de subagentes, I/O de arquivos, git e acesso ao shell embutidos. Não há código de cola entre o LLM e as ferramentas.',
     'm1.pC2':'<i>Um plano, uma CLI, um modelo — e deixe o modelo fazer o que foi projetado para fazer.</i>',
     'm1.hD':'— A stack',
-    'm1.stkL1':'Cérebro','m1.stkL2':'Interface','m1.stkR2':'Telegram (via plugin MCP)','m1.stkL3':'Memória','m1.stkR3':'Flask + SQLite + RAG baseado em embeddings','m1.stkL4':'Conhecimento','m1.stkR4':'Notion (via plugin MCP)','m1.stkL5':'Voz','m1.stkL6':'Agendamento','m1.stkR6':'sistema de cron integrado do Claude Code','m1.stkL7':'Custo','m1.stkR7':'$100 / mês (Anthropic Max Plan)',
+    'm1.stkL1':'Cérebro','m1.stkL2':'Interface','m1.stkR2':'Telegram (via plugin MCP)','m1.stkL3':'Memória','m1.stkR3':'Flask + SQLite + RAG baseado em embeddings','m1.stkL4':'Conhecimento','m1.stkR4':'Notion (via plugin MCP)','m1.stkL5':'Voz','m1.stkL6':'Agendamento','m1.stkR6':'sistema de cron integrado do Claude Code','m1.stkL7':'Custo','m1.stkR7':'$100 / mês (Anthropic Max Plan)','m1.stkL8':'Grafo de código','m1.stkR8':'graphify (grafo de conhecimento de código e docs, skill do Claude Code)',
     'm1.hE':'— Lista completa de capacidades',
     'm1.capL1':'<b>Briefings agendados</b> — clima (Open-Meteo), câmbio/cripto (DolarAPI, ExchangeRate), notícias de IA, filmes (YTS)',
     'm1.capL2':'<b>Monitoramento autônomo</b> — varre 60+ orgs no HuggingFace, blogs e agregadores em busca de novos modelos de IA',

@@ -35,6 +35,7 @@ The architecture is not tied to a single vendor — the brain is just an agentic
 - **Chat** — Telegram (via MCP plugin)
 - **Memory** — Flask + SQLite + embedding-based hybrid RAG (FTS5 + vector cosine, RRF)
 - **Knowledge** — Notion (via MCP plugin)
+- **Code graph** — graphify (knowledge graph of codebases and docs, Claude Code skill)
 - **Voice** — ElevenLabs TTS + STT
 - **Scheduling** — Claude Code built-in cron system
 - **Cost** — Just your existing Claude Code subscription

@@ -573,6 +573,44 @@ systemctl --user daemon-reload && systemctl --user enable --now telegram-ledger.
 
 ---
 
+## Optional: Expose hidden links in Telegram messages
+
+When you share a link from another app (YouTube, X, a news site), Telegram often delivers it as **formatted text**: the message body is just the title ("Mayday — Official Trailer | Apple TV") and the URL travels separately as a `text_link` entity. The official Telegram plugin only forwards the plain text, so the assistant sees a title with no link and can't act on it.
+
+The fix is ~8 lines in the plugin's inbound handler: collect the `text_link` entities (from `entities` or `caption_entities` — one spot covers text and photo captions) and expose them as a `links` attribute in the `<channel>` meta tag.
+
+**1. Locate the plugin server** (the cached copy of the official plugin; version may differ):
+
+```bash
+ls ~/.claude/plugins/cache/claude-plugins-official/telegram/*/server.ts
+```
+
+**2. In `handleInbound`, before the `mcp.notification(...)` call**, add:
+
+```ts
+// Hidden hyperlinks (text_link entities) carry their URL outside the plain
+// text — surface them so the model sees the link, not just the anchor text.
+const inboundEntities = ctx.message?.entities ?? ctx.message?.caption_entities ?? []
+const hiddenLinks: string[] = []
+for (const e of inboundEntities) {
+  if (e.type === 'text_link' && e.url) hiddenLinks.push(e.url)
+}
+```
+
+and in the `meta` object of that notification:
+
+```ts
+...(hiddenLinks.length ? { links: hiddenLinks.join(' ') } : {}),
+```
+
+**3. Restart the session** (the MCP process reads the file at startup). Incoming messages then arrive as `<channel ... links="https://...">Title</channel>`.
+
+**4. Tell the assistant** in `CLAUDE.md`: when a `<channel>` tag carries `links=`, treat those URLs as the content of the message (download, summarize, save — whatever the text asks), even if the body is only a title.
+
+Caveats: the file lives in the plugin cache, so a plugin update overwrites it — re-apply after updating (or propose it upstream). It only covers `text_link` entities; plain URLs typed in the message already arrive in the text.
+
+---
+
 ## Enjoying Friday?
 
 If you got this running and it's useful, consider giving the repo a star — it helps others discover the project and keeps me motivated to iterate on it.
