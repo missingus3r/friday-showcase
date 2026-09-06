@@ -50,7 +50,7 @@ Daily briefing; 6-hour group (cron watchdog + experiments runner); hourly group 
 - Source: https://github.com/missingus3r/friday-showcase
 - Memory server: https://github.com/missingus3r/memory-graph
 - Setup guide: https://github.com/missingus3r/friday-showcase/blob/main/SETUP.md
-- Author: Bruno Silveira (https://github.com/missingus3r, https://x.com/missingus3r)
+- Author: missingus3r (https://github.com/missingus3r, https://x.com/missingus3r)
 
 ## License
 
