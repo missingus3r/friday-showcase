@@ -238,6 +238,14 @@ try{
   .star-cta:hover{background:var(--accent);color:#06070a}
   .star-cta .star{font-size:16px;color:var(--accent);transition:color .2s ease}
   .star-cta:hover .star{color:#06070a}
+  .star-chart{margin:40px 0 0;padding:0;max-width:760px}
+  .star-chart a{display:block;text-decoration:none}
+  .star-chart img{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:6px}
+  .star-chart .sh-light{display:none}
+  [data-mode="light"] .star-chart .sh-dark{display:none}
+  [data-mode="light"] .star-chart .sh-light{display:block}
+  .star-chart figcaption{font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:.1em;margin-top:10px;line-height:1.5}
+  .star-chart figcaption a{color:var(--accent);text-decoration:none}
   footer{padding:80px 0 80px;border-top:1px solid var(--line)}
   footer .tag{font-size:14px;color:var(--ink-3);max-width:46ch;margin:0 auto 24px;font-weight:300}
   footer .links{display:flex;justify-content:center;gap:20px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2)}
@@ -855,6 +863,13 @@ try{
     <h2 data-i18n-html="support.h2">Star the repo. <b>Keep it alive.</b></h2>
     <p class="body" data-i18n="support.body">Friday is a personal project kept public so others can learn from it or fork it. If it saved you time, star the repo — it's the lightest signal that this kind of work is worth continuing.</p>
     <a class="star-cta" href="https://github.com/missingus3r/friday-showcase" target="_blank" rel="noopener" data-i18n-html="support.cta"><span class="star">★</span> Star on GitHub</a>
+    <figure class="star-chart">
+      <a href="https://www.star-history.com/?repos=missingus3r%2Ffriday-showcase&type=date&legend=top-left" target="_blank" rel="noopener">
+        <img class="sh-dark" src="https://api.star-history.com/chart?repos=missingus3r/friday-showcase&type=date&legend=top-left&theme=dark&sealed_token=VmRIJ_CwrasR8XVs5-phwO0O4629aa-QTWibWNmlOBwwAjjZlLSnfSLv52pEE1Q1Oy5ZBElnnVWDR5luQC8_oO4B--7K1z2SBhdnA0KuEVfe1O6M6V91QQCPFFDLI3bQ0H-3hnpnjEe_Cihuqhq7AfmV6t3wc2Sr11-7JGipakQb9nxPzLCO-lrwQSx2" alt="Star History Chart" loading="lazy">
+        <img class="sh-light" src="https://api.star-history.com/chart?repos=missingus3r/friday-showcase&type=date&legend=top-left&sealed_token=VmRIJ_CwrasR8XVs5-phwO0O4629aa-QTWibWNmlOBwwAjjZlLSnfSLv52pEE1Q1Oy5ZBElnnVWDR5luQC8_oO4B--7K1z2SBhdnA0KuEVfe1O6M6V91QQCPFFDLI3bQ0H-3hnpnjEe_Cihuqhq7AfmV6t3wc2Sr11-7JGipakQb9nxPzLCO-lrwQSx2" alt="Star History Chart" loading="lazy">
+      </a>
+      <figcaption data-i18n-html="support.chart">GitHub star history — live chart via <a href="https://www.star-history.com/?repos=missingus3r%2Ffriday-showcase&type=date&legend=top-left" target="_blank" rel="noopener">star-history.com</a></figcaption>
+    </figure>
   </section>
 
   <footer>
@@ -1264,7 +1279,7 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ document.querySe
       'agents.p2':'Pero la arquitectura no está atada a un solo proveedor. El cerebro es solo una CLI agéntica que usa herramientas, agenda tareas y lee un system prompt. Con pequeños ajustes a <code style="font-family:var(--mono);font-size:13px;color:var(--accent)">CLAUDE.md</code> y a los prompts de los crons, el mismo setup corre en:',
       'agents.d1':'<b>Claude Code</b> · Fable 5.x / Opus 4.x — el camino probado','agents.d2':'<b>Codex</b> CLI · familia GPT-5.x','agents.d3':'<b>Gemini CLI</b> · familia Gemini 3.x','agents.d4':'<b>OpenCode</b> con modelos locales (Qwen, GLM, Llama) o cualquier proveedor cloud',
       'agents.p3':'Cada agente tiene sus mañas — esquemas de tool-use, primitivas de scheduling, soporte MCP — así que adaptarlo es un ejercicio real, no un cambio de una línea. El blueprint y las lecciones están acá; el port queda en tus manos.',
-      'support.kicker':'— 09 —  Si te sirve','support.h2':'Dale una estrella al repo. <b>Mantenelo vivo.</b>','support.body':'Friday es un proyecto personal que mantengo público para que otros aprendan o lo forkeen. Si te ahorró tiempo, dale una estrella — es la señal más liviana de que este tipo de trabajo vale la pena seguir.','support.cta':'<span class="star">★</span> Estrella en GitHub',
+      'support.kicker':'— 09 —  Si te sirve','support.h2':'Dale una estrella al repo. <b>Mantenelo vivo.</b>','support.body':'Friday es un proyecto personal que mantengo público para que otros aprendan o lo forkeen. Si te ahorró tiempo, dale una estrella — es la señal más liviana de que este tipo de trabajo vale la pena seguir.','support.cta':'<span class="star">★</span> Estrella en GitHub','support.chart':'Historial de estrellas de GitHub — gráfico en vivo vía <a href="https://www.star-history.com/?repos=missingus3r%2Ffriday-showcase&type=date&legend=top-left" target="_blank" rel="noopener">star-history.com</a>',
       'footer.tag':'Llamado así por el último asistente de IA que Tony Stark construyó antes de colgar el traje. Este tampoco tiene traje — solo una terminal.',
       'tg.today':'Hoy','tg.online':'en línea','tg.message':'Mensaje'
     },
@@ -1307,7 +1322,7 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ document.querySe
       'agents.p2':'Mas a arquitetura não está presa a um único fornecedor. O cérebro é só uma CLI agêntica que usa ferramentas, agenda tarefas e lê um system prompt. Com pequenos ajustes no <code style="font-family:var(--mono);font-size:13px;color:var(--accent)">CLAUDE.md</code> e nos prompts dos crons, o mesmo setup roda em:',
       'agents.d1':'<b>Claude Code</b> · Fable 5.x / Opus 4.x — o caminho testado','agents.d2':'<b>Codex</b> CLI · família GPT-5.x','agents.d3':'<b>Gemini CLI</b> · família Gemini 3.x','agents.d4':'<b>OpenCode</b> com modelos locais (Qwen, GLM, Llama) ou qualquer provedor na nuvem',
       'agents.p3':'Cada agente tem suas manias — esquemas de tool-use, primitivas de agendamento, suporte a MCP — então adaptar é um exercício real, não uma troca de uma linha. O blueprint e as lições estão aqui; o port fica por sua conta.',
-      'support.kicker':'— 09 —  Se for útil','support.h2':'Dê uma estrela ao repo. <b>Mantenha-o vivo.</b>','support.body':'O Friday é um projeto pessoal mantido público pra que outros aprendam ou façam fork. Se te poupou tempo, dê uma estrela — é o sinal mais leve de que esse tipo de trabalho vale a pena continuar.','support.cta':'<span class="star">★</span> Estrela no GitHub',
+      'support.kicker':'— 09 —  Se for útil','support.h2':'Dê uma estrela ao repo. <b>Mantenha-o vivo.</b>','support.body':'O Friday é um projeto pessoal mantido público pra que outros aprendam ou façam fork. Se te poupou tempo, dê uma estrela — é o sinal mais leve de que esse tipo de trabalho vale a pena continuar.','support.cta':'<span class="star">★</span> Estrela no GitHub','support.chart':'Histórico de estrelas do GitHub — gráfico ao vivo via <a href="https://www.star-history.com/?repos=missingus3r%2Ffriday-showcase&type=date&legend=top-left" target="_blank" rel="noopener">star-history.com</a>',
       'footer.tag':'Nomeado em homenagem ao último assistente de IA que Tony Stark construiu antes de pendurar a armadura. Este também não tem armadura — só um terminal.',
       'tg.today':'Hoje','tg.online':'online','tg.message':'Mensagem'
     }
