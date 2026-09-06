@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="img/banner.png" alt="Friday — a 24/7 personal AI assistant built entirely on Claude Code" width="100%">
+</p>
+
 # Friday — A 24/7 AI Assistant Built Entirely on Claude Code
 
 An always-on personal AI system using only Claude Code CLI ($100/month) and Telegram — no custom AI, no cloud VMs, no fine-tuning.
