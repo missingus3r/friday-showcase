@@ -97,7 +97,7 @@ The memory server renders all logs, memories, and entities as interactive graph 
 - **Git** — commit, push, PRs, repo management (GitHub API + git CLI)
 - **Web research** — search, fetch, summarize, report back (WebSearch + WebFetch)
 - **Self-healing crons** — monitors its own jobs and recreates any that expire
-- **Proactive messaging** — reaches out first: check-ins, reminders, follow-ups based on memory and context
+- **Proactive messaging** — reaches out first: check-ins, reminders, follow-ups based on memory and context. An optional rule-based **outbox** paces them like a person would: non-urgent items wait for a good moment (not while you sleep, work, commute or sit in a meeting) and go out together in one short message instead of on the clock
 - **Skill acquisition** — extracts reusable patterns from solved tasks, stored with trigger patterns
 - **Daily self-reflection** — nightly review of logs for mistakes, wins, and patterns → insights
 - **Preference learning** — infers rules from repeated corrections and applies them automatically
