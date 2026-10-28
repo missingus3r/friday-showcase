@@ -240,6 +240,17 @@ Friday runs unattended with `--dangerously-skip-permissions`, so a poisoned emai
 
 When it blocks something, you get a Telegram message explaining what the command would do (which folder, how many files, how many GB, whether it can be undone) plus the full command. Reply `ok <code>` and that exact command runs once. The approval is verified against your own account's chat ledger, so the assistant can't approve itself — not even to edit the guardian. Everyday work (normal pushes, temp cleanup, downloads) is untouched. Details and install: [guardian/README.md](guardian/README.md).
 
+## Desktop & Android App
+
+[**friday-app**](https://github.com/missingus3r/friday-app) is a client for your PC (Electron) and phone (Android). It talks to the **same live Friday session** as Telegram, on a channel of its own per device and kept in sync with the Telegram ledger. It also offers real-time **voice** with Friday's tools, plus memory, tasks, background agents, system health and a live API explorer.
+
+Setup is a single string. Ask Friday on Telegram for an app token (on the phone, the tunnel link with the token inside), paste it, and it's ready. Everything goes through a small gateway (FastAPI) that Friday runs in front of its memory and ledger.
+
+<p align="center">
+  <img src="img/app-desktop.png" width="64%" alt="Friday desktop app: live chat">
+  <img src="img/app-mobile.png" width="24%" alt="Friday Android app: voice mode">
+</p>
+
 ## Set It Up Yourself
 
 Download [SETUP.md](SETUP.md) and hand it to a fresh Claude Code session — it walks through every step autonomously (Telegram config, memory server, API keys, CLAUDE.md). You just approve as it goes.
